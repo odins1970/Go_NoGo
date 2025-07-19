@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"ds_list_sum",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"ds_list_sum",
+  "parent":{
+    "name":"Скрипты",
+    "path":"folders/Скрипты.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
