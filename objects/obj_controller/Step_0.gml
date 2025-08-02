@@ -1,9 +1,5 @@
 // obj_controller - Step Event
 // Manages state transitions and trial logic
-
-// obj_controller - Step Event
-// Manages state transitions and trial logic
-
 {
     timer += 1;
 
@@ -117,272 +113,291 @@
         }
     }
     else if (state == "target")
-{
-    reaction_time_ms += delta_time / 1000;
-
-    ds_list_add(left_pupil_buffer_prime_target, left_pupil);
-    ds_list_add(right_pupil_buffer_prime_target, right_pupil);
-    if (ds_list_size(left_pupil_buffer_prime_target) > 30)
     {
-        ds_list_delete(left_pupil_buffer_prime_target, 0);
-        ds_list_delete(right_pupil_buffer_prime_target, 0);
-    }
+        reaction_time_ms += delta_time / 1000;
 
-    var current_target_duration = (target_duration / 60) * 1000;
-    var key_pressed = keyboard_check_pressed(vk_space);
-    var trial_result = "";
-    var trial_result_value = 0;
-    var current_congruent = (prime_type == stimulus_type);
-    var black_shape_rt = -1;
-    // Новая переменная для фиксации reaction_time_ms
-    var fixed_reaction_time = reaction_time_ms;
-
-    // Calculate median pupil for prime+target
-    if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
-    {
-        var temp_list = ds_list_create();
-        var count = min(ds_list_size(left_pupil_buffer_prime_target), 30);
-        for (var i = 0; i < count; i++)
+        ds_list_add(left_pupil_buffer_prime_target, left_pupil);
+        ds_list_add(right_pupil_buffer_prime_target, right_pupil);
+        if (ds_list_size(left_pupil_buffer_prime_target) > 30)
         {
-            var left = ds_list_find_value(left_pupil_buffer_prime_target, i);
-            var right = ds_list_find_value(right_pupil_buffer_prime_target, i);
-            if (is_real(left) && is_real(right))
+            ds_list_delete(left_pupil_buffer_prime_target, 0);
+            ds_list_delete(right_pupil_buffer_prime_target, 0);
+        }
+
+        var current_target_duration = (target_duration / 60) * 1000;
+        var key_pressed = keyboard_check_pressed(vk_space);
+        var trial_result = "";
+        var trial_result_value = 0;
+        var current_congruent = (prime_type == stimulus_type);
+        var black_shape_rt = -1;
+        var fixed_reaction_time = reaction_time_ms;
+               if (total_trials > 0)
+        {
+            accurat_sum = (correct_responses/total_trials)*100;
+        }
+
+        // Calculate median pupil for prime+target
+        if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
+        {
+            var temp_list = ds_list_create();
+            var count = min(ds_list_size(left_pupil_buffer_prime_target), 30);
+            for (var i = 0; i < count; i++)
             {
-                ds_list_add(temp_list, (left + right) / 2);
-            }
-            else
-            {
-                show_debug_message("Error: Invalid pupil data at index " + string(i) + ": left=" + string(left) + ", right=" + string(right));
-            }
-        }
-        if (ds_list_size(temp_list) > 0)
-        {
-            pupil_prime_target = ds_list_median(temp_list);
-        }
-        else
-        {
-            show_debug_message("Error: temp_list empty, cannot compute pupil_prime_target");
-        }
-        ds_list_destroy(temp_list);
-    }
-
-    // Calculate median pupil for wait
-    if (ds_list_size(left_pupil_buffer_wait) >= 1 && ds_list_size(right_pupil_buffer_wait) >= 1)
-    {
-        var temp_list = ds_list_create();
-        var count = min(ds_list_size(left_pupil_buffer_wait), 30);
-        for (var i = 0; i < count; i++)
-        {
-            var left = ds_list_find_value(left_pupil_buffer_wait, i);
-            var right = ds_list_find_value(right_pupil_buffer_wait, i);
-            if (is_real(left) && is_real(right))
-            {
-                ds_list_add(temp_list, (left + right) / 2);
-            }
-        }
-        if (ds_list_size(temp_list) > 0)
-        {
-            pupil_wait = ds_list_median(temp_list);
-        }
-        ds_list_destroy(temp_list);
-    }
-
-    // Calculate pupil difference
-    var pupil_diff = pupil_prime_target - pupil_wait;
-
-    if (stimulus_type == 0) // Go
-    {
-        if (key_pressed)
-        {
-            ds_list_add(rt_list, fixed_reaction_time);
-            if (prime_type != 2)
-            {
-                if (current_congruent)
+                var left = ds_list_find_value(left_pupil_buffer_prime_target, i);
+                var right = ds_list_find_value(right_pupil_buffer_prime_target, i);
+                if (is_real(left) && is_real(right))
                 {
-                    ds_list_add(congruent_rt, fixed_reaction_time);
+                    ds_list_add(temp_list, (left + right) / 2);
                 }
                 else
                 {
-                    ds_list_add(incongruent_rt, fixed_reaction_time);
+                    show_debug_message("Error: Invalid pupil data at index " + string(i) + ": left=" + string(left) + ", right=" + string(right));
                 }
             }
-            if (last_stimulus_type != stimulus_type && last_stimulus_type != -1)
+            if (ds_list_size(temp_list) > 0)
             {
-                ds_list_add(switch_rt, fixed_reaction_time);
+                pupil_prime_target = ds_list_median(temp_list);
             }
             else
             {
-                ds_list_add(no_switch_rt, fixed_reaction_time);
+                show_debug_message("Error: temp_list empty, cannot compute pupil_prime_target");
             }
-            if (prime_type == 2)
-            {
-                ds_list_add(black_shape_prime_rt, fixed_reaction_time);
-                black_shape_rt = fixed_reaction_time;
-            }
-            ds_list_add(pupil_list_prime_target, pupil_prime_target);
-            correct_responses += 1;
-            consecutive_correct += 1;
-            resultat = 1;
-            consecutive_Sum += consecutive_correct;
-            total_trials += 1;
-            trial_result = "Correct";
-            trial_result_value = 1;
-            last_go_target_duration = current_target_duration;
-            trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, trial_result_value, black_shape_rt];
-            trial_id += 1;
-            if (audio_exists(snd_correct))
-            {
-                audio_play_sound(snd_correct, 10, false);
-            }
-            else
-            {
-                show_debug_message("Error: snd_correct audio resource not found!");
-            }
-            with (obj_stimulus) instance_destroy();
-            show_debug_message("Cleared obj_stimulus when transitioning from target to wait (Go, key pressed)");
-            state = "wait";
+            ds_list_destroy(temp_list);
         }
-        else if (timer >= target_duration)
+
+        // Calculate median pupil for wait
+        if (ds_list_size(left_pupil_buffer_wait) >= 1 && ds_list_size(right_pupil_buffer_wait) >= 1)
         {
-            misses += 1;
-            total_trials += 1;
-            trial_result = "Miss";
-            trial_result_value = -1;
-            resultat = 2;
-            last_go_target_duration = current_target_duration;
-            if (prime_type == 0 || prime_type == 1)
+            var temp_list = ds_list_create();
+            var count = min(ds_list_size(left_pupil_buffer_wait), 30);
+            for (var i = 0; i < count; i++)
             {
-                fixed_reaction_time = clamp(current_target_duration, 0, 350);
+                var left = ds_list_find_value(left_pupil_buffer_wait, i);
+                var right = ds_list_find_value(right_pupil_buffer_wait, i);
+                if (is_real(left) && is_real(right))
+                {
+                    ds_list_add(temp_list, (left + right) / 2);
+                }
+            }
+            if (ds_list_size(temp_list) > 0)
+            {
+                pupil_wait = ds_list_median(temp_list);
+            }
+            ds_list_destroy(temp_list);
+        }
+
+        // Calculate pupil difference
+        var pupil_diff = pupil_prime_target - pupil_wait;
+
+        if (stimulus_type == 0) // Go
+        {
+            if (key_pressed)
+            {
                 ds_list_add(rt_list, fixed_reaction_time);
                 if (prime_type != 2)
                 {
                     if (current_congruent)
                     {
                         ds_list_add(congruent_rt, fixed_reaction_time);
+						ds_list_add(accurat_sum_same_stimulus, accurat_sum);
                     }
                     else
                     {
                         ds_list_add(incongruent_rt, fixed_reaction_time);
+						ds_list_add(accurat_sum_diff_stimulus, accurat_sum);
                     }
                 }
                 if (last_stimulus_type != stimulus_type && last_stimulus_type != -1)
                 {
                     ds_list_add(switch_rt, fixed_reaction_time);
+                    
                 }
                 else
                 {
                     ds_list_add(no_switch_rt, fixed_reaction_time);
+                   
                 }
-            }
-            if (prime_type == 2)
-            {
-                fixed_reaction_time = clamp(current_target_duration, 0, 350);
-                ds_list_add(black_shape_prime_rt, fixed_reaction_time);
-                black_shape_rt = fixed_reaction_time;
-            }
-            ds_list_add(pupil_list_prime_target, pupil_prime_target);
-            trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, trial_result_value, black_shape_rt];
-            trial_id += 1;
-            consecutive_correct = 0;
-            consecutive_Sum += consecutive_correct;
-            with (obj_stimulus) instance_destroy();
-            show_debug_message("Cleared obj_stimulus when transitioning from target to wait (Go, timer expired)");
-            state = "wait";
-        }
-    }
-    else // NoGo
-    {
-        if (key_pressed)
-        {
-            ds_list_add(rt_list, fixed_reaction_time);
-            if (prime_type != 2)
-            {
-                if (current_congruent)
+                if (prime_type == 2)
                 {
-                    ds_list_add(congruent_rt, fixed_reaction_time);
+                    ds_list_add(black_shape_prime_rt, fixed_reaction_time);
+                    black_shape_rt = fixed_reaction_time;
+                }
+                ds_list_add(pupil_list_prime_target, pupil_prime_target);
+                correct_responses += 1;
+                consecutive_correct += 1;
+                resultat = 1;
+                consecutive_Sum += consecutive_correct;
+                total_trials += 1;
+                trial_result = "Correct";
+                trial_result_value = 1;
+                last_go_target_duration = current_target_duration;
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, trial_result_value, black_shape_rt, accurat_sum];
+                trial_id += 1;
+                if (audio_exists(snd_correct))
+                {
+                    audio_play_sound(snd_correct, 10, false);
                 }
                 else
                 {
-                    ds_list_add(incongruent_rt, fixed_reaction_time);
+                    show_debug_message("Error: snd_correct audio resource not found!");
                 }
+                with (obj_stimulus) instance_destroy();
+                show_debug_message("Cleared obj_stimulus when transitioning from target to wait (Go, key pressed)");
+                state = "wait";
             }
-            if (last_stimulus_type != stimulus_type && last_stimulus_type != -1)
+            else if (timer >= target_duration)
             {
-                ds_list_add(switch_rt, fixed_reaction_time);
-            }
-            else
-            {
-                ds_list_add(no_switch_rt, fixed_reaction_time);
-            }
-            if (prime_type == 2)
-            {
-                ds_list_add(black_shape_prime_rt, fixed_reaction_time);
-                black_shape_rt = fixed_reaction_time;
-            }
-            ds_list_add(pupil_list_prime_target, pupil_prime_target);
-            false_positives += 1;
-            total_trials += 1;
-            trial_result = "False Positive";
-            resultat = 3;
-            trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, trial_result_value, black_shape_rt];
-            trial_id += 1;
-            consecutive_correct = 0;
-            consecutive_Sum += consecutive_correct;
-            with (obj_stimulus) instance_destroy();
-            show_debug_message("Cleared obj_stimulus when transitioning from target to wait (NoGo, key pressed)");
-            state = "wait";
-        }
-        else if (timer >= target_duration)
-        {
-            correct_responses += 1;
-            resultat = 4;
-            consecutive_correct += 1;
-            consecutive_Sum += consecutive_correct;
-            total_trials += 1;
-            trial_result = "Suppressed";
-            trial_result_value = 1;
-            fixed_reaction_time = 1;
-            ds_list_add(rt_list, fixed_reaction_time);
-            if (prime_type != 2)
-            {
-                if (current_congruent)
+                misses += 1;
+                total_trials += 1;
+                trial_result = "Miss";
+                trial_result_value = -1;
+                resultat = 2;
+                last_go_target_duration = current_target_duration;
+                if (prime_type == 0 || prime_type == 1)
                 {
-                    ds_list_add(congruent_rt, fixed_reaction_time);
+                    fixed_reaction_time = clamp(current_target_duration, 0, 350);
+                    ds_list_add(rt_list, fixed_reaction_time);
+                    if (prime_type != 2)
+                    {
+                        if (current_congruent)
+                        {
+                            ds_list_add(congruent_rt, fixed_reaction_time);
+                        ds_list_add(accurat_sum_same_stimulus, accurat_sum);
+						}
+                        else
+                        {
+                            ds_list_add(incongruent_rt, fixed_reaction_time);
+							ds_list_add(accurat_sum_diff_stimulus, accurat_sum);
+                        }
+                    }
+                    if (last_stimulus_type != stimulus_type && last_stimulus_type != -1)
+                    {
+                        ds_list_add(switch_rt, fixed_reaction_time);
+                        
+                    }
+                    else
+                    {
+                        ds_list_add(no_switch_rt, fixed_reaction_time);
+                        
+                    }
+                }
+                if (prime_type == 2)
+                {
+                    fixed_reaction_time = clamp(current_target_duration, 0, 350);
+                    ds_list_add(black_shape_prime_rt, fixed_reaction_time);
+                    black_shape_rt = fixed_reaction_time;
+                }
+                ds_list_add(pupil_list_prime_target, pupil_prime_target);
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, trial_result_value, black_shape_rt, accurat_sum];
+                trial_id += 1;
+                consecutive_correct = 0;
+                consecutive_Sum += consecutive_correct;
+                with (obj_stimulus) instance_destroy();
+                show_debug_message("Cleared obj_stimulus when transitioning from target to wait (Go, timer expired)");
+                state = "wait";
+            }
+        }
+        else // NoGo
+        {
+            if (key_pressed)
+            {
+                ds_list_add(rt_list, fixed_reaction_time);
+                if (prime_type != 2)
+                {
+                    if (current_congruent)
+                    {
+                        ds_list_add(congruent_rt, fixed_reaction_time);
+						ds_list_add(accurat_sum_same_stimulus, accurat_sum);
+                    }
+                    else
+                    {
+                        ds_list_add(incongruent_rt, fixed_reaction_time);
+						ds_list_add(accurat_sum_diff_stimulus, accurat_sum);
+                    }
+                }
+                if (last_stimulus_type != stimulus_type && last_stimulus_type != -1)
+                {
+                    ds_list_add(switch_rt, fixed_reaction_time);
+                    
                 }
                 else
                 {
-                    ds_list_add(incongruent_rt, fixed_reaction_time);
+                    ds_list_add(no_switch_rt, fixed_reaction_time);
+                    
                 }
+                if (prime_type == 2)
+                {
+                    ds_list_add(black_shape_prime_rt, fixed_reaction_time);
+                    black_shape_rt = fixed_reaction_time;
+                }
+                ds_list_add(pupil_list_prime_target, pupil_prime_target);
+                false_positives += 1;
+                total_trials += 1;
+                trial_result = "False Positive";
+                resultat = 3;
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, trial_result_value, black_shape_rt, accurat_sum];
+                trial_id += 1;
+                consecutive_correct = 0;
+                consecutive_Sum += consecutive_correct;
+                with (obj_stimulus) instance_destroy();
+                show_debug_message("Cleared obj_stimulus when transitioning from target to wait (NoGo, key pressed)");
+                state = "wait";
             }
-            if (last_stimulus_type != stimulus_type && last_stimulus_type != -1)
+            else if (timer >= target_duration)
             {
-                ds_list_add(switch_rt, fixed_reaction_time);
+                correct_responses += 1;
+                resultat = 4;
+                consecutive_correct += 1;
+                consecutive_Sum += consecutive_correct;
+                total_trials += 1;
+                trial_result = "Suppressed";
+                trial_result_value = 1;
+                fixed_reaction_time = 1;
+                ds_list_add(rt_list, fixed_reaction_time);
+                if (prime_type != 2)
+                {
+                    if (current_congruent)
+                    {
+                        ds_list_add(congruent_rt, fixed_reaction_time);
+						
+                    }
+                    else
+                    {
+                        ds_list_add(incongruent_rt, fixed_reaction_time);
+						ds_list_add(accurat_sum_same_stimulus, accurat_sum);
+                    }
+                }
+                if (last_stimulus_type != stimulus_type && last_stimulus_type != -1)
+                {
+                    ds_list_add(switch_rt, fixed_reaction_time);
+                    
+                }
+                else
+                {
+                    ds_list_add(no_switch_rt, fixed_reaction_time);
+                    
+                }
+                if (prime_type == 2)
+                {
+                    ds_list_add(black_shape_prime_rt, fixed_reaction_time);
+                    black_shape_rt = fixed_reaction_time;
+                }
+                ds_list_add(pupil_list_prime_target, pupil_prime_target);
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, trial_result_value, black_shape_rt, accurat_sum];
+                trial_id += 1;
+                if (audio_exists(snd_correct))
+                {
+                    audio_play_sound(snd_correct, 10, false);
+                }
+                else
+                {
+                    show_debug_message("Error: snd_correct audio resource not found!");
+                }
+                with (obj_stimulus) instance_destroy();
+                show_debug_message("Cleared obj_stimulus when transitioning from target to wait (NoGo, timer expired)");
+                state = "wait";
             }
-            else
-            {
-                ds_list_add(no_switch_rt, fixed_reaction_time);
-            }
-            if (prime_type == 2)
-            {
-                ds_list_add(black_shape_prime_rt, fixed_reaction_time);
-                black_shape_rt = fixed_reaction_time;
-            }
-            ds_list_add(pupil_list_prime_target, pupil_prime_target);
-            trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, trial_result_value, black_shape_rt];
-            trial_id += 1;
-            if (audio_exists(snd_correct))
-            {
-                audio_play_sound(snd_correct, 10, false);
-            }
-            else
-            {
-                show_debug_message("Error: snd_correct audio resource not found!");
-            }
-            with (obj_stimulus) instance_destroy();
-            show_debug_message("Cleared obj_stimulus when transitioning from target to wait (NoGo, timer expired)");
-            state = "wait";
         }
-    }
         if (consecutive_correct >= 5)
         {
             if (stimulus_type == 0)
@@ -515,24 +530,24 @@
     }
 
     // Update statistical variables for Draw event
-if (ds_list_size(rt_list) > 0)
-{
-    // Отладочный вывод содержимого rt_list
-    var rt_list_str = "rt_list contents (" + string(ds_list_size(rt_list)) + "): [";
-    for (var i = 0; i < ds_list_size(rt_list); i++)
+    if (ds_list_size(rt_list) > 0)
     {
-        rt_list_str += string(ds_list_find_value(rt_list, i));
-        if (i < ds_list_size(rt_list) - 1) rt_list_str += ", ";
+        // Отладочный вывод содержимого rt_list
+        var rt_list_str = "rt_list contents (" + string(ds_list_size(rt_list)) + "): [";
+        for (var i = 0; i < ds_list_size(rt_list); i++)
+        {
+            rt_list_str += string(ds_list_find_value(rt_list, i));
+            if (i < ds_list_size(rt_list) - 1) rt_list_str += ", ";
+        }
+        rt_list_str += "]";
+        show_debug_message(rt_list_str);
+        
+        avg_rt = ds_list_median(rt_list);
     }
-    rt_list_str += "]";
-    show_debug_message(rt_list_str);
-    
-    avg_rt = ds_list_median(rt_list);
-}
-else
-{
-    avg_rt = -1;
-}
+    else
+    {
+        avg_rt = -1;
+    }
     if (ds_list_size(black_shape_prime_rt) > 0)
     {
         avg_black_shape_rt = ds_list_median(black_shape_prime_rt);
@@ -569,7 +584,24 @@ else
     {
         interference = -1;
     }
-    final_target_duration = target_duration / 60 * 1000;
+    if (ds_list_size(accurat_sum_same_stimulus) > 0)
+    {
+        median_accurat_sum_same = ds_list_median(accurat_sum_same_stimulus);
+    }
+    else
+    {
+        median_accurat_sum_same = 0;
+    }
+    if (ds_list_size(accurat_sum_diff_stimulus) > 0)
+    {
+        median_accurat_sum_diff = ds_list_median(accurat_sum_diff_stimulus);
+    }
+    else
+    {
+        median_accurat_sum_diff = 0;
+    }
+    accurat_sum_diff = median_accurat_sum_same - median_accurat_sum_diff;
+    final_target_duration = (target_duration / 60 ) * 1000;
     if (ds_list_size(pupil_list_wait) > 0)
     {
         avg_pupil_wait = ds_list_median(pupil_list_wait);

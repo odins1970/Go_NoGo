@@ -57,8 +57,8 @@ draw_set_color(c_white);
     }
 }
 
-draw_text(300, 150, "avg_rt: " + string(round(avg_rt)));
-draw_text(300, 200, "reaction_time_ms: " + string(round(reaction_time_ms)));
-draw_text(300, 400, "timer: " + string(timer));
+
+draw_text(300, 200, "correct_c : " + string(round(correct_responses)));
+draw_text(300, 400, "accurat_sum: " + string(accurat_sum));
  
  

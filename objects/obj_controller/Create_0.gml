@@ -21,7 +21,7 @@
     rt_list = ds_list_create(); // Reaction times for Go trials
     false_positives = 0; // False positives (keypress on NoGo)
     misses = 0; // Misses (no keypress on Go)
-    total_trials = 0; // Total number of trials
+    total_trials = 1; // Total number of trials
     correct_responses = 0; // Correct responses
 	resultat = 0
     consecutive_correct = 0; // Consecutive correct responses
@@ -37,7 +37,9 @@
     right_pupil_buffer_wait = ds_list_create(); // Buffer for 21 right pupil values (wait)
     left_pupil_buffer_prime_target = ds_list_create(); // Buffer for 21 left pupil values (prime+target)
     right_pupil_buffer_prime_target = ds_list_create(); // Buffer for 21 right pupil values (prime+target)
-    black_shape_prime_trials = 0; // Trials with black shape prime
+    accurat_sum_same_stimulus = ds_list_create(); // Для stimulus_type == last_stimulus
+	accurat_sum_diff_stimulus = ds_list_create(); // Для stimulus_type != last_stimulus
+	black_shape_prime_trials = 0; // Trials with black shape prime
     avg_rt = -1; // Median reaction time
    	avg_black_shape_rt = -1; // Median reaction time for black shape prime
     accuracy = 0; // Accuracy percentage
@@ -52,9 +54,13 @@
     avg_pupil = 0
 	pupil_prime_target = 0;
 	pupil_wait = 0;
+	median_accurat_sum_same = 0;
+ median_accurat_sum_diff = 0;
+accurat_sum_diff = 0;
+accurat_sum=0
 	
     // Trial data array
-    trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct,consecutive_Sum]
+    trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, result_value, black_shape_rt, accurat_sum ]
     trial_id = 0;
 
     // Display control
