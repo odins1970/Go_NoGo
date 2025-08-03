@@ -620,7 +620,3 @@
     }
     avg_pupil_diff = avg_pupil_prime_target - avg_pupil_wait;
 }
-if (state == "prime")
-{
-    audio_play_sound(snd_alar, 1, false, 0.2, 0, 1);
-}
