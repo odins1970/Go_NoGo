@@ -57,8 +57,5 @@ draw_set_color(c_white);
     }
 }
 
-
-draw_text(300, 200, "correct_c : " + string(round(correct_responses)));
-draw_text(300, 400, "accurat_sum: " + string(accurat_sum));
  
  
