@@ -54,10 +54,11 @@
     avg_pupil = 0
 	pupil_prime_target = 0;
 	pupil_wait = 0;
+	accurat_sum=0
 	median_accurat_sum_same = 0;
  median_accurat_sum_diff = 0;
 accurat_sum_diff = 0;
-accurat_sum=0
+
 	
     // Trial data array
     trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, result_value, black_shape_rt, accurat_sum ]
