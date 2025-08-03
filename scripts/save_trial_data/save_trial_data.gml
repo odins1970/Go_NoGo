@@ -227,9 +227,9 @@ function save_trial_data()
                        string(total_trials) + "," +
                        string(correct_responses) + "," +
                        string(consecutive_Sum / total_trials) + "," +
-                       string(round(avg_rt)) + "," +
-                       string(round(avg_black_shape_rt)) + "," +
-                       string(round(accuracy)) + "," +
+                       string((avg_rt)) + "," +
+                       string((avg_black_shape_rt)) + "," +
+                       string((accuracy)) + "," +
                        string(false_positives) + "," +
                        string(misses) + "," +
                        string(go_trials) + "," +
@@ -237,13 +237,13 @@ function save_trial_data()
                        string(green_circle_prime_trials) + "," +
                        string(red_square_prime_trials) + "," +
                        string(black_shape_prime_trials) + "," +
-                       string(round(switch_cost)) + "," +
-                       string(round(interference)) + "," +
-                       string(round(last_go_target_duration)) + "," +
-                       string(round(avg_pupil_wait)) + "," +
-                       string(round(avg_pupil_prime_target)) + "," +
-                       string(round(avg_pupil_diff)) + "," +
-                       string(round(accurat_sum_diff));
+                       string((switch_cost)) + "," +
+                       string((interference)) + "," +
+                       string((last_go_target_duration)) + "," +
+                       string((avg_pupil_wait)) + "," +
+                       string((avg_pupil_prime_target)) + "," +
+                       string((avg_pupil_diff)) + "," +
+                       string((accurat_sum_diff));
     file_text_write_string(summary_file, summary_line);
     file_text_writeln(summary_file);
 
