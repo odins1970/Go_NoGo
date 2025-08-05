@@ -42,7 +42,7 @@ function save_trial_data()
         }
     }
 
-    file_text_write_string(trial_file, "Trial ID,Stimulus Type,Prime Type,Is Congruent,Reaction Time (ms),Result,Pupil Wait (px),Pupil Prime+Target (px),Pupil Difference (px),Current Target Duration (ms),Consecutive Correct,Consecutive Sum,Result Value,Black Shape Reaction Time (ms),AccuratSum\n");
+    file_text_write_string(trial_file, " Trial ID,Stimulus Type,Prime Type,Is Congruent,Reaction Time (ms),Result,Pupil Wait (px),Pupil Prime+Target (px),Pupil Difference (px),Current Target Duration (ms),Consecutive Correct,Consecutive Sum,Result Value,Black Shape Reaction Time (ms),AccuratSum\n ");
 
     for (var i = 0; i < array_length(trials_data); i++)
     {
@@ -72,7 +72,7 @@ function save_trial_data()
             var reaction_time_str = "-";
             if (is_real(trial[4]) || is_int64(trial[4]))
             {
-                reaction_time_str = string(round(trial[4]));
+                reaction_time_str = string((trial[4]));
                 if (trial[5] == "Suppressed" && trial[4] == -1)
                 {
                     show_debug_message("Warning: Suppressed trial #" + trial_id_str + " has Reaction Time = -1, expected 500 - reaction_time_ms");
@@ -96,12 +96,12 @@ function save_trial_data()
             var pupil_diff_str = "0";
             if (is_real(trial[8]) || is_int64(trial[8]))
             {
-                pupil_diff_str = string(round(trial[8]));
+                pupil_diff_str = string((trial[8]));
             }
             var current_target_duration_str = "-";
             if ((is_real(trial[1]) || is_int64(trial[1])) && trial[1] == 0 && (is_real(trial[9]) || is_int64(trial[9])))
             {
-                current_target_duration_str = string(round(trial[9]));
+                current_target_duration_str = string((trial[9]));
             }
             var consecutive_correct_str = "0";
             if (is_real(trial[10]) || is_int64(trial[10]))
@@ -121,13 +121,13 @@ function save_trial_data()
             var black_shape_rt_str = "-";
             if (is_real(trial[13]) || is_int64(trial[13]))
             {
-                black_shape_rt_str = string(round(trial[13]));
+                black_shape_rt_str = string((trial[13]));
             }
             var accurat_sum_str = "0";
             if (is_real(trial[14]) || is_int64(trial[14]))
             {
                 accurat_sum_str = string(trial[14]);
-            }
+				            }
 
             var line = trial_id_str + "," +
                        stimulus_type_str + "," +
@@ -220,7 +220,7 @@ function save_trial_data()
     }
 
     // Write header row with Russian column names and units
-    file_text_write_string(summary_file, "Код,Общее количество испытаний (шт),Количество правильных ответов (шт),Серия правильных в среднем (шт),Медианное TR (мс),Медианное TR контрольное (мс),Точность (%),Ложные срабатывания (шт),Пропуски (шт),Испытания Go (шт),Испытания NoGo (шт),Прайм зеленый (шт),Прайм красный (шт),Прайм черная (шт),Разница TR_медиан между сменой и повторением стимула (мс),Разница TR_медиан между прайм помеха-подсказка (мс),Финальная длительность цели Go (мс),Средний размер зрачка в ожидании (пикс),Средний размер зрачка в прайм+цель (пикс),Сила изменений зрачка (пикс),AccuratSum (Разница_мед Точности между прайм подсказка - прайм помеха )(%)\n");
+    file_text_write_string(summary_file, "Код,Общее количество испытаний (шт),Количество правильных ответов (шт),Серия правильных в среднем (шт),Медианное TR (мс),Медианное TR контрольное (мс),Точность (%),Ложные срабатывания (шт),Пропуски (шт),Испытания Go (шт),Испытания NoGo (шт),Прайм зеленый (шт),Прайм красный (шт),Прайм черная (шт),Разница TR_медиан между сменой и повторением стимула (мс),Разница TR_медиан между прайм помеха-подсказка (мс),Финальная длительность цели Go (мс),Средний размер зрачка в ожидании (пикс),Средний размер зрачка в прайм+цель (пикс),Сила изменений зрачка (пикс),Точность средняя при подсказке,Точность средняя при помехе,AccuratSum (Разница в Точности между подсказка -  помеха )(%)\n");
 
     // Write data row
     var summary_line = string(IDA) + string(IDD) + "," +
@@ -243,6 +243,8 @@ function save_trial_data()
                        string((avg_pupil_wait)) + "," +
                        string((avg_pupil_prime_target)) + "," +
                        string((avg_pupil_diff)) + "," +
+					   string((median_accurat_sum_same)) + "," +
+					   string((median_accurat_sum_diff)) + "," +
                        string((accurat_sum_diff));
     file_text_write_string(summary_file, summary_line);
     file_text_writeln(summary_file);

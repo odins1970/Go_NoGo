@@ -21,7 +21,7 @@
     rt_list = ds_list_create(); // Reaction times for Go trials
     false_positives = 0; // False positives (keypress on NoGo)
     misses = 0; // Misses (no keypress on Go)
-    total_trials = 1; // Total number of trials
+    total_trials = 0; // Total number of trials
     correct_responses = 0; // Correct responses
 	resultat = 0
     consecutive_correct = 0; // Consecutive correct responses

@@ -359,7 +359,7 @@
                     if (current_congruent)
                     {
                         ds_list_add(congruent_rt, fixed_reaction_time);
-						
+						ds_list_add(accurat_sum_same_stimulus, accurat_sum);
                     }
                     else
                     {
