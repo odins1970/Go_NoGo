@@ -507,9 +507,9 @@
             }
             else
             {
-                stimulus_type = choose(0, 1, 0);
+                stimulus_type = choose(1, 0);
             }
-            // Set target_duration based on stimulus_type
+			            // Set target_duration based on stimulus_type
             if (stimulus_type == 0)
             {
                 target_duration = ntd; // 350 ms for Go
