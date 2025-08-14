@@ -227,7 +227,7 @@ function save_trial_data()
     var summary_line = string(IDA) + string(IDD) + "," +
                        string(total_trials) + "," +
                        string(correct_responses) + "," +
-                       string(consecutive_Sum / total_trials) + "," +
+                       string(consecutive_Sum /total_trials) + "," +
                        string((avg_rt)) + "," +
                        string((avg_black_shape_rt)) + "," +
                        string((accuracy)) + "," +
@@ -238,9 +238,9 @@ function save_trial_data()
                        string(green_circle_prime_trials) + "," +
                        string(red_square_prime_trials) + "," +
                        string(black_shape_prime_trials) + "," +
-                       string((switch_cost)) + "," +
-                       string((median_congruent)) + "," +
-					   string((median_incongruent)) + "," +
+                       string(switch_cost) + "," +
+                       string(median_congruent) + "," +
+					   string(median_incongruent) + "," +
 					   string((interference)) + "," +
                        string((last_go_target_duration)) + "," +
                        string((avg_pupil_wait)) + "," +

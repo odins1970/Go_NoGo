@@ -602,17 +602,16 @@
     {
         switch_cost = -1;
     }
-    if (ds_list_size(congruent_rt) > 0 && ds_list_size(incongruent_rt) > 0)
+    if ds_list_size(congruent_rt) > 0  
     {
          median_congruent = ds_list_median(congruent_rt);
+	}
+	if ds_list_size(incongruent_rt) > 0
+	{
          median_incongruent = ds_list_median(incongruent_rt);
-        interference = median_incongruent - median_congruent;
-    }
-    else
-    {
-        interference = -1;
-    }
-    if (ds_list_size(accurat_sum_same_stimulus) > 0)
+	}
+    interference = median_incongruent - median_congruent;
+        if (ds_list_size(accurat_sum_same_stimulus) > 0)
     {
         median_accurat_sum_same = ds_list_median(accurat_sum_same_stimulus);
     }
