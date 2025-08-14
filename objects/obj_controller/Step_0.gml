@@ -592,17 +592,16 @@
     {
         accuracy = 0;
     }
-    if (ds_list_size(switch_rt) > 0 && ds_list_size(no_switch_rt) > 0)
+    if ds_list_size(switch_rt) > 0  
     {
-        var median_switch = ds_list_median(switch_rt);
-        var median_no_switch = ds_list_median(no_switch_rt);
-        switch_cost = median_switch - median_no_switch;
-    }
-    else
-    {
-        switch_cost = -1;
-    }
-    if ds_list_size(congruent_rt) > 0  
+         median_switch = ds_list_median(switch_rt);
+	}
+	if ds_list_size(no_switch_rt) > 0
+	{
+         median_no_switch = ds_list_median(no_switch_rt);
+	}
+    switch_cost = median_switch - median_no_switch;
+      if ds_list_size(congruent_rt) > 0  
     {
          median_congruent = ds_list_median(congruent_rt);
 	}
