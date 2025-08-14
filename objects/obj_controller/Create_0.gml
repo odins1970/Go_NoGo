@@ -9,7 +9,7 @@
 	IDD = irandom(100000)
 	stimulus_type = 0; // 0: Go (green circle), 1: NoGo (red square)
     prime_type = 0; // 0: green circle, 1: red square, 2: black shape
-    prime_type_weights = [0,1,1,2]; // Weights: 40% green, 40% red, 20% black
+    prime_type_weights = [0,0,1,1,2]; // Weights: 40% green, 40% red, 20% black
     is_congruent = false; // Congruency of prime and stimulus
     state = "initial_wait"; // Initial state
     timer = 0; // Timer for state transitions (in steps)
