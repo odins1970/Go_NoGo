@@ -3,18 +3,19 @@ if state == "wait" and timer =clamp (timer, 5, 60)
     draw_set_font(fnt_000); // Убедитесь, что шрифт создан
     draw_set_halign(fa_right);
     draw_set_valign(fa_top);
-    if resultat == 1
- {
+    if resultat == 1 //
+ {	 draw_text(room_width/2, 50, "+" + string_format(round(correct_responses), 0, 0) );
 	 draw_text(742, 354, "Успел  ");
  }
 	if resultat == 2
- {draw_text(742, 354, "Опоздал  " );
+ {draw_text(742, 354, "Не успел  " );
  }
 	if resultat == 3
  {draw_text(772, 354, "Поторопился  " );
 }
 	if resultat == 4
- {draw_text(742, 354, "Выждал  " );
+ {draw_text(room_width/2, 50, "+" + string_format(round(correct_responses), 0, 0) );
+	 draw_text(742, 354, "Выждал  ");
 	}
 } 
 else   {
@@ -47,15 +48,13 @@ draw_set_color(c_white);
         draw_text(xx, yy, "Go-испытания: " + string(ds_list_size(rt_list))); yy += spacing;
         draw_text(xx, yy, "NoGo-испытания: " + string(total_trials - ds_list_size(rt_list))); yy += spacing;
         draw_text(xx, yy, "Испытания с черной фигурой в прайме: " + string(black_shape_prime_trials)); yy += spacing;
-        draw_text(xx, yy, "Когнитивная гибкость (мс): " + string(round(switch_cost))); yy += spacing;
-        draw_text(xx, yy, "Контроль интерференции (мс): " + string(round(interference))); yy += spacing;
-        draw_text(xx, yy, "Финальная длительность цели (мс): " + string(round(last_go_target_duration))); yy += spacing;
-        draw_text(xx, yy, "Средний размер зрачка в wait (пикс): " + string(round(avg_pupil_wait))); yy += spacing;
-        draw_text(xx, yy, "Средний размер зрачка в prime+target (пикс): " + string(round(avg_pupil_prime_target))); yy += spacing;
-        draw_text(xx, yy, "Средняя разница размера зрачка (пикс): " + string(round(avg_pupil_diff))); yy += spacing;
+        draw_text(xx, yy, "Когнитивная гибкость (мс): " + string((switch_cost))); yy += spacing;
+        draw_text(xx, yy, "Контроль интерференции (мс): " + string((interference))); yy += spacing;
+        draw_text(xx, yy, "Финальная длительность цели (мс): " + string((last_go_target_duration))); yy += spacing;
+        draw_text(xx, yy, "Средний размер зрачка в wait (пикс): " + string((avg_pupil_wait))); yy += spacing;
+        draw_text(xx, yy, "Средний размер зрачка в prime+target (пикс): " + string((avg_pupil_prime_target))); yy += spacing;
+        draw_text(xx, yy, "Средняя разница размера зрачка (пикс): " + string((avg_pupil_diff))); yy += spacing;
         __trace_draw(xx, room_height - 100, 400, 0);
     }
 }
 
- 
- 

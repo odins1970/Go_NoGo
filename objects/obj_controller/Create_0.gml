@@ -5,11 +5,11 @@
 
     // Stimulus and prime variables
 	
-	IDA =choose(string ("a"),string ("b"),string ("c"),string ("d"),string ("e"),string ("f"),string ("h"),string ("k"),string ("l"),string ("m"),string ("n"),string ("0"))
+	IDA =choose( ("a"), ("b"), ("c"), ("d"), ("e"), ("f"), ("h"), ("k"), ("l"),("m"), ("n"), ("p"),("r"), ("s"),("t"), ("u"), ("f"))
 	IDD = irandom(100000)
 	stimulus_type = 0; // 0: Go (green circle), 1: NoGo (red square)
     prime_type = 0; // 0: green circle, 1: red square, 2: black shape
-    prime_type_weights = [0, 0, 1, 1, 2,2]; // Weights: 40% green, 40% red, 20% black
+    prime_type_weights = [0,1,1,2]; // Weights: 40% green, 40% red, 20% black
     is_congruent = false; // Congruency of prime and stimulus
     state = "initial_wait"; // Initial state
     timer = 0; // Timer for state transitions (in steps)
@@ -21,10 +21,11 @@
     rt_list = ds_list_create(); // Reaction times for Go trials
     false_positives = 0; // False positives (keypress on NoGo)
     misses = 0; // Misses (no keypress on Go)
-    total_trials = 1; // Total number of trials
+    total_trials = 0; // Total number of trials
     correct_responses = 0; // Correct responses
 	resultat = 0
     consecutive_correct = 0; // Consecutive correct responses
+	consecutive_errors = 0;
 	consecutive_Sum=0
     congruent_rt = ds_list_create(); // Reaction times for congruent trials
     incongruent_rt = ds_list_create(); // Reaction times for incongruent trials
@@ -61,7 +62,7 @@ accurat_sum_diff = 0;
 
 	
     // Trial data array
-    trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, result_value, black_shape_rt, accurat_sum ]
+    trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, result_value, black_shape_rt, accurat_sum ]
     trial_id = 0;
 
     // Display control
@@ -72,10 +73,14 @@ accurat_sum_diff = 0;
     prime_duration = 15; // 250 ms
     target_duration = 21; // Initial target duration (will be set dynamically in Step event)
     min_target_duration_go = 1.5; // Minimum target duration for Go (25 ms)
-    min_target_duration_nogo = 2.5; // Minimum target duration for NoGo (41.67 ms)
-    last_go_target_duration=350
+    min_target_duration_nogo = 30; // Minimum target duration for NoGo (500 ms)
+	max_target_duration_go = 30; // 500 мс
+max_target_duration_nogo = 30; // 500 мс
+    last_go_target_duration=400
    wait_duration = 240; // 4 seconds
     max_trials = 100; // Maximum trials
+	ntd=target_duration
+
 
     // Ensure single instance of obj_controller
     if (instance_number(obj_controller) > 1)

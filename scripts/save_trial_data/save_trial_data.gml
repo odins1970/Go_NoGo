@@ -1,8 +1,6 @@
 //switch_cost вычисляется как разница медианных значений: median(switch_rt) - median(no_switch_rt).
 //interference вычисляется как разница медианных значений: median(incongruent_rt) - median(congruent_rt)
 
-// save_trial_data
-// Saves trial data and summary statistics to separate CSV files
 function save_trial_data()
 {
     var directory = "C:\\Test_GNO\\";
@@ -27,26 +25,27 @@ function save_trial_data()
         show_debug_message("Directory created: " + directory);
     }
 
-    // Save trial data
+    // Сохранение данных испытаний
     var trial_file = file_text_open_write(trial_filename);
     if (trial_file == -1)
     {
-        show_debug_message("Error: Could not create trial file at " + trial_filename + ". Attempting to save in working directory.");
+        show_debug_message("Ошибка: Не удалось создать файл испытаний по пути " + trial_filename + ". Пробуем сохранить в рабочей директории.");
         trial_filename = "trial_data_" + file_year + "-" + file_month + "-" + file_day + "_" + file_hour + "-" + file_minute + ".csv";
         trial_file = file_text_open_write(trial_filename);
         if (trial_file == -1)
         {
-            show_debug_message("Error: Could not create trial file in working directory!");
-            show_message("Error: Could not save trial data to file. Check permissions.");
+            show_debug_message("Ошибка: Не удалось создать файл испытаний в рабочей директории!");
+            show_message("Ошибка: Не удалось сохранить данные испытаний в файл. Проверьте права доступа.");
             return "";
         }
     }
 
-    file_text_write_string(trial_file, "Trial ID,Stimulus Type,Prime Type,Is Congruent,Reaction Time (ms),Result,Pupil Wait (px),Pupil Prime+Target (px),Pupil Difference (px),Current Target Duration (ms),Consecutive Correct,Consecutive Sum,Result Value,Black Shape Reaction Time (ms),AccuratSum\n");
+    // Исправление: Заменяем Consecutive Sum на AccuratSumDiff в заголовке
+    file_text_write_string(trial_file, "Trial ID,Stimulus Type,Prime Type,Is Congruent,Reaction Time (ms),Result,Pupil Wait (px),Pupil Prime+Target (px),Pupil Difference (px),Current Target Duration (ms),Consecutive Correct Dynamic_Learn,AccuratSumDiff,Result Value,Black Shape Reaction Time (ms),AccuratSum\n");
 
     for (var i = 0; i < array_length(trials_data); i++)
     {
-        if (is_array(trials_data[i]) && array_length(trials_data[i]) >= 15) // Проверяем длину массива
+        if (is_array(trials_data[i]) && array_length(trials_data[i]) >= 15)
         {
             var trial = trials_data[i];
             var trial_id_str = "0";
@@ -72,11 +71,8 @@ function save_trial_data()
             var reaction_time_str = "-";
             if (is_real(trial[4]) || is_int64(trial[4]))
             {
-                reaction_time_str = string(round(trial[4]));
-                if (trial[5] == "Suppressed" && trial[4] == -1)
-                {
-                    show_debug_message("Warning: Suppressed trial #" + trial_id_str + " has Reaction Time = -1, expected 500 - reaction_time_ms");
-                }
+                reaction_time_str = string_format(trial[4], 0, 2); // Сохраняем с 2 знаками после запятой
+                show_debug_message("Сохранение испытания #" + trial_id_str + ": Reaction Time = " + reaction_time_str);
             }
             var result_str = "Unknown";
             if (is_string(trial[5]))
@@ -99,9 +95,10 @@ function save_trial_data()
                 pupil_diff_str = string(round(trial[8]));
             }
             var current_target_duration_str = "-";
-            if ((is_real(trial[1]) || is_int64(trial[1])) && trial[1] == 0 && (is_real(trial[9]) || is_int64(trial[9])))
+            if (is_real(trial[9]) || is_int64(trial[9]))
             {
                 current_target_duration_str = string(round(trial[9]));
+                show_debug_message("Сохранение испытания #" + trial_id_str + ": Current Target Duration = " + current_target_duration_str);
             }
             var consecutive_correct_str = "0";
             if (is_real(trial[10]) || is_int64(trial[10]))
@@ -111,7 +108,9 @@ function save_trial_data()
             var consecutive_sum_str = "0";
             if (is_real(trial[11]) || is_int64(trial[11]))
             {
-                consecutive_sum_str = string(trial[11]);
+                // Исправление: Сохраняем accurat_sum_diff как число с двумя знаками после запятой
+                consecutive_sum_str = string_format(trial[11], 0, 2);
+                show_debug_message("Сохранение испытания #" + trial_id_str + ": AccuratSumDiff = " + consecutive_sum_str);
             }
             var result_value_str = "0";
             if (is_real(trial[12]) || is_int64(trial[12]))
@@ -126,7 +125,8 @@ function save_trial_data()
             var accurat_sum_str = "0";
             if (is_real(trial[14]) || is_int64(trial[14]))
             {
-                accurat_sum_str = string(trial[14]);
+                accurat_sum_str = string_format(trial[14], 0, 2);
+                show_debug_message("Сохранение испытания #" + trial_id_str + ": AccuratSum = " + accurat_sum_str);
             }
 
             var line = trial_id_str + "," +
@@ -149,12 +149,12 @@ function save_trial_data()
         }
         else
         {
-            show_debug_message("Error: Invalid trial data at #" + string(i + 1) + ". Expected 15 elements, found " + string(array_length(trials_data[i])));
+            show_debug_message("Ошибка: Некорректные данные испытания #" + string(i + 1) + ". Ожидалось 15 элементов, найдено " + string(array_length(trials_data[i])));
         }
     }
 
     file_text_close(trial_file);
-    show_debug_message("Trial data saved to " + trial_filename + ". Trials: " + string(array_length(trials_data)));
+    show_debug_message("Данные испытаний сохранены в " + trial_filename + ". Испытаний: " + string(array_length(trials_data)));
 
     // Calculate summary statistics
     var go_trials = 0;
@@ -220,7 +220,7 @@ function save_trial_data()
     }
 
     // Write header row with Russian column names and units
-    file_text_write_string(summary_file, "Код,Общее количество испытаний (шт),Количество правильных ответов (шт),Серия правильных в среднем (шт),Медианное TR (мс),Медианное TR контрольное (мс),Точность (%),Ложные срабатывания (шт),Пропуски (шт),Испытания Go (шт),Испытания NoGo (шт),Прайм зеленый (шт),Прайм красный (шт),Прайм черная (шт),Разница TR_медиан между сменой и повторением стимула (мс),Разница TR_медиан между прайм помеха-подсказка (мс),Финальная длительность цели Go (мс),Средний размер зрачка в ожидании (пикс),Средний размер зрачка в прайм+цель (пикс),Сила изменений зрачка (пикс),AccuratSum (Разница_мед Точности между прайм подсказка - прайм помеха )(%)\n");
+    file_text_write_string(summary_file, "Код,Общее количество испытаний (шт),Количество правильных ответов (шт),Серия правильных в среднем (шт),Медианное TR (мс),Медианное TR контрольное (мс),Точность (%),Ложные срабатывания (шт),Пропуски (шт),Испытания Go (шт),Испытания NoGo (шт),Прайм зеленый (шт),Прайм красный (шт),Прайм черная (шт),Разница TR_медиан между сменой и повторением стимула (мс),Разница TR_медиан между прайм помеха-подсказка (мс),Порог Адаптации к стимулу (мс),Средний размер зрачка в ожидании (пикс),Средний размер зрачка в прайм+цель (пикс),Сила изменений зрачка (пикс),Точность средняя при подсказке,Точность средняя при помехе,Accurat_sum_diff(Разница в Точности между подсказка -  помеха )(%)\n");
 
     // Write data row
     var summary_line = string(IDA) + string(IDD) + "," +
@@ -243,6 +243,8 @@ function save_trial_data()
                        string((avg_pupil_wait)) + "," +
                        string((avg_pupil_prime_target)) + "," +
                        string((avg_pupil_diff)) + "," +
+					   string((median_accurat_sum_same)) + "," +
+					   string((median_accurat_sum_diff)) + "," +
                        string((accurat_sum_diff));
     file_text_write_string(summary_file, summary_line);
     file_text_writeln(summary_file);

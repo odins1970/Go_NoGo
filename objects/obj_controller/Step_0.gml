@@ -231,8 +231,10 @@
                 trial_result = "Correct";
                 trial_result_value = 1;
                 last_go_target_duration = current_target_duration;
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, trial_result_value, black_shape_rt, accurat_sum];
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
                 trial_id += 1;
+				consecutive_errors = 0;
+            show_debug_message("Correct response: consecutive_errors reset to 0");
                 if (audio_exists(snd_correct))
                 {
                     audio_play_sound(snd_correct, 10, false);
@@ -255,7 +257,7 @@
                 last_go_target_duration = current_target_duration;
                 if (prime_type == 0 || prime_type == 1)
                 {
-                    fixed_reaction_time = clamp(current_target_duration, 0, 350);
+                    fixed_reaction_time = clamp(current_target_duration, 0, current_target_duration);
                     ds_list_add(rt_list, fixed_reaction_time);
                     if (prime_type != 2)
                     {
@@ -283,13 +285,14 @@
                 }
                 if (prime_type == 2)
                 {
-                    fixed_reaction_time = clamp(current_target_duration, 0, 350);
+                    fixed_reaction_time = clamp(current_target_duration, 0, current_target_duration);
                     ds_list_add(black_shape_prime_rt, fixed_reaction_time);
                     black_shape_rt = fixed_reaction_time;
                 }
                 ds_list_add(pupil_list_prime_target, pupil_prime_target);
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, trial_result_value, black_shape_rt, accurat_sum];
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
                 trial_id += 1;
+				consecutive_errors += 1;
                 consecutive_correct = 0;
                 consecutive_Sum += consecutive_correct;
                 with (obj_stimulus) instance_destroy();
@@ -335,8 +338,9 @@
                 total_trials += 1;
                 trial_result = "False Positive";
                 resultat = 3;
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, trial_result_value, black_shape_rt, accurat_sum];
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
                 trial_id += 1;
+				consecutive_errors += 1;
                 consecutive_correct = 0;
                 consecutive_Sum += consecutive_correct;
                 with (obj_stimulus) instance_destroy();
@@ -347,10 +351,11 @@
             {
                 correct_responses += 1;
                 resultat = 4;
+				trial_result = "Suppressed";
+				consecutive_errors = 0;
                 consecutive_correct += 1;
                 consecutive_Sum += consecutive_correct;
                 total_trials += 1;
-                trial_result = "Suppressed";
                 trial_result_value = 1;
                 fixed_reaction_time = 1;
                 ds_list_add(rt_list, fixed_reaction_time);
@@ -359,7 +364,7 @@
                     if (current_congruent)
                     {
                         ds_list_add(congruent_rt, fixed_reaction_time);
-						
+						ds_list_add(accurat_sum_same_stimulus, accurat_sum);
                     }
                     else
                     {
@@ -383,7 +388,7 @@
                     black_shape_rt = fixed_reaction_time;
                 }
                 ds_list_add(pupil_list_prime_target, pupil_prime_target);
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, consecutive_Sum, trial_result_value, black_shape_rt, accurat_sum];
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
                 trial_id += 1;
                 if (audio_exists(snd_correct))
                 {
@@ -398,30 +403,53 @@
                 state = "wait";
             }
         }
-        if (consecutive_correct >= 5)
+        if (consecutive_correct >=5)
+    {
+        if (stimulus_type == 0)
         {
-            if (stimulus_type == 0)
+            target_duration -= 1.5;
+			ntd=target_duration
+			            if (target_duration < min_target_duration_go)
             {
-                target_duration -= 1.5;
-                if (target_duration < min_target_duration_go)
-                {
-                    target_duration = min_target_duration_go;
-                }
+                target_duration = min_target_duration_go;
             }
-            else
-            {
-                target_duration -= 0;
-                if (target_duration < min_target_duration_nogo)
-                {
-                    target_duration = min_target_duration_nogo;
-                }
-            }
-            consecutive_correct = 0;
-            consecutive_Sum += consecutive_correct;
-            show_debug_message("Target duration reduced by 25 ms for stimulus_type=" + string(stimulus_type) + ". New target_duration: " + string(target_duration));
         }
+		else
+        { 
+			if (stimulus_type ==1)
+			 target_duration = 30;
+            }
+        
+        consecutive_correct = 0;
+        consecutive_Sum += consecutive_correct;
+		consecutive_errors = 0;
+        show_debug_message("Target duration reduced by 25 ms for stimulus_type=" + string(stimulus_type) + ". New target_duration: " + string(target_duration));
     }
-    else if (state == "wait")
+	if (consecutive_correct == 0 && consecutive_errors >= 5)
+    {      
+		if (stimulus_type == 0)
+		     { 
+				target_duration += 1.5; // Увеличение на 25 мс 
+				ntd=target_duration
+            if (target_duration > max_target_duration_go)
+            {
+                target_duration = max_target_duration_go;
+            }
+        }
+        else
+        {
+			if (stimulus_type ==1)
+            {
+                target_duration = 30;
+            }
+        }
+        consecutive_errors = 0; // Сброс счетчика ошибок после увеличения
+		consecutive_correct = 0;
+        consecutive_Sum += consecutive_correct;
+        show_debug_message("Target duration increased due to errors: " + string(target_duration));
+			 }
+	}
+ else if (state == "wait")
     {
         ds_list_add(left_pupil_buffer_wait, left_pupil);
         ds_list_add(right_pupil_buffer_wait, right_pupil);
@@ -484,7 +512,7 @@
             // Set target_duration based on stimulus_type
             if (stimulus_type == 0)
             {
-                target_duration = 21; // 350 ms for Go
+                target_duration = ntd; // 350 ms for Go
             }
             else
             {
