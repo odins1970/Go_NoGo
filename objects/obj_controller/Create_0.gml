@@ -59,7 +59,8 @@
 	median_accurat_sum_same = 0;
  median_accurat_sum_diff = 0;
 accurat_sum_diff = 0;
-
+median_congruent=0
+median_incongruent=0
 	
     // Trial data array
     trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, result_value, black_shape_rt, accurat_sum ]

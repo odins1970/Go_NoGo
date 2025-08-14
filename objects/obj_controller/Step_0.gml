@@ -629,7 +629,7 @@
         median_accurat_sum_diff = 0;
     }
     accurat_sum_diff = median_accurat_sum_same - median_accurat_sum_diff;
-    final_target_duration = (target_duration / 60 ) * 1000;
+    final_target_duration = (ntd / 60 ) * 1000;
     if (ds_list_size(pupil_list_wait) > 0)
     {
         avg_pupil_wait = ds_list_median(pupil_list_wait);
