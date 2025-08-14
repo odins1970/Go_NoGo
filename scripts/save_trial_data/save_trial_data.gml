@@ -73,6 +73,7 @@ function save_trial_data()
             {
                 reaction_time_str = string_format(trial[4], 0, 2); // Сохраняем с 2 знаками после запятой
                 show_debug_message("Сохранение испытания #" + trial_id_str + ": Reaction Time = " + reaction_time_str);
+
             }
             var result_str = "Unknown";
             if (is_string(trial[5]))
@@ -92,13 +93,14 @@ function save_trial_data()
             var pupil_diff_str = "0";
             if (is_real(trial[8]) || is_int64(trial[8]))
             {
-                pupil_diff_str = string(round(trial[8]));
+                pupil_diff_str = string((trial[8]));
             }
             var current_target_duration_str = "-";
             if (is_real(trial[9]) || is_int64(trial[9]))
             {
                 current_target_duration_str = string(round(trial[9]));
                 show_debug_message("Сохранение испытания #" + trial_id_str + ": Current Target Duration = " + current_target_duration_str);
+
             }
             var consecutive_correct_str = "0";
             if (is_real(trial[10]) || is_int64(trial[10]))
@@ -120,11 +122,12 @@ function save_trial_data()
             var black_shape_rt_str = "-";
             if (is_real(trial[13]) || is_int64(trial[13]))
             {
-                black_shape_rt_str = string(round(trial[13]));
+                black_shape_rt_str = string((trial[13]));
             }
             var accurat_sum_str = "0";
             if (is_real(trial[14]) || is_int64(trial[14]))
             {
+
                 accurat_sum_str = string_format(trial[14], 0, 2);
                 show_debug_message("Сохранение испытания #" + trial_id_str + ": AccuratSum = " + accurat_sum_str);
             }
@@ -219,10 +222,8 @@ function save_trial_data()
         }
     }
 
-    // Write header row with Russian column names and units
-    file_text_write_string(summary_file, "Код,Общее количество испытаний (шт),Количество правильных ответов (шт),Серия правильных в среднем (шт),Медианное TR (мс),Медианное TR контрольное (мс),Точность (%),Ложные срабатывания (шт),Пропуски (шт),Испытания Go (шт),Испытания NoGo (шт),Прайм зеленый (шт),Прайм красный (шт),Прайм черная (шт),Разница TR_медиан между сменой и повторением стимула (мс),Разница TR_медиан между прайм помеха-подсказка (мс),Порог Адаптации к стимулу (мс),Средний размер зрачка в ожидании (пикс),Средний размер зрачка в прайм+цель (пикс),Сила изменений зрачка (пикс),Точность средняя при подсказке,Точность средняя при помехе,Accurat_sum_diff(Разница в Точности между подсказка -  помеха )(%)\n");
-
-    // Write data row
+  file_text_write_string(summary_file, "Код,Общее количество испытаний (шт),Количество правильных ответов (шт),Серия правильных в среднем (шт),Медианное TR (мс),Медианное TR контрольное (мс),Точность (%),Ложные срабатывания (шт),Пропуски (шт),Испытания Go (шт),Испытания NoGo (шт),Прайм зеленый (шт),Прайм красный (шт),Прайм черная (шт),Разница TR_медиан между сменой и повторением стимула (мс),Разница TR_медиан между прайм помеха-подсказка (мс),Порог Адаптации к стимулу (мс),Средний размер зрачка в ожидании (пикс),Средний размер зрачка в прайм+цель (пикс),Сила изменений зрачка (пикс),Точность средняя при подсказке,Точность средняя при помехе,Accurat_sum_diff(Разница в Точности между подсказка -  помеха )(%)\n");
+       
     var summary_line = string(IDA) + string(IDD) + "," +
                        string(total_trials) + "," +
                        string(correct_responses) + "," +
