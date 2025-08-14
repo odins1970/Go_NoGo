@@ -57,4 +57,4 @@ draw_set_color(c_white);
         __trace_draw(xx, room_height - 100, 400, 0);
     }
 }
-
+draw_text(300, 500, ": " + string((median_congruent)));

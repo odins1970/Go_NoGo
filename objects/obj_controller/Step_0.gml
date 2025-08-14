@@ -604,8 +604,8 @@
     }
     if (ds_list_size(congruent_rt) > 0 && ds_list_size(incongruent_rt) > 0)
     {
-        var median_congruent = ds_list_median(congruent_rt);
-        var median_incongruent = ds_list_median(incongruent_rt);
+         median_congruent = ds_list_median(congruent_rt);
+         median_incongruent = ds_list_median(incongruent_rt);
         interference = median_incongruent - median_congruent;
     }
     else
