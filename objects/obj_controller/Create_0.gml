@@ -9,7 +9,7 @@
 	IDD = irandom(100000)
 	stimulus_type = 0; // 0: Go (green circle), 1: NoGo (red square)
     prime_type = 0; // 0: green circle, 1: red square, 2: black shape
-    prime_type_weights = [0,1,1,2]; // Weights: 40% green, 40% red, 20% black
+    prime_type_weights = [0,0,1,1,2]; // Weights: 40% green, 40% red, 20% black
     is_congruent = false; // Congruency of prime and stimulus
     state = "initial_wait"; // Initial state
     timer = 0; // Timer for state transitions (in steps)
@@ -32,7 +32,7 @@
     switch_rt = ds_list_create(); // Reaction times with stimulus switch
     no_switch_rt = ds_list_create(); // Reaction times without switch
     black_shape_prime_rt = ds_list_create(); // Reaction times for Go trials with black shape prime
-	    pupil_list_wait = ds_list_create(); // Median pupil sizes in wait state
+	pupil_list_wait = ds_list_create(); // Median pupil sizes in wait state
     pupil_list_prime_target = ds_list_create(); // Median pupil sizes in prime+target state
     left_pupil_buffer_wait = ds_list_create(); // Buffer for 21 left pupil values (wait)
     right_pupil_buffer_wait = ds_list_create(); // Buffer for 21 right pupil values (wait)

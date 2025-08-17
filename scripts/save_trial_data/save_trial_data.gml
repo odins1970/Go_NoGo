@@ -122,7 +122,7 @@ function save_trial_data()
             var black_shape_rt_str = "-";
             if (is_real(trial[13]) || is_int64(trial[13]))
             {
-                black_shape_rt_str = string((trial[13]));
+                black_shape_rt_str = string_format(trial[13], 0, 2);;
             }
             var accurat_sum_str = "0";
             if (is_real(trial[14]) || is_int64(trial[14]))

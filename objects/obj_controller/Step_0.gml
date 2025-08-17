@@ -403,7 +403,7 @@
                 state = "wait";
             }
         }
-        if (consecutive_correct >=5)
+        if (consecutive_correct >5)
     {
         if (stimulus_type == 0)
         {
@@ -425,7 +425,7 @@
 		consecutive_errors = 0;
         show_debug_message("Target duration reduced by 25 ms for stimulus_type=" + string(stimulus_type) + ". New target_duration: " + string(target_duration));
     }
-	if (consecutive_correct == 0 && consecutive_errors >= 5)
+	if (consecutive_correct == 0 && consecutive_errors > 5)
     {      
 		if (stimulus_type == 0)
 		     { 
@@ -507,7 +507,7 @@
             }
             else
             {
-                stimulus_type = choose(1, 0);
+                stimulus_type = choose(0,1,0);
             }
 			            // Set target_duration based on stimulus_type
             if (stimulus_type == 0)
