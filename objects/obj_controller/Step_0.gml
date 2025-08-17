@@ -125,7 +125,7 @@
         }
 
         var current_target_duration = (target_duration / 60) * 1000;
-        var key_pressed = keyboard_check_pressed(vk_space);
+        var key_pressed = mouse_check_button_pressed(mb_left);
         var trial_result = "";
         var trial_result_value = 0;
         var current_congruent = (prime_type == stimulus_type);
