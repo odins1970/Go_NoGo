@@ -405,8 +405,9 @@
                 state = "wait";
             }
         }
+
         if (consecutive_correct > 4)
-    {
+       {
         if (stimulus_type == 0)
         {
             target_duration -= 1.5;
@@ -514,9 +515,14 @@
             {
              stimulus_type = choose(0,1,choose(0,1));
             }
+
          if (last_stimulus_type == 1) and total_trials > 2
 		 {
              stimulus_type = choose(0,1,0,0,choose(0,1));
+		 }
+            else
+            {
+                stimulus_type = choose(0,1,0);
             }
 		 
 			            // Set target_duration based on stimulus_type
