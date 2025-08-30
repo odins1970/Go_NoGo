@@ -11,7 +11,7 @@ if state == "wait" and timer =clamp (timer, 5, 60)
  {draw_text(742, 354, "Не успел  " );
  }
 	if resultat == 3
- {draw_text(772, 354, "Поторопился  " );
+ {draw_text(782, 354, "Поторопился  " );
 }
 	if resultat == 4
  {draw_text(room_width/2, 50, "+" + string_format(round(correct_responses), 0, 0) );
@@ -54,7 +54,7 @@ draw_set_color(c_white);
         draw_text(xx, yy, "Средний размер зрачка в wait (пикс): " + string((avg_pupil_wait))); yy += spacing;
         draw_text(xx, yy, "Средний размер зрачка в prime+target (пикс): " + string((avg_pupil_prime_target))); yy += spacing;
         draw_text(xx, yy, "Средняя разница размера зрачка (пикс): " + string((avg_pupil_diff))); yy += spacing;
-        __trace_draw(xx, room_height - 100, 400, 0);
-    }
+           }
 }
+
 

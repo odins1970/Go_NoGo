@@ -1,5 +1,5 @@
-//switch_cost вычисляется как разница медианных значений: median(switch_rt) - median(no_switch_rt).
-//interference вычисляется как разница медианных значений: median(incongruent_rt) - median(congruent_rt)
+//switch_cost вычисляется как разница медианных значений:% median(switch_rt) / median(no_switch_rt).перключаемость 
+//interference вычисляется как разница медианных значений:%   median(congruent_rt) / median(incongruent_rt) помехоустойчивость
 
 function save_trial_data()
 {
@@ -41,7 +41,7 @@ function save_trial_data()
     }
 
     // Исправление: Заменяем Consecutive Sum на AccuratSumDiff в заголовке
-    file_text_write_string(trial_file, "Trial ID,Stimulus Type,Prime Type,Is Congruent,Reaction Time (ms),Result,Pupil Wait (px),Pupil Prime+Target (px),Pupil Difference (px),Current Target Duration (ms),Consecutive Correct Dynamic_Learn,AccuratSumDiff,Result Value,Black Shape Reaction Time (ms),AccuratSum\n");
+    file_text_write_string(trial_file, "Trial ID,Stimulus Type,Prime Type,Is Congruent,Reaction Time (ms),Result,Pupil Wait (px),Pupil Prime+Target (px),Pupil Difference (px),Current Target Duration (ms),Concentracion consec_сorrect ,AccuratSumDiff,Result Value,Black Shape Reaction Time (ms),AccuratSum\n");
 
     for (var i = 0; i < array_length(trials_data); i++)
     {
@@ -71,7 +71,7 @@ function save_trial_data()
             var reaction_time_str = "-";
             if (is_real(trial[4]) || is_int64(trial[4]))
             {
-                reaction_time_str = string_format(trial[4], 0, 2); // Сохраняем с 2 знаками после запятой
+                reaction_time_str = string_format(trial[4], 0, 3); // Сохраняем с 2 знаками после запятой
                 show_debug_message("Сохранение испытания #" + trial_id_str + ": Reaction Time = " + reaction_time_str);
 
             }
@@ -110,9 +110,9 @@ function save_trial_data()
             var consecutive_sum_str = "0";
             if (is_real(trial[11]) || is_int64(trial[11]))
             {
-                // Исправление: Сохраняем accurat_sum_diff как число с двумя знаками после запятой
-                consecutive_sum_str = string_format(trial[11], 0, 2);
-                show_debug_message("Сохранение испытания #" + trial_id_str + ": AccuratSumDiff = " + consecutive_sum_str);
+                // Исправление: 
+                consecutive_sum_str = string_format(trial[11], 0, 3);
+                show_debug_message("Сохранение испытания #" + trial_id_str + ": Consecutive_sum = " + consecutive_sum_str);
             }
             var result_value_str = "0";
             if (is_real(trial[12]) || is_int64(trial[12]))
@@ -122,13 +122,13 @@ function save_trial_data()
             var black_shape_rt_str = "-";
             if (is_real(trial[13]) || is_int64(trial[13]))
             {
-                black_shape_rt_str = string((trial[13]));
+                black_shape_rt_str = string_format(trial[13], 0, 3);;
             }
             var accurat_sum_str = "0";
             if (is_real(trial[14]) || is_int64(trial[14]))
             {
 
-                accurat_sum_str = string_format(trial[14], 0, 2);
+                accurat_sum_str = string_format(trial[14], 0, 3);
                 show_debug_message("Сохранение испытания #" + trial_id_str + ": AccuratSum = " + accurat_sum_str);
             }
 
@@ -147,6 +147,7 @@ function save_trial_data()
                        result_value_str + "," +
                        black_shape_rt_str + "," +
                        accurat_sum_str;
+					   
             file_text_write_string(trial_file, line);
             file_text_writeln(trial_file);
         }
@@ -222,7 +223,7 @@ function save_trial_data()
         }
     }
 
-  file_text_write_string(summary_file, "Код,Общее количество испытаний (шт),Количество правильных ответов (шт),Серия правильных в среднем (шт),Медианное TR (мс),Медианное TR контрольное (мс),Точность (%),Ложные срабатывания (шт),Пропуски (шт),Испытания Go (шт),Испытания NoGo (шт),Прайм зеленый (шт),Прайм красный (шт),Прайм черная (шт),Разница TR_медиан между сменой и повторением стимула (мс),TR_медиан прайм Подсказка,TR_медиан прайм Помеха,Разница TR_медиан между прайм помеха-подсказка (мс),Порог Адаптации к стимулу (мс),Средний размер зрачка в ожидании (пикс),Средний размер зрачка в прайм+цель (пикс),Сила изменений зрачка (пикс),Точность средняя при подсказке,Точность средняя при помехе,Accurat_sum_diff(Разница в Точности между подсказка -  помеха )(%)\n");
+  file_text_write_string(summary_file, "Код,Общее количество испытаний (шт),Количество правильных ответов (шт),Концентрация как Серия правильных в среднем (шт),Медианное TR общее (мс),Медианное TR контрольное (мс),Точность (%),Ложные срабатывания (шт),Пропуски (шт),Испытания Go (шт),Испытания NoGo (шт),Прайм зеленый (шт),Прайм красный (шт),Прайм черная (шт), Переключаемость отношение TR_медиан  между сменой и повторением стимула (%),TR_медиан прайм Подсказка,TR_медиан прайм Помеха,Помехоустойчивость как отношениеTR_медиан подсказка-помеха (%),Порог Адаптации к стимулу (мс),Средний размер зрачка в ожидании (пикс),Средний размер зрачка в прайм+цель (пикс),Сила изменений зрачка (пикс),Точность средняя при подсказке(%),Точность средняя при помехе(%), Accurat_sum_diff_Отношение точности Подсказка - Помеха(%)\n");
        
     var summary_line = string(IDA) + string(IDD) + "," +
                        string(total_trials) + "," +
@@ -248,12 +249,11 @@ function save_trial_data()
                        string((avg_pupil_diff)) + "," +
 					   string((median_accurat_sum_same)) + "," +
 					   string((median_accurat_sum_diff)) + "," +
-                       string((accurat_sum_diff));
+                       string((accurat_sum_diff))
+					   
     file_text_write_string(summary_file, summary_line);
     file_text_writeln(summary_file);
-
     file_text_close(summary_file);
     show_debug_message("Summary statistics saved to " + summary_filename);
-
     return trial_filename;
 }
