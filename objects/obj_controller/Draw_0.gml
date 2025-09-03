@@ -5,6 +5,7 @@ if state == "wait" and timer =clamp (timer, 10, 50)
     if resultat == 1 //
  { draw_text_transformed_color(room_width/2, room_height/2,"+"  + string(1),sizze,sizze,0,c_yellow,c_yellow,c_yellow, c_yellow, 1);
  	 }
+
 	if resultat == 4
  {draw_text_transformed_color(room_width/2, room_height/2,"+"  + string(1),sizze,sizze,0,c_yellow,c_yellow,c_yellow, c_yellow, 1);
 	}
@@ -47,4 +48,4 @@ draw_set_color(c_white);
         draw_text(xx, yy, "Средняя разница размера зрачка (пикс): " + string((avg_pupil_diff))); yy += spacing;
            }
 }
-draw_line_width_color(room_width/2-2,200+avg_pupil,room_width/2+2,200+avg_pupil,4, c_aqua,c_aqua)
+

@@ -405,6 +405,7 @@
                 state = "wait";
             }
         }
+
         if (consecutive_correct > 4)
     {
         if (stimulus_type == 0)
@@ -507,7 +508,6 @@
 			{stimulus_type =0
 			}
 			if total_trials == 1 
-
 			{stimulus_type =1
 			}
 	     if (last_stimulus_type == 0) and total_trials > 2
@@ -518,8 +518,7 @@
 		 {
              stimulus_type = choose(0,1,0,0);
             }
-		 
-			            // Set target_duration based on stimulus_type
+		 			            // Set target_duration based on stimulus_type
             if (stimulus_type == 0)
             {
                 target_duration = ntd; // 350 ms for Go
@@ -619,6 +618,7 @@
 	if median_no_switch>0 and median_switch>0
 	{
     switch_cost =(1-(median_switch / median_no_switch));
+
 	}
 	else
 	{switch_cost =0
@@ -633,7 +633,9 @@
 	}
 	if median_incongruent > 0 and median_congruent > 0
 	{
+
     interference = (1-(median_congruent / median_incongruent));
+
 	}
 	else
 	{interference =0
@@ -657,7 +659,9 @@
     }
 	if median_accurat_sum_same  > 0  and median_accurat_sum_diff > 0
 	{
+
 	accurat_sum_diff =(1- (median_accurat_sum_same / median_accurat_sum_diff));
+
 	}
 	else
 	{accurat_sum_diff =0
@@ -680,6 +684,7 @@
         avg_pupil_prime_target = 0;
     }
     avg_pupil_diff = (1-(avg_pupil_prime_target / avg_pupil_wait));
+
 }
 if state == "wait" and timer =clamp (timer, 10, 50)
 {sizze +=0.08
