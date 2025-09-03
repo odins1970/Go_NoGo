@@ -12,12 +12,11 @@
     {
         show_stats = false;
     }
-
-    // Get pupil diameters
-    if (instance_exists(objGaze))
+	    // Get pupil diameters
+    if (instance_exists(objGaze)) 
     {
-        left_pupil = clamp(objGaze.left_pupil_diameter, 12, 60);
-        right_pupil = clamp(objGaze.right_pupil_diameter, 12, 60);
+        left_pupil = clamp(gaze_raw_x, 12, 60);
+        right_pupil = clamp(gaze_raw_y, 12, 60);
     }
     else
     {
@@ -25,7 +24,6 @@
         right_pupil = 1;
         show_debug_message("objGaze not found, using random values: left=" + string(left_pupil) + ", right=" + string(right_pupil));
     }
-
     // Calculate average pupil size for current frame
     avg_pupil = (left_pupil + right_pupil) / 2;
 
@@ -125,16 +123,20 @@
         }
 
         var current_target_duration = (target_duration / 60) * 1000;
-        var key_pressed = keyboard_check_pressed(vk_space);
+        var key_pressed = mouse_check_button_pressed(mb_left);
         var trial_result = "";
         var trial_result_value = 0;
         var current_congruent = (prime_type == stimulus_type);
         var black_shape_rt = -1;
         var fixed_reaction_time = reaction_time_ms;
+		
                if (total_trials > 0)
         {
             accurat_sum = (correct_responses/total_trials)*100;
         }
+		else
+		{accurat_sum = (correct_responses/1)*100;
+		}
 
         // Calculate median pupil for prime+target
         if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
@@ -187,7 +189,7 @@
         }
 
         // Calculate pupil difference
-        var pupil_diff = pupil_prime_target - pupil_wait;
+        var pupil_diff = (1-(pupil_prime_target / pupil_wait));
 
         if (stimulus_type == 0) // Go
         {
@@ -403,7 +405,7 @@
                 state = "wait";
             }
         }
-        if (consecutive_correct >=5)
+        if (consecutive_correct > 4)
     {
         if (stimulus_type == 0)
         {
@@ -425,7 +427,7 @@
 		consecutive_errors = 0;
         show_debug_message("Target duration reduced by 25 ms for stimulus_type=" + string(stimulus_type) + ". New target_duration: " + string(target_duration));
     }
-	if (consecutive_correct == 0 && consecutive_errors >= 5)
+	if (consecutive_correct == 0 && consecutive_errors > 4)
     {      
 		if (stimulus_type == 0)
 		     { 
@@ -482,7 +484,7 @@
             }
             ds_list_add(pupil_list_wait, pupil_wait);
 
-            if (total_trials >= max_trials || correct_responses >= 30)
+            if (total_trials >= max_trials || correct_responses >= 40)
             {
                 var saved_filename = save_trial_data();
                 with (obj_stimulus) instance_destroy();
@@ -501,14 +503,22 @@
             show_debug_message("Cleared all obj_stimulus instances when transitioning from wait to prime");
 
             last_stimulus_type = stimulus_type;
-            if (last_stimulus_type == 0)
+			if total_trials == 0 or total_trials==2
+			{stimulus_type =0
+			}
+			if total_trials == 1 
+
+			{stimulus_type =1
+			}
+	     if (last_stimulus_type == 0) and total_trials > 2
             {
-                stimulus_type = choose(0, 1);
+             stimulus_type = choose(0,1,choose(0,1,0));
             }
-            else
-            {
-                stimulus_type = choose(1, 0);
+         if (last_stimulus_type == 1) and total_trials > 2
+		 {
+             stimulus_type = choose(0,1,0,0);
             }
+		 
 			            // Set target_duration based on stimulus_type
             if (stimulus_type == 0)
             {
@@ -518,14 +528,20 @@
             {
                 target_duration = 30; // 500 ms for NoGo
             }
-            prime_type = array_choose(prime_type_weights);
-            if (prime_type == 2)
+			if total_trials <= 1 
+			{
+            prime_type = 0;			     
+			}
+			else 
+			{
+			prime_type = array_choose(prime_type_weights);
+			           if (prime_type == 2)
             {
                 black_shape_prime_trials += 1;
-            }
-            is_congruent = (prime_type == stimulus_type);
-
-            var inst = instance_create_layer(room_width / 2, room_height / 2, "Instances", obj_stimulus);
+             }
+			}
+			is_congruent = (prime_type == stimulus_type);
+			  var inst = instance_create_layer(room_width / 2, room_height / 2, "Instances", obj_stimulus);
             if (sprite_exists(spr_green_circle) && sprite_exists(spr_red_square) && sprite_exists(spr_black_shape))
             {
                 if (prime_type == 0)
@@ -600,7 +616,13 @@
 	{
          median_no_switch = ds_list_median(no_switch_rt);
 	}
-    switch_cost = median_switch - median_no_switch;
+	if median_no_switch>0 and median_switch>0
+	{
+    switch_cost =(1-(median_switch / median_no_switch));
+	}
+	else
+	{switch_cost =0
+	}
       if ds_list_size(congruent_rt) > 0  
     {
          median_congruent = ds_list_median(congruent_rt);
@@ -609,7 +631,14 @@
 	{
          median_incongruent = ds_list_median(incongruent_rt);
 	}
-    interference = median_incongruent - median_congruent;
+	if median_incongruent > 0 and median_congruent > 0
+	{
+    interference = (1-(median_congruent / median_incongruent));
+	}
+	else
+	{interference =0
+	}
+	
         if (ds_list_size(accurat_sum_same_stimulus) > 0)
     {
         median_accurat_sum_same = ds_list_median(accurat_sum_same_stimulus);
@@ -626,8 +655,14 @@
     {
         median_accurat_sum_diff = 0;
     }
-    accurat_sum_diff = median_accurat_sum_same - median_accurat_sum_diff;
-    final_target_duration = (ntd / 60 ) * 1000;
+	if median_accurat_sum_same  > 0  and median_accurat_sum_diff > 0
+	{
+	accurat_sum_diff =(1- (median_accurat_sum_same / median_accurat_sum_diff));
+	}
+	else
+	{accurat_sum_diff =0
+	}
+	final_target_duration = (ntd / 60 ) * 1000;
     if (ds_list_size(pupil_list_wait) > 0)
     {
         avg_pupil_wait = ds_list_median(pupil_list_wait);
@@ -644,5 +679,11 @@
     {
         avg_pupil_prime_target = 0;
     }
-    avg_pupil_diff = avg_pupil_prime_target - avg_pupil_wait;
+    avg_pupil_diff = (1-(avg_pupil_prime_target / avg_pupil_wait));
+}
+if state == "wait" and timer =clamp (timer, 10, 50)
+{sizze +=0.08
+}
+else
+{sizze=0
 }

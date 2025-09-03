@@ -2,7 +2,7 @@
 {
     if (instance_exists(obj_controller))
     {
-        if (obj_controller.state == "prime" or obj_controller.state == "target")
+        if (obj_controller.state == "prime" or  obj_controller.state == "target")
         {
             draw_self();
         }

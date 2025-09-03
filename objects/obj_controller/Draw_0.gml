@@ -1,29 +1,20 @@
-if state == "wait" and timer =clamp (timer, 5, 60)
-{ draw_set_color(c_yellow);
-    draw_set_font(fnt_000); // Убедитесь, что шрифт создан
-    draw_set_halign(fa_right);
-    draw_set_valign(fa_top);
+if state == "wait" and timer =clamp (timer, 10, 50)
+{     draw_set_font(fnt_000); // Убедитесь, что шрифт создан
+     draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
     if resultat == 1 //
- {	 draw_text(room_width/2, 50, "+" + string_format(round(correct_responses), 0, 0) );
-	 draw_text(742, 354, "Успел  ");
- }
-	if resultat == 2
- {draw_text(742, 354, "Не успел  " );
- }
-	if resultat == 3
- {draw_text(772, 354, "Поторопился  " );
-}
+ { draw_text_transformed_color(room_width/2, room_height/2,"+"  + string(1),sizze,sizze,0,c_yellow,c_yellow,c_yellow, c_yellow, 1);
+ 	 }
 	if resultat == 4
- {draw_text(room_width/2, 50, "+" + string_format(round(correct_responses), 0, 0) );
-	 draw_text(742, 354, "Выждал  ");
+ {draw_text_transformed_color(room_width/2, room_height/2,"+"  + string(1),sizze,sizze,0,c_yellow,c_yellow,c_yellow, c_yellow, 1);
 	}
 } 
-else   {
+else  {  
 draw_set_color(c_white);
     draw_set_font(fnt_default); // Убедитесь, что шрифт создан
-    draw_set_halign(fa_right);
-    draw_set_valign(fa_top);
-    draw_text(room_width/2, 50, "" + string_format(round(correct_responses), 0, 0) );
+    draw_set_halign(fa_center);
+    draw_set_valign(fa_middle);
+    draw_text(room_width/2, 30, "" + string_format(round(correct_responses), 0, 0) );
 }
 
 // Отображает статистику при включенном show_stats
@@ -54,7 +45,6 @@ draw_set_color(c_white);
         draw_text(xx, yy, "Средний размер зрачка в wait (пикс): " + string((avg_pupil_wait))); yy += spacing;
         draw_text(xx, yy, "Средний размер зрачка в prime+target (пикс): " + string((avg_pupil_prime_target))); yy += spacing;
         draw_text(xx, yy, "Средняя разница размера зрачка (пикс): " + string((avg_pupil_diff))); yy += spacing;
-        __trace_draw(xx, room_height - 100, 400, 0);
-    }
+           }
 }
-
+draw_line_width_color(room_width/2-2,200+avg_pupil,room_width/2+2,200+avg_pupil,4, c_aqua,c_aqua)

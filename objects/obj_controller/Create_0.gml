@@ -9,8 +9,8 @@
 	IDD = irandom(100000)
 	stimulus_type = 0; // 0: Go (green circle), 1: NoGo (red square)
     prime_type = 0; // 0: green circle, 1: red square, 2: black shape
-    prime_type_weights = [0,1,1,2]; // Weights: 40% green, 40% red, 20% black
-    is_congruent = false; // Congruency of prime and stimulus
+    prime_type_weights = [0,0,0,1,1,1,1,2]; // Weights: 30% green, 50% red, 20% black
+    	is_congruent = false; // Congruency of prime and stimulus
     state = "initial_wait"; // Initial state
     timer = 0; // Timer for state transitions (in steps)
     reaction_time_ms = 0; // Reaction time in milliseconds
@@ -32,7 +32,7 @@
     switch_rt = ds_list_create(); // Reaction times with stimulus switch
     no_switch_rt = ds_list_create(); // Reaction times without switch
     black_shape_prime_rt = ds_list_create(); // Reaction times for Go trials with black shape prime
-	    pupil_list_wait = ds_list_create(); // Median pupil sizes in wait state
+	pupil_list_wait = ds_list_create(); // Median pupil sizes in wait state
     pupil_list_prime_target = ds_list_create(); // Median pupil sizes in prime+target state
     left_pupil_buffer_wait = ds_list_create(); // Buffer for 21 left pupil values (wait)
     right_pupil_buffer_wait = ds_list_create(); // Buffer for 21 right pupil values (wait)
@@ -63,6 +63,7 @@ median_congruent=0
 median_incongruent=0
 median_switch =0
 median_no_switch=0
+sizze=0
 	
     // Trial data array
     trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, result_value, black_shape_rt, accurat_sum ]
@@ -78,7 +79,7 @@ median_no_switch=0
     min_target_duration_go = 1.5; // Minimum target duration for Go (25 ms)
     min_target_duration_nogo = 30; // Minimum target duration for NoGo (500 ms)
 	max_target_duration_go = 30; // 500 мс
-max_target_duration_nogo = 30; // 500 мс
+   max_target_duration_nogo = 30; // 500 мс
     last_go_target_duration=400
    wait_duration = 240; // 4 seconds
     max_trials = 100; // Maximum trials
