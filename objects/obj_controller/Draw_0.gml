@@ -49,9 +49,9 @@ draw_set_color(c_white);
 		draw_text(xx, yy, "Средняя разница размера зрачка (пикс): " + string((avg_pupil_diff))); yy += spacing;
            }
 }
-if avg_pupil>avg_pupil_prime_target
+if avg_pupil>pupil_prime_target
 {draw_circle_color(room_width/2, 230,20,c_aqua,c_aqua,false)
 }
-if avg_pupil<avg_pupil_prime_target
+if avg_pupil<pupil_prime_target
 {draw_circle_color(room_width/2, 630,20,c_purple,c_purple,false)
 }
