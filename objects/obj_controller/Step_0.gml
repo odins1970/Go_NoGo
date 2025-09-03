@@ -20,8 +20,8 @@
     }
     else
     {
-        left_pupil = 1;
-        right_pupil = 1;
+        left_pupil = irandom_range(12, 60);
+        right_pupil = irandom_range(12, 60);;
         show_debug_message("objGaze not found, using random values: left=" + string(left_pupil) + ", right=" + string(right_pupil));
     }
     // Calculate average pupil size for current frame
@@ -47,6 +47,8 @@
             ds_list_clear(right_pupil_buffer_wait);
             ds_list_clear(left_pupil_buffer_prime_target);
             ds_list_clear(right_pupil_buffer_prime_target);
+			ds_list_clear(left_pupil_buffer_target);
+            ds_list_clear(right_pupil_buffer_target);
             state = "prime";
             var inst = instance_create_layer(room_width / 2, room_height / 2, "Instances", obj_stimulus);
             if (sprite_exists(spr_green_circle) && sprite_exists(spr_red_square) && sprite_exists(spr_black_shape))
@@ -76,7 +78,37 @@
     {
         ds_list_add(left_pupil_buffer_prime_target, left_pupil);
         ds_list_add(right_pupil_buffer_prime_target, right_pupil);
-        if (ds_list_size(left_pupil_buffer_prime_target) > 30)
+		
+        
+if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
+        {
+            var temp_list = ds_list_create();
+            var count = min(ds_list_size(left_pupil_buffer_prime_target), 30);
+            for (var i = 0; i < count; i++)
+            {
+                var left = ds_list_find_value(left_pupil_buffer_prime_target, i);
+                var right = ds_list_find_value(right_pupil_buffer_prime_target, i);
+                if (is_real(left) && is_real(right))
+                {
+                    ds_list_add(temp_list, (left + right) / 2);
+                }
+                else
+                {
+                    show_debug_message("Error: Invalid pupil data at index " + string(i) + ": left=" + string(left) + ", right=" + string(right));
+                }
+            }
+            if (ds_list_size(temp_list) > 0)
+            {
+                pupil_prime_target = ds_list_median(temp_list);
+            }
+            else
+            {
+                show_debug_message("Error: temp_list empty, cannot compute pupil_prime_target");
+            }
+            ds_list_destroy(temp_list);
+        }
+
+if (ds_list_size(left_pupil_buffer_prime_target) > 30)
         {
             ds_list_delete(left_pupil_buffer_prime_target, 0);
             ds_list_delete(right_pupil_buffer_prime_target, 0);
@@ -114,12 +146,12 @@
     {
         reaction_time_ms += delta_time / 1000;
 
-        ds_list_add(left_pupil_buffer_prime_target, left_pupil);
-        ds_list_add(right_pupil_buffer_prime_target, right_pupil);
-        if (ds_list_size(left_pupil_buffer_prime_target) > 30)
+        ds_list_add(left_pupil_buffer_target, left_pupil);
+        ds_list_add(right_pupil_buffer_target, right_pupil);
+        if (ds_list_size(left_pupil_buffer_target) > 30)
         {
-            ds_list_delete(left_pupil_buffer_prime_target, 0);
-            ds_list_delete(right_pupil_buffer_prime_target, 0);
+            ds_list_delete(left_pupil_buffer_target, 0);
+            ds_list_delete(right_pupil_buffer_target, 0);
         }
 
         var current_target_duration = (target_duration / 60) * 1000;
@@ -139,14 +171,14 @@
 		}
 
         // Calculate median pupil for prime+target
-        if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
+        if (ds_list_size(left_pupil_buffer_target) >= 1 && ds_list_size(right_pupil_buffer_target) >= 1)
         {
             var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_prime_target), 30);
+            var count = min(ds_list_size(left_pupil_buffer_target), 30);
             for (var i = 0; i < count; i++)
             {
-                var left = ds_list_find_value(left_pupil_buffer_prime_target, i);
-                var right = ds_list_find_value(right_pupil_buffer_prime_target, i);
+                var left = ds_list_find_value(left_pupil_buffer_target, i);
+                var right = ds_list_find_value(right_pupil_buffer_target, i);
                 if (is_real(left) && is_real(right))
                 {
                     ds_list_add(temp_list, (left + right) / 2);
@@ -158,11 +190,11 @@
             }
             if (ds_list_size(temp_list) > 0)
             {
-                pupil_prime_target = ds_list_median(temp_list);
+                pupil_target = ds_list_median(temp_list);
             }
             else
             {
-                show_debug_message("Error: temp_list empty, cannot compute pupil_prime_target");
+                show_debug_message("Error: temp_list empty, cannot compute pupil_target");
             }
             ds_list_destroy(temp_list);
         }
@@ -189,7 +221,7 @@
         }
 
         // Calculate pupil difference
-        var pupil_diff = (1-(pupil_prime_target / pupil_wait));
+        var pupil_diff = ((pupil_prime_target / pupil_wait)-(pupil_target / pupil_wait));
 
         if (stimulus_type == 0) // Go
         {
@@ -225,6 +257,7 @@
                     black_shape_rt = fixed_reaction_time;
                 }
                 ds_list_add(pupil_list_prime_target, pupil_prime_target);
+				ds_list_add(pupil_list_target, pupil_target);
                 correct_responses += 1;
                 consecutive_correct += 1;
                 resultat = 1;
@@ -292,7 +325,8 @@
                     black_shape_rt = fixed_reaction_time;
                 }
                 ds_list_add(pupil_list_prime_target, pupil_prime_target);
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+				ds_list_add(pupil_list_target, pupil_target);
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_prime_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
                 trial_id += 1;
 				consecutive_errors += 1;
                 consecutive_correct = 0;
@@ -336,11 +370,12 @@
                     black_shape_rt = fixed_reaction_time;
                 }
                 ds_list_add(pupil_list_prime_target, pupil_prime_target);
+				ds_list_add(pupil_list_target, pupil_target);
                 false_positives += 1;
                 total_trials += 1;
                 trial_result = "False Positive";
                 resultat = 3;
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target,pupil_target ,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
                 trial_id += 1;
 				consecutive_errors += 1;
                 consecutive_correct = 0;
@@ -390,7 +425,8 @@
                     black_shape_rt = fixed_reaction_time;
                 }
                 ds_list_add(pupil_list_prime_target, pupil_prime_target);
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+				 ds_list_add(pupil_list_target, pupil_target);
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
                 trial_id += 1;
                 if (audio_exists(snd_correct))
                 {
@@ -499,6 +535,8 @@
             ds_list_clear(right_pupil_buffer_wait);
             ds_list_clear(left_pupil_buffer_prime_target);
             ds_list_clear(right_pupil_buffer_prime_target);
+			ds_list_clear(left_pupil_buffer_target);
+            ds_list_clear(right_pupil_buffer_target);
             state = "prime";
             with (obj_stimulus) instance_destroy();
             show_debug_message("Cleared all obj_stimulus instances when transitioning from wait to prime");
@@ -660,7 +698,7 @@
 	if median_accurat_sum_same  > 0  and median_accurat_sum_diff > 0
 	{
 
-	accurat_sum_diff =(1- (median_accurat_sum_same / median_accurat_sum_diff));
+	accurat_sum_diff =(1-(median_accurat_sum_same / median_accurat_sum_diff));
 
 	}
 	else
@@ -683,7 +721,15 @@
     {
         avg_pupil_prime_target = 0;
     }
-    avg_pupil_diff = (1-(avg_pupil_prime_target / avg_pupil_wait));
+	if (ds_list_size(pupil_list_target) > 0)
+    {
+        avg_pupil_target = ds_list_median(pupil_list_target);
+    }
+    else
+    {
+        avg_pupil_target = 0;
+    }
+    avg_pupil_diff = ((avg_pupil_prime_target / avg_pupil_wait)- (avg_pupil_target / avg_pupil_wait));
 
 }
 if state == "wait" and timer =clamp (timer, 10, 50)

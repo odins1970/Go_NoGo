@@ -9,8 +9,11 @@
     ds_list_destroy(right_pupil_buffer_wait);
     ds_list_destroy(left_pupil_buffer_prime_target);
     ds_list_destroy(right_pupil_buffer_prime_target);
+	ds_list_destroy(left_pupil_buffer_target);
+    ds_list_destroy(right_pupil_buffer_target);
     ds_list_destroy(pupil_list_wait);
     ds_list_destroy(pupil_list_prime_target);
+	ds_list_destroy(pupil_list_target);
     ds_list_destroy(rt_list);
     ds_list_destroy(black_shape_prime_rt);
     ds_list_destroy(switch_rt);

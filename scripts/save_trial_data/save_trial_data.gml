@@ -41,11 +41,11 @@ function save_trial_data()
     }
 
     // Исправление: Заменяем Consecutive Sum на AccuratSumDiff в заголовке
-    file_text_write_string(trial_file, "Trial ID,Stimulus Type,Prime Type,Is Congruent,Reaction Time (ms),Result,Pupil Wait (px),Pupil Prime+Target (px),Pupil Difference (px),Current Target Duration (ms),Concentracion consec_сorrect ,AccuratSumDiff,Result Value,Black Shape Reaction Time (ms),AccuratSum\n");
+    file_text_write_string(trial_file, "Trial ID,Stimulus Type,Prime Type,Is Congruent,Reaction Time (ms),Result,Pupil Wait (px),Pupil Prime(px),Pupil Difference (px),Current Target Duration (ms),Concentracion consec_сorrect ,AccuratSumDiff,Result Value,Black Shape Reaction Time (ms),AccuratSum,Pupil Target (px)\n");
 
     for (var i = 0; i < array_length(trials_data); i++)
     {
-        if (is_array(trials_data[i]) && array_length(trials_data[i]) >= 15)
+        if (is_array(trials_data[i]) && array_length(trials_data[i]) >= 16)
         {
             var trial = trials_data[i];
             var trial_id_str = "0";
@@ -132,6 +132,11 @@ function save_trial_data()
                 accurat_sum_str = string_format(trial[14], 0, 3);
                 show_debug_message("Сохранение испытания #" + trial_id_str + ": AccuratSum = " + accurat_sum_str);
             }
+			var pupil_target_str = "0";
+            if (is_real(trial[15]) || is_int64(trial[15]))
+            {
+                pupil_target_str = string(round(trial[15]));
+            }
 
             var line = trial_id_str + "," +
                        stimulus_type_str + "," +
@@ -147,14 +152,14 @@ function save_trial_data()
                        consecutive_sum_str + "," +
                        result_value_str + "," +
                        black_shape_rt_str + "," +
-                       accurat_sum_str;
-					   
+                       accurat_sum_str + "," +
+					   pupil_target_str ;
             file_text_write_string(trial_file, line);
             file_text_writeln(trial_file);
         }
         else
         {
-            show_debug_message("Ошибка: Некорректные данные испытания #" + string(i + 1) + ". Ожидалось 15 элементов, найдено " + string(array_length(trials_data[i])));
+            show_debug_message("Ошибка: Некорректные данные испытания #" + string(i + 1) + ". Ожидалось 16 элементов, найдено " + string(array_length(trials_data[i])));
         }
     }
 
@@ -168,7 +173,7 @@ function save_trial_data()
     var red_square_prime_trials = 0;
     for (var i = 0; i < array_length(trials_data); i++)
     {
-        if (is_array(trials_data[i]) && array_length(trials_data[i]) >= 15)
+        if (is_array(trials_data[i]) && array_length(trials_data[i]) >= 16)
         {
             var trial = trials_data[i];
             if (trial[1] == 0)
@@ -224,7 +229,7 @@ function save_trial_data()
         }
     }
 
-  file_text_write_string(summary_file, "Код,Общее количество испытаний (шт),Количество правильных ответов (шт),Концентрация как Серия правильных в среднем (шт),Медианное TR общее (мс),Медианное TR контрольное (мс),Точность (%),Ложные срабатывания (шт),Пропуски (шт),Испытания Go (шт),Испытания NoGo (шт),Прайм зеленый (шт),Прайм красный (шт),Прайм черная (шт), Переключаемость отношение TR_медиан  между сменой и повторением стимула (%),TR_медиан прайм Подсказка,TR_медиан прайм Помеха,Помехоустойчивость как отношениеTR_медиан подсказка-помеха (%),Порог Адаптации к стимулу (мс),Средний размер зрачка в ожидании (пикс),Средний размер зрачка в прайм+цель (пикс),Сила изменений зрачка (пикс),Точность средняя при подсказке(%),Точность средняя при помехе(%), Accurat_sum_diff_Отношение точности Подсказка - Помеха(%)\n");
+  file_text_write_string(summary_file, "Код,Общее количество испытаний (шт),Количество правильных ответов (шт),Концентрация как Серия правильных в среднем (шт),Медианное TR общее (мс),Медианное TR контрольное (мс),Точность (%),Ложные срабатывания (шт),Пропуски (шт),Испытания Go (шт),Испытания NoGo (шт),Прайм зеленый (шт),Прайм красный (шт),Прайм черная (шт), Переключаемость отношение TR_медиан  между сменой и повторением стимула (%),TR_медиан прайм Подсказка,TR_медиан прайм Помеха,Помехоустойчивость как отношениеTR_медиан подсказка-помеха (%),Порог Адаптации к стимулу (мс),Средний размер зрачка в ожидании (пикс),Средний размер зрачка в прайм (пикс),Средний размер зрачка в цель (пикс),Сила изменений зрачка (пикс),Точность средняя при подсказке(%),Точность средняя при помехе(%), Accurat_sum_diff_Отношение точности Подсказка - Помеха(%)\n");
        
     var summary_line = string(IDA) + string(IDD) + "," +
                        string(total_trials) + "," +
@@ -247,6 +252,7 @@ function save_trial_data()
                        string((last_go_target_duration)) + "," +
                        string((avg_pupil_wait)) + "," +
                        string((avg_pupil_prime_target)) + "," +
+					   string((avg_pupil_target)) + "," +
                        string((avg_pupil_diff)) + "," +
 					   string((median_accurat_sum_same)) + "," +
 					   string((median_accurat_sum_diff)) + "," +

@@ -44,8 +44,14 @@ draw_set_color(c_white);
         draw_text(xx, yy, "Контроль интерференции (мс): " + string((interference))); yy += spacing;
         draw_text(xx, yy, "Финальная длительность цели (мс): " + string((last_go_target_duration))); yy += spacing;
         draw_text(xx, yy, "Средний размер зрачка в wait (пикс): " + string((avg_pupil_wait))); yy += spacing;
-        draw_text(xx, yy, "Средний размер зрачка в prime+target (пикс): " + string((avg_pupil_prime_target))); yy += spacing;
-        draw_text(xx, yy, "Средняя разница размера зрачка (пикс): " + string((avg_pupil_diff))); yy += spacing;
+        draw_text(xx, yy, "Средний размер зрачка в prime(пикс): " + string((avg_pupil_prime_target))); yy += spacing;
+        draw_text(xx, yy, "Средний размер зрачка в target (пикс): " + string((avg_pupil_target))); yy += spacing;
+		draw_text(xx, yy, "Средняя разница размера зрачка (пикс): " + string((avg_pupil_diff))); yy += spacing;
            }
 }
-
+if avg_pupil>avg_pupil_prime_target
+{draw_circle_color(room_width/2, 230,20,c_aqua,c_aqua,false)
+}
+if avg_pupil<avg_pupil_prime_target
+{draw_circle_color(room_width/2, 630,20,c_purple,c_purple,false)
+}

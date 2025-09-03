@@ -33,12 +33,15 @@
     no_switch_rt = ds_list_create(); // Reaction times without switch
     black_shape_prime_rt = ds_list_create(); // Reaction times for Go trials with black shape prime
 	pupil_list_wait = ds_list_create(); // Median pupil sizes in wait state
-    pupil_list_prime_target = ds_list_create(); // Median pupil sizes in prime+target state
-    left_pupil_buffer_wait = ds_list_create(); // Buffer for 21 left pupil values (wait)
+    pupil_list_prime_target = ds_list_create(); // Median pupil sizes in prime state
+    pupil_list_target = ds_list_create();
+	left_pupil_buffer_wait = ds_list_create(); // Buffer for 21 left pupil values (wait)
     right_pupil_buffer_wait = ds_list_create(); // Buffer for 21 right pupil values (wait)
     left_pupil_buffer_prime_target = ds_list_create(); // Buffer for 21 left pupil values (prime+target)
     right_pupil_buffer_prime_target = ds_list_create(); // Buffer for 21 right pupil values (prime+target)
-    accurat_sum_same_stimulus = ds_list_create(); // Для stimulus_type == last_stimulus
+    left_pupil_buffer_target = ds_list_create(); // Buffer for 21 left pupil values (prime+target)
+    right_pupil_buffer_target = ds_list_create(); // Buffer for 21 right pupil values (prime+target)
+	accurat_sum_same_stimulus = ds_list_create(); // Для stimulus_type == last_stimulus
 	accurat_sum_diff_stimulus = ds_list_create(); // Для stimulus_type != last_stimulus
 	black_shape_prime_trials = 0; // Trials with black shape prime
     avg_rt = -1; // Median reaction time
@@ -49,11 +52,13 @@
     final_target_duration = 0; // Final target duration in ms
     avg_pupil_wait = 0; // Average median pupil size in wait state
     avg_pupil_prime_target = 0; // Average median pupil size in prime+target state
-    avg_pupil_diff = 0; // Difference in average pupil sizes
+    avg_pupil_target = 0;
+	avg_pupil_diff = 0; // Difference in average pupil sizes
 	left_pupil = 0;
 	right_pupil = 0;
     avg_pupil = 0
 	pupil_prime_target = 0;
+	pupil_target = 0;
 	pupil_wait = 0;
 	accurat_sum=0
 	median_accurat_sum_same = 0;
@@ -66,7 +71,7 @@ median_no_switch=0
 sizze=0
 	
     // Trial data array
-    trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, result_value, black_shape_rt, accurat_sum ]
+    trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target,pupil_target ,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, result_value, black_shape_rt, accurat_sum ]
     trial_id = 0;
 
     // Display control
