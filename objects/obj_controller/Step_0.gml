@@ -677,8 +677,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 	else
 	{interference =0
 	}
-	
-        if (ds_list_size(accurat_sum_same_stimulus) > 0)
+	        if (ds_list_size(accurat_sum_same_stimulus) > 0)
     {
         median_accurat_sum_same = ds_list_median(accurat_sum_same_stimulus);
     }
@@ -697,7 +696,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 	if median_accurat_sum_same  > 0  and median_accurat_sum_diff > 0
 	{
 
-	accurat_sum_diff =(1-(median_accurat_sum_same / median_accurat_sum_diff));
+	accurat_sum_diff =((median_accurat_sum_same / median_accurat_sum_diff));
 
 	}
 	else
