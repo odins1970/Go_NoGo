@@ -655,8 +655,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 	}
 	if median_no_switch>0 and median_switch>0
 	{
-    switch_cost =(1-(median_switch / median_no_switch));
-
+    switch_cost =((median_switch/median_no_switch));
 	}
 	else
 	{switch_cost =0
@@ -672,7 +671,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 	if median_incongruent > 0 and median_congruent > 0
 	{
 
-    interference = (1-(median_congruent / median_incongruent));
+    interference = ((median_congruent / median_incongruent));
 
 	}
 	else
