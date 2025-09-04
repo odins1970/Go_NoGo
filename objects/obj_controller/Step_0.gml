@@ -727,7 +727,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     {
         avg_pupil_target = 0;
     }
-    avg_pupil_diff = ((avg_pupil_prime_target / avg_pupil_wait)- (avg_pupil_target / avg_pupil_wait));
+    avg_pupil_diff = ((avg_pupil_prime_target / avg_pupil_wait) - (avg_pupil_target / avg_pupil_wait));
 
 }
 if state == "wait" and timer =clamp (timer, 10, 50)
