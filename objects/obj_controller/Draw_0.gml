@@ -1,4 +1,4 @@
-if state == "wait" and timer =clamp (timer, 10, 50)
+if state == "wait" and timer =clamp (timer, 10, 40)
 {     draw_set_font(fnt_000); // Убедитесь, что шрифт создан
      draw_set_halign(fa_center);
     draw_set_valign(fa_middle);
