@@ -49,4 +49,4 @@ draw_set_color(c_white);
 		draw_text(xx, yy, "Средняя разница размера зрачка (пикс): " + string((avg_pupil_diff))); yy += spacing;
            }
 }
-
+draw_text(300, 500, ": " + string((reaction_time_ms)))

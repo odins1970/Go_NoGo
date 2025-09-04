@@ -148,12 +148,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 
         ds_list_add(left_pupil_buffer_target, left_pupil);
         ds_list_add(right_pupil_buffer_target, right_pupil);
-        if (ds_list_size(left_pupil_buffer_target) > 15)
-        {
-            ds_list_delete(left_pupil_buffer_target, 0);
-            ds_list_delete(right_pupil_buffer_target, 0);
-        }
-
+        
         var current_target_duration = (target_duration / 60) * 1000;
         var key_pressed = mouse_check_button_pressed(mb_left);
         var trial_result = "";
@@ -170,7 +165,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 		{accurat_sum = (correct_responses/1)*100;
 		}
 
-        // Calculate median pupil for prime+target
+        // Calculate median pupil for target
         if (ds_list_size(left_pupil_buffer_target) >= 1 && ds_list_size(right_pupil_buffer_target) >= 1)
         {
             var temp_list = ds_list_create();
@@ -197,6 +192,11 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
                 show_debug_message("Error: temp_list empty, cannot compute pupil_target");
             }
             ds_list_destroy(temp_list);
+        }
+		if (ds_list_size(left_pupil_buffer_target) > 15)
+        {
+            ds_list_delete(left_pupil_buffer_target, 0);
+            ds_list_delete(right_pupil_buffer_target, 0);
         }
 
         // Calculate median pupil for wait
@@ -266,7 +266,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
                 trial_result = "Correct";
                 trial_result_value = 1;
                 last_go_target_duration = current_target_duration;
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
                 trial_id += 1;
 				consecutive_errors = 0;
             show_debug_message("Correct response: consecutive_errors reset to 0");
@@ -326,7 +326,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
                 }
                 ds_list_add(pupil_list_prime_target, pupil_prime_target);
 				ds_list_add(pupil_list_target, pupil_target);
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_prime_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
                 trial_id += 1;
 				consecutive_errors += 1;
                 consecutive_correct = 0;
@@ -375,7 +375,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
                 total_trials += 1;
                 trial_result = "False Positive";
                 resultat = 3;
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target,pupil_target ,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result,pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
                 trial_id += 1;
 				consecutive_errors += 1;
                 consecutive_correct = 0;

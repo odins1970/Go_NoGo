@@ -153,7 +153,7 @@ function save_trial_data()
                        result_value_str + "," +
                        black_shape_rt_str + "," +
                        accurat_sum_str + "," +
-					   pupil_target_str ;
+					   pupil_target_str;
             file_text_write_string(trial_file, line);
             file_text_writeln(trial_file);
         }
