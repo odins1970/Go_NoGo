@@ -21,7 +21,7 @@
     else
     {
         left_pupil = irandom_range(12, 60);
-        right_pupil = irandom_range(12, 60);;
+        right_pupil = irandom_range(12, 60);
         show_debug_message("objGaze not found, using random values: left=" + string(left_pupil) + ", right=" + string(right_pupil));
     }
     // Calculate average pupil size for current frame

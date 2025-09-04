@@ -41,7 +41,7 @@ function save_trial_data()
     }
 
     // Исправление: Заменяем Consecutive Sum на AccuratSumDiff в заголовке
-    file_text_write_string(trial_file, "Trial ID,Stimulus Type,Prime Type,Is Congruent,Reaction Time (ms),Result,Pupil Wait (px),Pupil Prime(px),Pupil Difference (px),Current Target Duration (ms),Concentracion consec_сorrect ,AccuratSumDiff,Result Value,Black Shape Reaction Time (ms),AccuratSum,Pupil Target (px)\n");
+    file_text_write_string(trial_file, "Trial ID,Stimulus Type,Prime Type,Is Congruent,Reaction Time (ms),Result,Pupil Wait (px),Pupil Prime(px),Pupil Target (px),Pupil Difference (px),Current Target Duration (ms),consecutive_correct (concentr),AccuratSumDiff,Result Value,Black Shape Reaction Time (ms),AccuratSum\n");
 
     for (var i = 0; i < array_length(trials_data); i++)
     {
@@ -90,53 +90,53 @@ function save_trial_data()
             {
                 pupil_prime_target_str = string(round(trial[7]));
             }
-            var pupil_diff_str = "0";
+			var pupil_target_str = "0";
             if (is_real(trial[8]) || is_int64(trial[8]))
             {
-                pupil_diff_str = string((trial[8]));
+                pupil_target_str = string(round(trial[8]));
             }
-            var current_target_duration_str = "-";
+            var pupil_diff_str = "0";
             if (is_real(trial[9]) || is_int64(trial[9]))
             {
-                current_target_duration_str = string(round(trial[9]));
+                pupil_diff_str = string((trial[9]));
+            }
+            var current_target_duration_str = "-";
+            if (is_real(trial[10]) || is_int64(trial[10]))
+            {
+                current_target_duration_str = string(round(trial[10]));
                 show_debug_message("Сохранение испытания #" + trial_id_str + ": Current Target Duration = " + current_target_duration_str);
 
             }
-            var consecutive_correct_str = "0";
-            if (is_real(trial[10]) || is_int64(trial[10]))
-            {
-                consecutive_correct_str = string(trial[10]);
-            }
-            var consecutive_sum_str = "0";
+             var consecutive_sum_str = "0";
             if (is_real(trial[11]) || is_int64(trial[11]))
             {
-                // Исправление: 
                 consecutive_sum_str = string_format(trial[11], 0, 3);
                 show_debug_message("Сохранение испытания #" + trial_id_str + ": Consecutive_sum = " + consecutive_sum_str);
             }
-            var result_value_str = "0";
+			var AccuratSumDiff_str = "0";
             if (is_real(trial[12]) || is_int64(trial[12]))
             {
-                result_value_str = string(trial[12]);
+                AccuratSumDiff_str = string(trial[12]);
             }
-            var black_shape_rt_str = "-";
+			            var result_value_str = "0";
             if (is_real(trial[13]) || is_int64(trial[13]))
             {
-                black_shape_rt_str = string_format(trial[13], 0, 3);
+                result_value_str = string(trial[13]);
+            }
+            var black_shape_rt_str = "-";
+            if (is_real(trial[14]) || is_int64(trial[14]))
+            {
+                black_shape_rt_str = string_format(trial[14], 0, 3);
 
             }
             var accurat_sum_str = "0";
-            if (is_real(trial[14]) || is_int64(trial[14]))
-            {
-
-                accurat_sum_str = string_format(trial[14], 0, 3);
-                show_debug_message("Сохранение испытания #" + trial_id_str + ": AccuratSum = " + accurat_sum_str);
-            }
-			var pupil_target_str = "0";
             if (is_real(trial[15]) || is_int64(trial[15]))
             {
-                pupil_target_str = string(round(trial[15]));
+
+                accurat_sum_str = string_format(trial[15], 0, 3);
+                show_debug_message("Сохранение испытания #" + trial_id_str + ": AccuratSum = " + accurat_sum_str);
             }
+			
 
             var line = trial_id_str + "," +
                        stimulus_type_str + "," +
@@ -146,14 +146,15 @@ function save_trial_data()
                        result_str + "," +
                        pupil_wait_str + "," +
                        pupil_prime_target_str + "," +
+					   pupil_target_str + "," +
                        pupil_diff_str + "," +
                        current_target_duration_str + "," +
-                       consecutive_correct_str + "," +
                        consecutive_sum_str + "," +
+					   AccuratSumDiff_str + "," +
                        result_value_str + "," +
                        black_shape_rt_str + "," +
-                       accurat_sum_str + "," +
-					   pupil_target_str;
+                       accurat_sum_str;
+					   
             file_text_write_string(trial_file, line);
             file_text_writeln(trial_file);
         }
