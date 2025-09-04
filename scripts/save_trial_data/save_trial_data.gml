@@ -41,7 +41,7 @@ function save_trial_data()
     }
 
     // Исправление: Заменяем Consecutive Sum на AccuratSumDiff в заголовке
-    file_text_write_string(trial_file, "Trial ID,Stimulus Type,Prime Type,Is Congruent,Reaction Time (ms),Result,Pupil Wait (px),Pupil Prime(px),Pupil Target (px),Pupil Difference (px),Current Target Duration (ms),consecutive_correct (concentr),AccuratSumDiff,Result Value,Black Shape Reaction Time (ms),AccuratSum\n");
+    file_text_write_string(trial_file, "Trial ID,Stimulus Type,Prime Type,Is Congruent,Reaction Time (ms),Result,Pupil Wait (px),Pupil Prime(px),Pupil Target (px),Pupil Difference (px),Current Target Duration (ms),consecutive_correct (concentr),accurat_sum_diff,Result Value,Black Shape Reaction Time (ms),AccuratSum\n");
 
     for (var i = 0; i < array_length(trials_data); i++)
     {
@@ -113,10 +113,10 @@ function save_trial_data()
                 consecutive_sum_str = string_format(trial[11], 0, 3);
                 show_debug_message("Сохранение испытания #" + trial_id_str + ": Consecutive_sum = " + consecutive_sum_str);
             }
-			var AccuratSumDiff_str = "0";
+			var accurat_sum_diff_str = "0";
             if (is_real(trial[12]) || is_int64(trial[12]))
             {
-                AccuratSumDiff_str = string(trial[12]);
+                accurat_sum_diff_str = string(trial[12]);
             }
 			            var result_value_str = "0";
             if (is_real(trial[13]) || is_int64(trial[13]))
@@ -150,7 +150,7 @@ function save_trial_data()
                        pupil_diff_str + "," +
                        current_target_duration_str + "," +
                        consecutive_sum_str + "," +
-					   AccuratSumDiff_str + "," +
+					   accurat_sum_diff_str + "," +
                        result_value_str + "," +
                        black_shape_rt_str + "," +
                        accurat_sum_str;
