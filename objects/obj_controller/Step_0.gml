@@ -643,7 +643,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     }
     else
     {
-        accuracy = 0;
+        accuracy = correct_responses * 100;
     }
     if ds_list_size(switch_rt) > 0  
     {
@@ -658,7 +658,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     switch_cost =((median_switch/median_no_switch));
 	}
 	else
-	{switch_cost =0
+	{switch_cost =median_switch + median_no_switch
 	}
       if ds_list_size(congruent_rt) > 0  
     {
@@ -675,7 +675,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 
 	}
 	else
-	{interference =0
+	{interference =median_congruent + median_incongruent
 	}
 	        if (ds_list_size(accurat_sum_same_stimulus) > 0)
     {
@@ -700,7 +700,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 
 	}
 	else
-	{accurat_sum_diff =0
+	{accurat_sum_diff = median_accurat_sum_same + median_accurat_sum_diff
 	}
 	final_target_duration = (ntd / 60 ) * 1000;
     if (ds_list_size(pupil_list_wait) > 0)
@@ -729,10 +729,4 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     }
     avg_pupil_diff = ((avg_pupil_prime_target / avg_pupil_wait) - (avg_pupil_target / avg_pupil_wait));
 
-}
-if state == "wait" and timer =clamp (timer, 10, 50)
-{sizze +=0.08
-}
-else
-{sizze=0
 }
