@@ -25,8 +25,9 @@
         show_debug_message("objGaze not found, using random values: left=" + string(left_pupil) + ", right=" + string(right_pupil));
     }
     // Calculate average pupil size for current frame
-    avg_pupil = (left_pupil + right_pupil) / 2;
-
+    avg_pupil = (left_pupil + right_pupil)/2; ///
+	
+	global.ppp= (avg_pupil/10)
     // Clear stimuli in wait states
     if (state == "initial_wait" || state == "wait")
     {
@@ -221,7 +222,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         }
 
         // Calculate pupil difference
-        var pupil_diff = ((pupil_prime_target / pupil_wait)-(pupil_target / pupil_wait));
+        var pupil_diff = ((pupil_target / pupil_wait));
 
         if (stimulus_type == 0) // Go
         {
@@ -521,7 +522,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
             }
             ds_list_add(pupil_list_wait, pupil_wait);
 
-            if (total_trials >= max_trials || correct_responses >= 40)
+            if (total_trials >= max_trials || correct_responses >= 50)
             {
                 var saved_filename = save_trial_data();
                 with (obj_stimulus) instance_destroy();
@@ -643,7 +644,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     }
     else
     {
-        accuracy = 0;
+        accuracy = correct_responses * 100;
     }
     if ds_list_size(switch_rt) > 0  
     {
@@ -658,7 +659,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     switch_cost =((median_switch/median_no_switch));
 	}
 	else
-	{switch_cost =0
+	{switch_cost =median_switch + median_no_switch
 	}
       if ds_list_size(congruent_rt) > 0  
     {
@@ -675,7 +676,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 
 	}
 	else
-	{interference =0
+	{interference =median_congruent + median_incongruent
 	}
 	        if (ds_list_size(accurat_sum_same_stimulus) > 0)
     {
@@ -700,7 +701,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 
 	}
 	else
-	{accurat_sum_diff =0
+	{accurat_sum_diff = median_accurat_sum_same + median_accurat_sum_diff
 	}
 	final_target_duration = (ntd / 60 ) * 1000;
     if (ds_list_size(pupil_list_wait) > 0)
@@ -727,12 +728,6 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     {
         avg_pupil_target = 0;
     }
-    avg_pupil_diff = ((avg_pupil_prime_target / avg_pupil_wait) - (avg_pupil_target / avg_pupil_wait));
+    avg_pupil_diff = ((avg_pupil_target / avg_pupil_wait));
 
-}
-if state == "wait" and timer =clamp (timer, 10, 50)
-{sizze +=0.08
-}
-else
-{sizze=0
 }

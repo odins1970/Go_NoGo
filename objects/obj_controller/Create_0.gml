@@ -9,7 +9,7 @@
 	IDD = irandom(100000)
 	stimulus_type = 0; // 0: Go (green circle), 1: NoGo (red square)
     prime_type = 0; // 0: green circle, 1: red square, 2: black shape
-    prime_type_weights = [0,0,0,1,1,1,2]; // Weights: 30% green, 50% red, 20% black
+    prime_type_weights = [0,0,0,1,1,1,2,2]; // Weights: 30% green, 50% red, 20% black
     	is_congruent = false; // Congruency of prime and stimulus
     state = "initial_wait"; // Initial state
     timer = 0; // Timer for state transitions (in steps)
@@ -68,7 +68,7 @@ median_congruent=0
 median_incongruent=0
 median_switch =0
 median_no_switch=0
-sizze=0
+global.ppp=0
 	
     // Trial data array
     trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, result_value, black_shape_rt, accurat_sum ]
