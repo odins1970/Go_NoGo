@@ -1,6 +1,6 @@
 if state == "wait" and timer =clamp (timer, 5, 70) and (resultat == 1 or resultat == 4) 
 {     draw_set_font(fnt_000); // Убедитесь, что шрифт создан
-    draw_set_color(c_orange);
+    draw_set_color(c_red);
 	draw_set_halign(fa_center);
     draw_set_valign(fa_middle);
 draw_text(room_width/2, 50, "" + string_format(round(correct_responses), 0, 0) );
