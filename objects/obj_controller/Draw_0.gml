@@ -44,8 +44,10 @@ draw_set_color(c_white);
 		draw_text(xx, yy, "Средняя разница размера зрачка (пикс): " + string((avg_pupil_diff))); yy += spacing;
            }
 }
+
 if (state == "initial_wait" or state == "wait") and timer =clamp (timer, 70, 220)// маркер ожидания
 {draw_set_alpha(0.5)
 	draw_line_width_color(room_width/2,(room_height/2)-25,room_width/2,(room_height/2)+25,2,c_white,c_white)
 draw_line_width_color ((room_width/2)-25,(room_height/2),(room_width/2)+25,(room_height/2),2,c_white,c_white)	
 }
+
