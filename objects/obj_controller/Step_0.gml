@@ -28,15 +28,7 @@
     avg_pupil = (left_pupil + right_pupil)/2; ///
 	
 	global.ppp= (avg_pupil/10)
-	
-	if mouse_check_button(mb_left) and state=="target"
-        {last_time +=delta_time/1000
-		}
-		else 
-		{last_time=0
-		}
-	
-	 // Clear stimuli in wait states
+
     if (state == "initial_wait" || state == "wait")
     {
         if (instance_exists(obj_stimulus))
@@ -59,6 +51,7 @@
 			ds_list_clear(left_pupil_buffer_target);
             ds_list_clear(right_pupil_buffer_target);
             state = "prime";
+			io_clear()
             var inst = instance_create_layer(room_width / 2, room_height / 2, "Instances", obj_stimulus);
             if (sprite_exists(spr_green_circle) && sprite_exists(spr_red_square) && sprite_exists(spr_black_shape))
             {
@@ -84,7 +77,7 @@
         }
     }
     else if (state == "prime")
-    {
+    {   io_clear()
         ds_list_add(left_pupil_buffer_prime_target, avg_pupil);
         ds_list_add(right_pupil_buffer_prime_target, avg_pupil);
 		
@@ -232,7 +225,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
         // Calculate pupil difference
 		if total_trials>1
 		{
-        var pupil_diff = ((pupil_target / pupil_wait));
+        var pupil_diff = ((pupil_list_prime_target-pupil_wait) / pupil_wait)*100;
 		}
 		else 
 		{ var pupil_diff = 1
@@ -543,7 +536,6 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
                 show_debug_message("Cleared all obj_stimulus instances at trial completion");
                 game_end();
             }
-
             timer = 0;
             reaction_time_ms = 0;
             ds_list_clear(left_pupil_buffer_wait);
@@ -565,11 +557,11 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
 			}
 	     if (last_stimulus_type == 0) and total_trials > 2
             {
-             stimulus_type = choose(0,1);
+             stimulus_type = choose(1,0,1);
             }
          if (last_stimulus_type == 1) and total_trials > 2
 		 {
-             stimulus_type = choose(0,1,0,0);
+             stimulus_type = choose(0,1,0);
             }
 		 			            // Set target_duration based on stimulus_type
             if (stimulus_type == 0)
@@ -742,6 +734,5 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
     {
         avg_pupil_target = 0;
     }
-    avg_pupil_diff = ((avg_pupil_target / avg_pupil_wait));
-}
+    avg_pupil_diff = ((avg_pupil_prime_target-avg_pupil_wait) / avg_pupil_wait)*100;
 
