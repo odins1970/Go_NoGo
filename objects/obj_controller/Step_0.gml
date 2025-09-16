@@ -37,10 +37,10 @@
             show_debug_message("Cleared all obj_stimulus instances in state " + state + ", count: " + string(instance_number(obj_stimulus)));
         }
     }
-
+}
     if (state == "initial_wait")
     {
-        if (timer >= initial_wait_duration)
+        if (timer >= initial_wait_duration) 
         {
             timer = 0;
             reaction_time_ms = 0;
@@ -76,7 +76,7 @@
             }
         }
     }
-    else if (state == "prime")
+    else if (state == "prime") and timer>=3
     {   io_clear()
         ds_list_add(left_pupil_buffer_prime_target, avg_pupil);
         ds_list_add(right_pupil_buffer_prime_target, avg_pupil);
@@ -85,7 +85,7 @@
 if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
         {
             var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_prime_target), 20);
+            var count = min(ds_list_size(left_pupil_buffer_prime_target), 15);
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_prime_target, i);
@@ -110,7 +110,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupi
             ds_list_destroy(temp_list);
         }
 
-if (ds_list_size(left_pupil_buffer_prime_target) > 20)
+if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         {
             ds_list_delete(left_pupil_buffer_prime_target, 0);
             ds_list_delete(right_pupil_buffer_prime_target, 0);
@@ -171,7 +171,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
         if (ds_list_size(left_pupil_buffer_target) >= 1 && ds_list_size(right_pupil_buffer_target) >= 1)
         {
             var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_target), 20);
+            var count = min(ds_list_size(left_pupil_buffer_target), 15);
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_target, i);
@@ -195,7 +195,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
             }
             ds_list_destroy(temp_list);
         }
-		if (ds_list_size(left_pupil_buffer_target) > 20)
+		if (ds_list_size(left_pupil_buffer_target) > 15)
         {
             ds_list_delete(left_pupil_buffer_target, 0);
             ds_list_delete(right_pupil_buffer_target, 0);
@@ -205,7 +205,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
         if (ds_list_size(left_pupil_buffer_wait) >= 1 && ds_list_size(right_pupil_buffer_wait) >= 1)
         {
             var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_wait), 20);
+            var count = min(ds_list_size(left_pupil_buffer_wait), 15);
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_wait, i);
@@ -225,7 +225,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
         // Calculate pupil difference
 		if total_trials>1
 		{
-        var pupil_diff = ((pupil_list_prime_target-pupil_wait) / pupil_wait)*100;
+        var pupil_diff = ((pupil_prime_target-pupil_wait) / pupil_wait)*100;
 		}
 		else 
 		{ var pupil_diff = 1
@@ -233,7 +233,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
 
         if (stimulus_type == 0) // Go
         {
-            if (key_pressed) 
+            if (key_pressed)  
             { 
                 ds_list_add(rt_list, fixed_reaction_time);
                 if (prime_type != 2)
@@ -372,7 +372,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
                     ds_list_add(no_switch_rt, fixed_reaction_time);
                     
                 }
-                if (prime_type == 2)
+                if (prime_type == 2) 
                 {
                     ds_list_add(black_shape_prime_rt, fixed_reaction_time);
                     black_shape_rt = fixed_reaction_time;
@@ -496,22 +496,22 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
         show_debug_message("Target duration increased due to errors: " + string(target_duration));
 			 }
 	}
- else if (state == "wait")
+ else if (state == "wait") and timer >=230
     {
         ds_list_add(left_pupil_buffer_wait, avg_pupil);
         ds_list_add(right_pupil_buffer_wait, avg_pupil);
-        if (ds_list_size(left_pupil_buffer_wait) > 20)
+        if (ds_list_size(left_pupil_buffer_wait) > 15)
         {
             ds_list_delete(left_pupil_buffer_wait, 0);
             ds_list_delete(right_pupil_buffer_wait, 0);
         }
 
-        if (timer >= wait_duration)
+        if timer >=  wait_duration
         {
             if (ds_list_size(left_pupil_buffer_wait) >= 1 && ds_list_size(right_pupil_buffer_wait) >= 1)
             {
                 var temp_list = ds_list_create();
-                var count = min(ds_list_size(left_pupil_buffer_wait), 20);
+                var count = min(ds_list_size(left_pupil_buffer_wait), 15);
                 for (var i = 0; i < count; i++)
                 {
                     var left = ds_list_find_value(left_pupil_buffer_wait, i);
@@ -660,12 +660,12 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
 	{
          median_no_switch = ds_list_median(no_switch_rt);
 	}
-	if median_no_switch>0 and median_switch>0
+	if median_no_switch>0 
 	{
-    switch_cost =((median_switch/median_no_switch));
+    switch_cost =((median_switch-median_no_switch/median_no_switch)*100);
 	}
 	else
-	{switch_cost =median_switch + median_no_switch
+	{switch_cost =0
 	}
       if ds_list_size(congruent_rt) > 0  
     {
@@ -675,14 +675,14 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
 	{
          median_incongruent = ds_list_median(incongruent_rt);
 	}
-	if median_incongruent > 0 and median_congruent > 0
+	if median_incongruent > 0 
 	{
 
-    interference = ((median_congruent / median_incongruent));
+    interference = ((median_congruent-median_incongruent / median_incongruent)*100);
 
 	}
 	else
-	{interference =median_congruent + median_incongruent
+	{interference =0
 	}
 	        if (ds_list_size(accurat_sum_same_stimulus) > 0)
     {
@@ -734,5 +734,10 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 20)
     {
         avg_pupil_target = 0;
     }
+	if avg_pupil_wait>0
+	{
     avg_pupil_diff = ((avg_pupil_prime_target-avg_pupil_wait) / avg_pupil_wait)*100;
-
+	}
+	else
+	{avg_pupil_diff=0
+	}
