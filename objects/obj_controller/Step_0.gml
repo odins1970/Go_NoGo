@@ -25,9 +25,18 @@
         show_debug_message("objGaze not found, using random values: left=" + string(left_pupil) + ", right=" + string(right_pupil));
     }
     // Calculate average pupil size for current frame
-    avg_pupil = (left_pupil + right_pupil) / 2;
-
-    // Clear stimuli in wait states
+    avg_pupil = (left_pupil + right_pupil)/2; ///
+	
+	global.ppp= (avg_pupil/10)
+	
+	if mouse_check_button(mb_left) and state=="target"
+        {last_time +=delta_time/1000
+		}
+		else 
+		{last_time=0
+		}
+	
+	 // Clear stimuli in wait states
     if (state == "initial_wait" || state == "wait")
     {
         if (instance_exists(obj_stimulus))
@@ -76,14 +85,14 @@
     }
     else if (state == "prime")
     {
-        ds_list_add(left_pupil_buffer_prime_target, left_pupil);
-        ds_list_add(right_pupil_buffer_prime_target, right_pupil);
+        ds_list_add(left_pupil_buffer_prime_target, avg_pupil);
+        ds_list_add(right_pupil_buffer_prime_target, avg_pupil);
 		
         
 if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
         {
             var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_prime_target), 15);
+            var count = min(ds_list_size(left_pupil_buffer_prime_target), 20);
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_prime_target, i);
@@ -108,7 +117,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupi
             ds_list_destroy(temp_list);
         }
 
-if (ds_list_size(left_pupil_buffer_prime_target) > 15)
+if (ds_list_size(left_pupil_buffer_prime_target) > 20)
         {
             ds_list_delete(left_pupil_buffer_prime_target, 0);
             ds_list_delete(right_pupil_buffer_prime_target, 0);
@@ -146,8 +155,8 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     {
         reaction_time_ms += delta_time / 1000;
 
-        ds_list_add(left_pupil_buffer_target, left_pupil);
-        ds_list_add(right_pupil_buffer_target, right_pupil);
+        ds_list_add(left_pupil_buffer_target, avg_pupil);
+        ds_list_add(right_pupil_buffer_target, avg_pupil);
         
         var current_target_duration = (target_duration / 60) * 1000;
         var key_pressed = mouse_check_button_pressed(mb_left);
@@ -169,7 +178,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         if (ds_list_size(left_pupil_buffer_target) >= 1 && ds_list_size(right_pupil_buffer_target) >= 1)
         {
             var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_target), 15);
+            var count = min(ds_list_size(left_pupil_buffer_target), 20);
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_target, i);
@@ -193,7 +202,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
             }
             ds_list_destroy(temp_list);
         }
-		if (ds_list_size(left_pupil_buffer_target) > 15)
+		if (ds_list_size(left_pupil_buffer_target) > 20)
         {
             ds_list_delete(left_pupil_buffer_target, 0);
             ds_list_delete(right_pupil_buffer_target, 0);
@@ -203,7 +212,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         if (ds_list_size(left_pupil_buffer_wait) >= 1 && ds_list_size(right_pupil_buffer_wait) >= 1)
         {
             var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_wait), 15);
+            var count = min(ds_list_size(left_pupil_buffer_wait), 20);
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_wait, i);
@@ -221,12 +230,18 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         }
 
         // Calculate pupil difference
-        var pupil_diff = ((pupil_prime_target / pupil_wait)-(pupil_target / pupil_wait));
+		if total_trials>1
+		{
+        var pupil_diff = ((pupil_target / pupil_wait));
+		}
+		else 
+		{ var pupil_diff = 1
+		}
 
         if (stimulus_type == 0) // Go
         {
-            if (key_pressed)
-            {
+            if (key_pressed) 
+            { 
                 ds_list_add(rt_list, fixed_reaction_time);
                 if (prime_type != 2)
                 {
@@ -338,7 +353,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         }
         else // NoGo
         {
-            if (key_pressed)
+            if (key_pressed) 
             {
                 ds_list_add(rt_list, fixed_reaction_time);
                 if (prime_type != 2)
@@ -394,8 +409,8 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
                 consecutive_Sum += consecutive_correct;
                 total_trials += 1;
                 trial_result_value = 1;
-                fixed_reaction_time = 1;
-                ds_list_add(rt_list, fixed_reaction_time);
+                fixed_reaction_time = 100;
+                ds_list_add(rt_list, 100);
                 if (prime_type != 2)
                 {
                     if (current_congruent)
@@ -490,9 +505,9 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 	}
  else if (state == "wait")
     {
-        ds_list_add(left_pupil_buffer_wait, left_pupil);
-        ds_list_add(right_pupil_buffer_wait, right_pupil);
-        if (ds_list_size(left_pupil_buffer_wait) > 15)
+        ds_list_add(left_pupil_buffer_wait, avg_pupil);
+        ds_list_add(right_pupil_buffer_wait, avg_pupil);
+        if (ds_list_size(left_pupil_buffer_wait) > 20)
         {
             ds_list_delete(left_pupil_buffer_wait, 0);
             ds_list_delete(right_pupil_buffer_wait, 0);
@@ -503,7 +518,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
             if (ds_list_size(left_pupil_buffer_wait) >= 1 && ds_list_size(right_pupil_buffer_wait) >= 1)
             {
                 var temp_list = ds_list_create();
-                var count = min(ds_list_size(left_pupil_buffer_wait), 15);
+                var count = min(ds_list_size(left_pupil_buffer_wait), 20);
                 for (var i = 0; i < count; i++)
                 {
                     var left = ds_list_find_value(left_pupil_buffer_wait, i);
@@ -521,7 +536,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
             }
             ds_list_add(pupil_list_wait, pupil_wait);
 
-            if (total_trials >= max_trials || correct_responses >= 40)
+            if (total_trials >= max_trials || correct_responses >= 50)
             {
                 var saved_filename = save_trial_data();
                 with (obj_stimulus) instance_destroy();
@@ -550,7 +565,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 			}
 	     if (last_stimulus_type == 0) and total_trials > 2
             {
-             stimulus_type = choose(0,1,choose(0,1,0));
+             stimulus_type = choose(0,1);
             }
          if (last_stimulus_type == 1) and total_trials > 2
 		 {
@@ -643,7 +658,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     }
     else
     {
-        accuracy = 0;
+        accuracy = correct_responses * 100;
     }
     if ds_list_size(switch_rt) > 0  
     {
@@ -658,7 +673,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     switch_cost =((median_switch/median_no_switch));
 	}
 	else
-	{switch_cost =0
+	{switch_cost =median_switch + median_no_switch
 	}
       if ds_list_size(congruent_rt) > 0  
     {
@@ -675,7 +690,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 
 	}
 	else
-	{interference =0
+	{interference =median_congruent + median_incongruent
 	}
 	        if (ds_list_size(accurat_sum_same_stimulus) > 0)
     {
@@ -700,7 +715,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 
 	}
 	else
-	{accurat_sum_diff =0
+	{accurat_sum_diff = median_accurat_sum_same + median_accurat_sum_diff
 	}
 	final_target_duration = (ntd / 60 ) * 1000;
     if (ds_list_size(pupil_list_wait) > 0)
@@ -727,12 +742,6 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     {
         avg_pupil_target = 0;
     }
-    avg_pupil_diff = ((avg_pupil_prime_target / avg_pupil_wait) - (avg_pupil_target / avg_pupil_wait));
+    avg_pupil_diff = ((avg_pupil_target / avg_pupil_wait));
+}
 
-}
-if state == "wait" and timer =clamp (timer, 10, 50)
-{sizze +=0.08
-}
-else
-{sizze=0
-}

@@ -1,0 +1,6 @@
+speed=global.ppp
+
+
+
+
+

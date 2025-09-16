@@ -32,7 +32,7 @@
   "isEcma":false,
   "LibraryEmitters":[],
   "MetaData":{
-    "IDEVersion":"2024.8.1.171",
+    "IDEVersion":"2024.8.0.169",
   },
   "name":"Go_NoGo",
   "resources":[
@@ -40,6 +40,7 @@
     {"id":{"name":"fnt_000","path":"fonts/fnt_000/fnt_000.yy",},},
     {"id":{"name":"fnt_default","path":"fonts/fnt_default/fnt_default.yy",},},
     {"id":{"name":"obj_controller","path":"objects/obj_controller/obj_controller.yy",},},
+    {"id":{"name":"obj_PUpil","path":"objects/obj_PUpil/obj_PUpil.yy",},},
     {"id":{"name":"obj_stimulus","path":"objects/obj_stimulus/obj_stimulus.yy",},},
     {"id":{"name":"objGaze","path":"objects/objGaze/objGaze.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
@@ -58,6 +59,7 @@
     {"id":{"name":"snd_correct","path":"sounds/snd_correct/snd_correct.yy",},},
     {"id":{"name":"spr_black_shape","path":"sprites/spr_black_shape/spr_black_shape.yy",},},
     {"id":{"name":"spr_green_circle","path":"sprites/spr_green_circle/spr_green_circle.yy",},},
+    {"id":{"name":"spr_Pupi","path":"sprites/spr_Pupi/spr_Pupi.yy",},},
     {"id":{"name":"spr_red_square","path":"sprites/spr_red_square/spr_red_square.yy",},},
   ],
   "resourceType":"GMProject",

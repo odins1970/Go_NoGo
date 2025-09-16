@@ -9,13 +9,14 @@
 	IDD = irandom(100000)
 	stimulus_type = 0; // 0: Go (green circle), 1: NoGo (red square)
     prime_type = 0; // 0: green circle, 1: red square, 2: black shape
-    prime_type_weights = [0,0,0,1,1,1,2]; // Weights: 30% green, 50% red, 20% black
+    prime_type_weights = [0,0,0,1,1,1,2,2]; // Weights: 40% green, 40% red, 20% black
     	is_congruent = false; // Congruency of prime and stimulus
     state = "initial_wait"; // Initial state
     timer = 0; // Timer for state transitions (in steps)
     reaction_time_ms = 0; // Reaction time in milliseconds
     last_stimulus_type = -1; // Tracks previous stimulus type
 	adjusted_reaction_time = -1
+	last_time = 0;
 
     // Statistical variables (accessible in Draw event)
     rt_list = ds_list_create(); // Reaction times for Go trials
@@ -37,10 +38,10 @@
     pupil_list_target = ds_list_create();
 	left_pupil_buffer_wait = ds_list_create(); // Buffer for 21 left pupil values (wait)
     right_pupil_buffer_wait = ds_list_create(); // Buffer for 21 right pupil values (wait)
-    left_pupil_buffer_prime_target = ds_list_create(); // Buffer for 21 left pupil values (prime+target)
-    right_pupil_buffer_prime_target = ds_list_create(); // Buffer for 21 right pupil values (prime+target)
-    left_pupil_buffer_target = ds_list_create(); // Buffer for 21 left pupil values (prime+target)
-    right_pupil_buffer_target = ds_list_create(); // Buffer for 21 right pupil values (prime+target)
+    left_pupil_buffer_prime_target = ds_list_create(); // Buffer for 21 left pupil values (prime)
+    right_pupil_buffer_prime_target = ds_list_create(); // Buffer for 21 right pupil values (prime)
+    left_pupil_buffer_target = ds_list_create(); // Buffer for 21 left pupil values (target)
+    right_pupil_buffer_target = ds_list_create(); // Buffer for 21 right pupil values (target)
 	accurat_sum_same_stimulus = ds_list_create(); // Для stimulus_type == last_stimulus
 	accurat_sum_diff_stimulus = ds_list_create(); // Для stimulus_type != last_stimulus
 	black_shape_prime_trials = 0; // Trials with black shape prime
@@ -68,7 +69,7 @@ median_congruent=0
 median_incongruent=0
 median_switch =0
 median_no_switch=0
-sizze=0
+global.ppp=0
 	
     // Trial data array
     trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, result_value, black_shape_rt, accurat_sum ]
@@ -80,7 +81,7 @@ sizze=0
     // Timing variables (60 FPS = 1 second)
     initial_wait_duration = 300; // 5 seconds
     prime_duration = 15; // 250 ms
-    target_duration = 21; // Initial target duration (will be set dynamically in Step event)
+    target_duration = 24; // Initial target duration (will be set dynamically in Step event)
     min_target_duration_go = 1.5; // Minimum target duration for Go (25 ms)
     min_target_duration_nogo = 30; // Minimum target duration for NoGo (500 ms)
 	max_target_duration_go = 30; // 500 мс
