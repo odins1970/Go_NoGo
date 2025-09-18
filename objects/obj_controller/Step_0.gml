@@ -649,7 +649,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     }
     if (total_trials > 0)
     {
-        accuracy = correct_responses / total_trials * 100;
+        accuracy = (correct_responses / total_trials) * 100;
     }
     else
     {
@@ -665,7 +665,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 	}
 	if median_no_switch>0 
 	{
-    switch_cost =((median_switch-median_no_switch/median_no_switch)*100);
+    switch_cost =((median_switch - median_no_switch)/median_no_switch)*100;
 	}
 	else
 	{switch_cost =0
@@ -680,36 +680,12 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 	}
 	if median_incongruent > 0 
 	{
-
-    interference = ((median_congruent-median_incongruent / median_incongruent)*100);
-
+    interference = ((median_congruent-median_incongruent) / median_incongruent)*100;
 	}
 	else
 	{interference =0
 	}
-	        if (ds_list_size(accurat_sum_same_stimulus) > 0)
-    {
-        median_accurat_sum_same = ds_list_median(accurat_sum_same_stimulus);
-    }
-    else
-    {
-        median_accurat_sum_same = 0;
-    }
-    if (ds_list_size(accurat_sum_diff_stimulus) > 0)
-    {
-        median_accurat_sum_diff = ds_list_median(accurat_sum_diff_stimulus);
-    }
-    else
-    {
-        median_accurat_sum_diff = 0;
-    }
-	if median_accurat_sum_same  > 0  and median_accurat_sum_diff > 0
-	{
-	accurat_sum_diff =((median_accurat_sum_same-median_accurat_sum_diff) / median_accurat_sum_diff)*100;
-	}
-	else
-	{accurat_sum_diff = 0
-	}
+	       
 	final_target_duration = (ntd / 60 ) * 1000;
     if (ds_list_size(pupil_list_wait) > 0)
     {
@@ -737,8 +713,31 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     }
 	if avg_pupil_wait>0
 	{
-    avg_pupil_diff = ((avg_pupil_prime_target-avg_pupil_wait) / avg_pupil_wait)*100;
+    avg_pupil_diff = ((avg_pupil_prime_target - avg_pupil_wait) / avg_pupil_wait)*100;
 	}
 	else
 	{avg_pupil_diff=0
+	}
+	 if (ds_list_size(accurat_sum_same_stimulus) > 0)
+    {
+        median_accurat_sum_same = ds_list_median(accurat_sum_same_stimulus);
+    }
+    else
+    {
+        median_accurat_sum_same = 0;
+    }
+    if (ds_list_size(accurat_sum_diff_stimulus) > 0)
+    {
+        median_accurat_sum_diff = ds_list_median(accurat_sum_diff_stimulus);
+    }
+    else
+    {
+        median_accurat_sum_diff = 0;
+    }
+	if median_accurat_sum_same  > 0  and median_accurat_sum_diff > 0
+	{
+	accurat_sum_diff =((median_accurat_sum_same - median_accurat_sum_diff)/median_accurat_sum_diff)*100;
+	}
+	else
+	{accurat_sum_diff = 0
 	}
