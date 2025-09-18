@@ -76,7 +76,7 @@
             }
         }
     }
-    else if (state == "prime") and timer>=3
+    else if (state == "prime") 
     {   io_clear()
         ds_list_add(left_pupil_buffer_prime_target, avg_pupil);
         ds_list_add(right_pupil_buffer_prime_target, avg_pupil);
@@ -496,10 +496,11 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         show_debug_message("Target duration increased due to errors: " + string(target_duration));
 			 }
 	}
- else if (state == "wait") and timer = clamp (timer,111,130)
-    {
+ else if (state == "wait") 
+    { if timer >= 220
         ds_list_add(left_pupil_buffer_wait, avg_pupil);
         ds_list_add(right_pupil_buffer_wait, avg_pupil);
+	
         if (ds_list_size(left_pupil_buffer_wait) > 15)
         {
             ds_list_delete(left_pupil_buffer_wait, 0);

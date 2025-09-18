@@ -79,7 +79,7 @@ global.ppp=0
 
     // Timing variables (60 FPS = 1 second)
     initial_wait_duration = 300; // 5 seconds
-    prime_duration = 18; // 250 ms
+    prime_duration = 15; // 250 ms
     target_duration = 24; // Initial target duration (will be set dynamically in Step event)
     min_target_duration_go = 1.5; // Minimum target duration for Go (25 ms)
     min_target_duration_nogo = 30; // Minimum target duration for NoGo (500 ms)
