@@ -63,3 +63,4 @@ for (var i = 0; i < ds_list_size(left_pupil_buffer_wait); i++)
 
 draw_text(200, 500, string (ds_list_size(left_pupil_buffer_wait)))
 draw_text(200, 600, string (pupil_wait))
+draw_text(200, 650, string (avg_pupil_wait))
