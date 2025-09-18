@@ -225,7 +225,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         }
 
         // Calculate pupil difference
-		        var pupil_diff = (pupil_prime_target-pupil_wait) );
+		        var pupil_diff = (pupil_prime_target-pupil_wait);
 		
         if (stimulus_type == 0) // Go
         {
