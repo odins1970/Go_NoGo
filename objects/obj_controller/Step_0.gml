@@ -663,13 +663,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 	{
          median_no_switch = ds_list_median(no_switch_rt);
 	}
-	if median_no_switch>0 
-	{
-    switch_cost =((median_switch - median_no_switch)/median_no_switch)*100;
-	}
-	else
-	{switch_cost =0
-	}
+	    switch_cost =(median_switch - median_no_switch)
       if ds_list_size(congruent_rt) > 0  
     {
          median_congruent = ds_list_median(congruent_rt);
@@ -678,16 +672,8 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 	{
          median_incongruent = ds_list_median(incongruent_rt);
 	}
-	if median_incongruent > 0 
-	{
-    interference = ((median_congruent-median_incongruent) / median_incongruent)*100;
-	}
-	else
-	{interference =0
-	}
-	       
-	final_target_duration = (ntd / 60 ) * 1000;
-    if (ds_list_size(pupil_list_wait) > 0)
+    interference = (median_congruent-median_incongruent) 
+	 if (ds_list_size(pupil_list_wait) > 0)
     {
         avg_pupil_wait = ds_list_median(pupil_list_wait);
     }
@@ -734,10 +720,5 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     {
         median_accurat_sum_diff = 0;
     }
-	if median_accurat_sum_same  > 0  and median_accurat_sum_diff > 0
-	{
-	accurat_sum_diff =((median_accurat_sum_same - median_accurat_sum_diff)/median_accurat_sum_diff)*100;
-	}
-	else
-	{accurat_sum_diff = 0
-	}
+	accurat_sum_diff =(median_accurat_sum_same - median_accurat_sum_diff)
+	final_target_duration = (ntd / 60 ) * 1000;
