@@ -705,9 +705,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     }
 	if median_accurat_sum_same  > 0  and median_accurat_sum_diff > 0
 	{
-
 	accurat_sum_diff =((median_accurat_sum_same-median_accurat_sum_diff) / median_accurat_sum_diff)*100;
-
 	}
 	else
 	{accurat_sum_diff = 0
