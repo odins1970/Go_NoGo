@@ -663,7 +663,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 	{
          median_no_switch = ds_list_median(no_switch_rt);
 	}
-	    switch_cost =(median_switch - median_no_switch)
+	    switch_cost =(median_switch - median_no_switch)//переключаемость
       if ds_list_size(congruent_rt) > 0  
     {
          median_congruent = ds_list_median(congruent_rt);
@@ -720,5 +720,5 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     {
         median_accurat_sum_diff = 0;
     }
-	accurat_sum_diff =(median_accurat_sum_same - median_accurat_sum_diff)
+	accurat_sum_diff = (median_accurat_sum_same - median_accurat_sum_diff)
 	final_target_duration = (ntd / 60 ) * 1000;
