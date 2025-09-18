@@ -45,8 +45,21 @@ draw_set_color(c_gray);
            }
 }
 if (state == "initial_wait" or state == "wait") and timer =clamp (timer, 70, 240)// маркер ожидания
-{draw_set_alpha(0.3)
+{draw_set_alpha(0.9)
 	draw_line_width_color(room_width/2,(room_height/2)-25,room_width/2,(room_height/2)+25,2,c_white,c_white)
 draw_line_width_color ((room_width/2)-25,(room_height/2),(room_width/2)+25,(room_height/2),2,c_white,c_white)	
 }
 
+y=50
+// Вывод содержимого левого буфера
+draw_text(150, y, "left:");
+y += line_height;
+for (var i = 0; i < ds_list_size(left_pupil_buffer_wait); i++)
+{
+    var value = ds_list_find_value(left_pupil_buffer_wait, i);
+    draw_text(170, y, ": [" + string(i) + "]: " + string(value));
+    y += 20;
+}
+
+draw_text(200, 500, string (ds_list_size(left_pupil_buffer_wait)))
+draw_text(200, 600, string (pupil_wait))

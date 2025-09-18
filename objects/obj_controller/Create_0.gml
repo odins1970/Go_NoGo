@@ -89,7 +89,7 @@ global.ppp=0
    wait_duration = 240; // 4 seconds
     max_trials = 200; // Maximum trials
 	ntd=target_duration
-
+    line_height = 20
 
     // Ensure single instance of obj_controller
     if (instance_number(obj_controller) > 1)

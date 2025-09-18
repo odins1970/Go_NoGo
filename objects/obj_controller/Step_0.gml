@@ -84,7 +84,7 @@
 if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
         {
             var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_prime_target), 15);
+            var count = min(ds_list_size(left_pupil_buffer_prime_target), 16);
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_prime_target, i);
@@ -109,7 +109,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupi
             ds_list_destroy(temp_list);
         }
 
-if (ds_list_size(left_pupil_buffer_prime_target) > 15)
+if (ds_list_size(left_pupil_buffer_prime_target) > 16)
         {
             ds_list_delete(left_pupil_buffer_prime_target, 0);
             ds_list_delete(right_pupil_buffer_prime_target, 0);
@@ -170,7 +170,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         if (ds_list_size(left_pupil_buffer_target) >= 1 && ds_list_size(right_pupil_buffer_target) >= 1)
         {
             var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_target), 15);
+            var count = min(ds_list_size(left_pupil_buffer_target), 16);
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_target, i);
@@ -194,7 +194,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
             }
             ds_list_destroy(temp_list);
         }
-		if (ds_list_size(left_pupil_buffer_target) > 15)
+		if (ds_list_size(left_pupil_buffer_target) > 16)
         {
             ds_list_delete(left_pupil_buffer_target, 0);
             ds_list_delete(right_pupil_buffer_target, 0);
@@ -207,7 +207,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         if (ds_list_size(left_pupil_buffer_wait) >= 1 && ds_list_size(right_pupil_buffer_wait) >= 1)
         {
             var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_wait), 15);
+            var count = min(ds_list_size(left_pupil_buffer_wait), 16);
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_wait, i);
@@ -497,7 +497,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         ds_list_add(left_pupil_buffer_wait, avg_pupil);
         ds_list_add(right_pupil_buffer_wait, avg_pupil);
 	
-        if (ds_list_size(left_pupil_buffer_wait) > 15)
+        if (ds_list_size(left_pupil_buffer_wait) > 16)
         {
             ds_list_delete(left_pupil_buffer_wait, 0);
             ds_list_delete(right_pupil_buffer_wait, 0);
@@ -508,7 +508,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
             if (ds_list_size(left_pupil_buffer_wait) >= 1 && ds_list_size(right_pupil_buffer_wait) >= 1)
             {
                 var temp_list = ds_list_create();
-                var count = min(ds_list_size(left_pupil_buffer_wait), 15);
+                var count = min(ds_list_size(left_pupil_buffer_wait), 16);
                 for (var i = 0; i < count; i++)
                 {
                     var left = ds_list_find_value(left_pupil_buffer_wait, i);
