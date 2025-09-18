@@ -80,8 +80,7 @@
     {   io_clear()
         ds_list_add(left_pupil_buffer_prime_target, avg_pupil);
         ds_list_add(right_pupil_buffer_prime_target, avg_pupil);
-		
-        
+	        
 if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
         {
             var temp_list = ds_list_create();
@@ -202,6 +201,9 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         }
 
         // Calculate median pupil for wait
+		if total_trials=0
+		{pupil_wait=avg_pupil
+		}
         if (ds_list_size(left_pupil_buffer_wait) >= 1 && ds_list_size(right_pupil_buffer_wait) >= 1)
         {
             var temp_list = ds_list_create();
@@ -704,11 +706,11 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 	if median_accurat_sum_same  > 0  and median_accurat_sum_diff > 0
 	{
 
-	accurat_sum_diff =((median_accurat_sum_same / median_accurat_sum_diff));
+	accurat_sum_diff =((median_accurat_sum_same-median_accurat_sum_diff) / median_accurat_sum_diff)*100;
 
 	}
 	else
-	{accurat_sum_diff = median_accurat_sum_same + median_accurat_sum_diff
+	{accurat_sum_diff = 0
 	}
 	final_target_duration = (ntd / 60 ) * 1000;
     if (ds_list_size(pupil_list_wait) > 0)
