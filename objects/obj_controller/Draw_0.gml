@@ -50,3 +50,4 @@ if (state == "initial_wait" or state == "wait") and timer =clamp (timer, 70, 240
 draw_line_width_color ((room_width/2)-25,(room_height/2),(room_width/2)+25,(room_height/2),2,c_white,c_white)	
 }
 
+draw_text(150, 500, ": " + string((eror)));

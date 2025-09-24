@@ -78,7 +78,7 @@
     else if (state == "prime") 
 	    {   ds_list_add(left_pupil_buffer_prime_target, avg_pupil);
         ds_list_add(right_pupil_buffer_prime_target, avg_pupil);
-		 eror=0
+		
 	        if (mouse_check_button_pressed(mb_left))
         {
             stimulus_type = 1; // Устанавливаем stimulus_type = 1 при нажатии левой кнопки мыши
@@ -278,6 +278,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 16)
                 trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
                 trial_id += 1;
 				consecutive_errors = 0;
+				eror=0
             show_debug_message("Correct response: consecutive_errors reset to 0");
                 if (audio_exists(snd_correct))
                 {
@@ -340,6 +341,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 16)
 				consecutive_errors += 1;
                 consecutive_correct = 0;
                 consecutive_Sum += consecutive_correct;
+				eror=0
                 with (obj_stimulus) instance_destroy();
                 show_debug_message("Cleared obj_stimulus when transitioning from target to wait (Go, timer expired)");
                 state = "wait";
@@ -389,6 +391,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 16)
 				consecutive_errors += 1;
                 consecutive_correct = 0;
                 consecutive_Sum += consecutive_correct;
+				eror=0
 				 with (obj_stimulus) instance_destroy();
                 show_debug_message("Cleared obj_stimulus when transitioning from target to wait (NoGo, key pressed)");
                 state = "wait";
@@ -404,6 +407,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 16)
                 total_trials += 1;
                 trial_result_value = 1;
                 fixed_reaction_time = 100;
+				eror=0
                 ds_list_add(rt_list, 100);
                 if (prime_type != 2)
                 {
