@@ -45,7 +45,8 @@ draw_set_color(c_gray);
            }
 }
 if (state == "initial_wait" or state == "wait") and timer =clamp (timer, 70, 240)// маркер ожидания
-{draw_set_alpha(0.3)
+{draw_set_alpha(0.9)
 	draw_line_width_color(room_width/2,(room_height/2)-25,room_width/2,(room_height/2)+25,2,c_white,c_white)
 draw_line_width_color ((room_width/2)-25,(room_height/2),(room_width/2)+25,(room_height/2),2,c_white,c_white)	
 }
+
