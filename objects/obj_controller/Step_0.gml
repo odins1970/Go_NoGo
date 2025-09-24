@@ -78,8 +78,8 @@
     else if (state == "prime") 
 	    {   ds_list_add(left_pupil_buffer_prime_target, avg_pupil);
         ds_list_add(right_pupil_buffer_prime_target, avg_pupil);
-		var eror=0
-	        if (mouse_check_button(mb_left))
+		 eror=0
+	        if (mouse_check_button_pressed(mb_left))
         {
             stimulus_type = 1; // Устанавливаем stimulus_type = 1 при нажатии левой кнопки мыши
            		   show_debug_message("Левая кнопка мыши нажата в состоянии prime, stimulus_type установлен в 1");
