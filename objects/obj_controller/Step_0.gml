@@ -51,8 +51,7 @@
 			ds_list_clear(left_pupil_buffer_target);
             ds_list_clear(right_pupil_buffer_target);
             state = "prime";
-			io_clear()
-            var inst = instance_create_layer(room_width / 2, room_height / 2, "Instances", obj_stimulus);
+			 var inst = instance_create_layer(room_width / 2, room_height / 2, "Instances", obj_stimulus);
             if (sprite_exists(spr_green_circle) && sprite_exists(spr_red_square) && sprite_exists(spr_black_shape))
             {
                 if (prime_type == 0)
@@ -77,10 +76,16 @@
         }
     }
     else if (state == "prime") 
-    {   io_clear()
-        ds_list_add(left_pupil_buffer_prime_target, avg_pupil);
+	    {   ds_list_add(left_pupil_buffer_prime_target, avg_pupil);
         ds_list_add(right_pupil_buffer_prime_target, avg_pupil);
-	        
+		var eror=0
+	        if (mouse_check_button(mb_left))
+        {
+            stimulus_type = 1; // Устанавливаем stimulus_type = 1 при нажатии левой кнопки мыши
+           		   show_debug_message("Левая кнопка мыши нажата в состоянии prime, stimulus_type установлен в 1");
+       eror = 1
+	  }
+			
 if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
         {
             var temp_list = ds_list_create();
@@ -225,7 +230,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         }
 
         // Calculate pupil difference
-		        var pupil_diff = (pupil_prime_target-pupil_wait) );
+		        var pupil_diff = (pupil_prime_target-pupil_wait);
 		
         if (stimulus_type == 0) // Go
         {
@@ -342,7 +347,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
         }
         else // NoGo
         {
-            if (key_pressed) 
+            if (key_pressed) or eror=1
             {
                 ds_list_add(rt_list, fixed_reaction_time);
                 if (prime_type != 2)
@@ -384,7 +389,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 				consecutive_errors += 1;
                 consecutive_correct = 0;
                 consecutive_Sum += consecutive_correct;
-                with (obj_stimulus) instance_destroy();
+				 with (obj_stimulus) instance_destroy();
                 show_debug_message("Cleared obj_stimulus when transitioning from target to wait (NoGo, key pressed)");
                 state = "wait";
             }
@@ -546,7 +551,8 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
             show_debug_message("Cleared all obj_stimulus instances when transitioning from wait to prime");
 
             last_stimulus_type = stimulus_type;
-			if total_trials == 0 or total_trials==2
+			
+			if total_trials == 0 or total_trials==2 
 			{stimulus_type =0
 			}
 			if total_trials == 1 
@@ -560,7 +566,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
 		 {
              stimulus_type = choose(0,1,0);
             }
-		 			            // Set target_duration based on stimulus_type
+					 			            // Set target_duration based on stimulus_type
             if (stimulus_type == 0)
             {
                 target_duration = ntd; // 350 ms for Go
@@ -716,3 +722,4 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 15)
     }
 	accurat_sum_diff = (median_accurat_sum_same - median_accurat_sum_diff)
 	final_target_duration = (ntd / 60 ) * 1000;
+	
