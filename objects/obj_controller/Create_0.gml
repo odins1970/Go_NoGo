@@ -91,6 +91,14 @@ eror=0
     max_trials = 200; // Maximum trials
 	ntd=target_duration
     line_height = 20
+	
+	// ИЗМЕНЕНИЕ: Переменные для независимого усреднения зрачков (буфер заполняется каждый шаг, медиана при 11 элементах, затем очистка)
+    // Буфер для сбора 11 значений avg_pupil (каждый шаг)
+    pupil_global_buffer = ds_list_create();
+    // Отдельная переменная для хранения медианы (обновляется каждые 11 шагов)
+    global_median_pupil = 0;
+	
+	
 
     // Ensure single instance of obj_controller
     if (instance_number(obj_controller) > 1)

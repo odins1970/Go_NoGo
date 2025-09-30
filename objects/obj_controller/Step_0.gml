@@ -28,6 +28,24 @@
     avg_pupil = (left_pupil + right_pupil)/2; ///
 	
 	global.ppp= (avg_pupil/10)
+	
+	// ИЗМЕНЕНИЕ: Независимый сбор и усреднение зрачков (заполнение каждый шаг, медиана при 11 элементах, затем очистка)
+    // Шаг 1: Добавляем текущее avg_pupil в буфер каждый шаг (кадр)
+    ds_list_add(pupil_global_buffer, avg_pupil);
+    // Шаг 2: Проверяем размер буфера == 11
+    if (ds_list_size(pupil_global_buffer) == 20)
+    {
+        // Шаг 3: Вычисляем медиану из 11 значений и сохраняем в отдельной переменной
+        global_median_pupil = ds_list_median(pupil_global_buffer);
+        // Шаг 4: Очищаем буфер для повторного сбора по новой
+        ds_list_clear(pupil_global_buffer);
+    }
+    // Шаг 5: Fallback, если буфер пуст (в начале или после очистки, но до 11-го добавления)
+    else if (ds_list_size(pupil_global_buffer) == 0)
+    {
+        global_median_pupil = avg_pupil;
+    }
+        
 
     if (state == "initial_wait" || state == "wait")
     {
@@ -89,7 +107,7 @@
 if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
         {
             var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_prime_target), 16);
+            var count = min(ds_list_size(left_pupil_buffer_prime_target), 21);
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_prime_target, i);
@@ -114,7 +132,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupi
             ds_list_destroy(temp_list);
         }
 
-if (ds_list_size(left_pupil_buffer_prime_target) > 16)
+if (ds_list_size(left_pupil_buffer_prime_target) > 21)
         {
             ds_list_delete(left_pupil_buffer_prime_target, 0);
             ds_list_delete(right_pupil_buffer_prime_target, 0);
@@ -152,8 +170,8 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 16)
     {
         reaction_time_ms += delta_time / 1000;
 
-        ds_list_add(left_pupil_buffer_target, avg_pupil);
-        ds_list_add(right_pupil_buffer_target, avg_pupil);
+        ds_list_add(left_pupil_buffer_prime_target, avg_pupil);
+        ds_list_add(right_pupil_buffer_prime_target, avg_pupil);
         
         var current_target_duration = (target_duration / 60) * 1000;
         var key_pressed = mouse_check_button_pressed(mb_left);
@@ -172,14 +190,14 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 16)
 		}
 
         // Calculate median pupil for target
-        if (ds_list_size(left_pupil_buffer_target) >= 1 && ds_list_size(right_pupil_buffer_target) >= 1)
+        if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
         {
             var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_target), 16);
+            var count = min(ds_list_size(left_pupil_buffer_prime_target), 21);
             for (var i = 0; i < count; i++)
             {
-                var left = ds_list_find_value(left_pupil_buffer_target, i);
-                var right = ds_list_find_value(right_pupil_buffer_target, i);
+                var left = ds_list_find_value(left_pupil_buffer_prime_target, i);
+                var right = ds_list_find_value(right_pupil_buffer_prime_target, i);
                 if (is_real(left) && is_real(right))
                 {
                     ds_list_add(temp_list, (left + right) / 2);
@@ -199,10 +217,10 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 16)
             }
             ds_list_destroy(temp_list);
         }
-		if (ds_list_size(left_pupil_buffer_target) > 16)
+		if (ds_list_size(left_pupil_buffer_prime_target) > 21)
         {
-            ds_list_delete(left_pupil_buffer_target, 0);
-            ds_list_delete(right_pupil_buffer_target, 0);
+            ds_list_delete(left_pupil_buffer_prime_target, 0);
+            ds_list_delete(right_pupil_buffer_prime_target, 0);
         }
 
         // Calculate median pupil for wait
@@ -212,7 +230,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 16)
         if (ds_list_size(left_pupil_buffer_wait) >= 1 && ds_list_size(right_pupil_buffer_wait) >= 1)
         {
             var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_wait), 16);
+            var count = min(ds_list_size(left_pupil_buffer_wait), 21);
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_wait, i);
@@ -506,7 +524,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 16)
         ds_list_add(left_pupil_buffer_wait, avg_pupil);
         ds_list_add(right_pupil_buffer_wait, avg_pupil);
 	
-        if (ds_list_size(left_pupil_buffer_wait) > 16)
+        if (ds_list_size(left_pupil_buffer_wait) > 21)
         {
             ds_list_delete(left_pupil_buffer_wait, 0);
             ds_list_delete(right_pupil_buffer_wait, 0);
@@ -517,7 +535,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 16)
             if (ds_list_size(left_pupil_buffer_wait) >= 1 && ds_list_size(right_pupil_buffer_wait) >= 1)
             {
                 var temp_list = ds_list_create();
-                var count = min(ds_list_size(left_pupil_buffer_wait), 16);
+                var count = min(ds_list_size(left_pupil_buffer_wait), 21);
                 for (var i = 0; i < count; i++)
                 {
                     var left = ds_list_find_value(left_pupil_buffer_wait, i);
@@ -727,3 +745,4 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 16)
 	accurat_sum_diff = (median_accurat_sum_same - median_accurat_sum_diff)
 	final_target_duration = (ntd / 60 ) * 1000;
 	
+  
