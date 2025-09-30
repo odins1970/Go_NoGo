@@ -180,7 +180,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
         var current_congruent = (prime_type == stimulus_type);
         var black_shape_rt = -1;
         var fixed_reaction_time = reaction_time_ms;
-		
+		aimdistans=1-(correct_responses/50)
                if (total_trials > 0)
         {
             accurat_sum = (correct_responses/total_trials)*100;
@@ -293,7 +293,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
                 trial_result = "Correct";
                 trial_result_value = 1;
                 last_go_target_duration = current_target_duration;
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum,aimdistans];
                 trial_id += 1;
 				consecutive_errors = 0;
 				eror=0
@@ -354,7 +354,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
                 }
                 ds_list_add(pupil_list_prime_target, pupil_prime_target);
 				ds_list_add(pupil_list_target, pupil_target);
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum,aimdistans];
                 trial_id += 1;
 				consecutive_errors += 1;
                 consecutive_correct = 0;
@@ -404,7 +404,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
                 total_trials += 1;
                 trial_result = "False Positive";
                 resultat = 3;
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result,pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result,pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum,aimdistans];
                 trial_id += 1;
 				consecutive_errors += 1;
                 consecutive_correct = 0;
@@ -457,7 +457,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
                 }
                 ds_list_add(pupil_list_prime_target, pupil_prime_target);
 				 ds_list_add(pupil_list_target, pupil_target);
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum,aimdistans];
                 trial_id += 1;
                 if (audio_exists(snd_correct))
                 {

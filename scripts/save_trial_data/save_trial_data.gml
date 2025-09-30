@@ -45,7 +45,7 @@ function save_trial_data()
 
     for (var i = 0; i < array_length(trials_data); i++)
     {
-        if (is_array(trials_data[i]) && array_length(trials_data[i]) >= 16)
+        if (is_array(trials_data[i]) && array_length(trials_data[i]) >= 17)
         {
             var trial = trials_data[i];
             var trial_id_str = "0";
@@ -136,6 +136,12 @@ function save_trial_data()
                 accurat_sum_str = string_format(trial[15], 0, 3);
                 show_debug_message("Сохранение испытания #" + trial_id_str + ": AccuratSum = " + accurat_sum_str);
             }
+			if (is_real(trial[16]) || is_int64(trial[16]))
+            {
+
+                aimdistans_str = string_format(trial[16], 0, 3);
+                show_debug_message("Сохранение испытания #" + trial_id_str + ": AccuratSum = " + accurat_sum_str);
+            }
 			
 
             var line = trial_id_str + "," +
@@ -153,7 +159,8 @@ function save_trial_data()
 					   accurat_sum_diff_str + "," +
                        result_value_str + "," +
                        black_shape_rt_str + "," +
-                       accurat_sum_str;
+                       accurat_sum_str+ "," +
+					   aimdistans_str;
 					   
             file_text_write_string(trial_file, line);
             file_text_writeln(trial_file);
@@ -174,7 +181,7 @@ function save_trial_data()
     var red_square_prime_trials = 0;
     for (var i = 0; i < array_length(trials_data); i++)
     {
-        if (is_array(trials_data[i]) && array_length(trials_data[i]) >= 16)
+        if (is_array(trials_data[i]) && array_length(trials_data[i]) >= 17)
         {
             var trial = trials_data[i];
             if (trial[1] == 0)
