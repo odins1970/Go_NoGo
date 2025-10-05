@@ -61,6 +61,7 @@
 	pupil_prime_target = 0;
 	pupil_target = 0;
 	pupil_wait = 0;
+	pupil_diff =0
 	accurat_sum=0
 	median_accurat_sum_same = 0;
  median_accurat_sum_diff = 0;
@@ -79,8 +80,8 @@ eror=0
     show_stats = false; // Toggle stats display with F1/F2
 
     // Timing variables (60 FPS = 1 second)
-    initial_wait_duration = 300; // 5 seconds
-    prime_duration = 15; // 250 ms
+    initial_wait_duration = 60; // 2 seconds
+    prime_duration = 16; // 250 ms
     target_duration = 24; // Initial target duration (will be set dynamically in Step event)
     min_target_duration_go = 1.5; // Minimum target duration for Go (25 ms)
     min_target_duration_nogo = 30; // Minimum target duration for NoGo (500 ms)
@@ -91,6 +92,14 @@ eror=0
     max_trials = 200; // Maximum trials
 	ntd=target_duration
     line_height = 20
+	
+	// ИЗМЕНЕНИЕ: Переменные для независимого усреднения зрачков (буфер заполняется каждый шаг, медиана при 11 элементах, затем очистка)
+    // Буфер для сбора 11 значений avg_pupil (каждый шаг)
+    pupil_global_buffer = ds_list_create();
+    // Отдельная переменная для хранения медианы (обновляется каждые 11 шагов)
+    global_median_pupil = avg_pupil;
+	
+	
 
     // Ensure single instance of obj_controller
     if (instance_number(obj_controller) > 1)
