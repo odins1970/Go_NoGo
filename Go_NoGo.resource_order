@@ -32,6 +32,7 @@
     {"name":"scr_eyet_data","order":4,"path":"scripts/scr_eyet_data/scr_eyet_data.yy",},
     {"name":"scr_eyet_then","order":5,"path":"scripts/scr_eyet_then/scr_eyet_then.yy",},
     {"name":"trace","order":6,"path":"scripts/trace/trace.yy",},
+    {"name":"snd_alar","order":1,"path":"sounds/snd_alar/snd_alar.yy",},
     {"name":"spr_black_shape","order":2,"path":"sprites/spr_black_shape/spr_black_shape.yy",},
     {"name":"spr_Pupi","order":3,"path":"sprites/spr_Pupi/spr_Pupi.yy",},
     {"name":"spr_red_square","order":1,"path":"sprites/spr_red_square/spr_red_square.yy",},
