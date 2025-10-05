@@ -9,7 +9,7 @@
   "bitRate":128,
   "compression":3,
   "conversionMode":0,
-  "duration":10.031,
+  "duration":0.391837,
   "name":"snd_a",
   "parent":{
     "name":"Звуки",

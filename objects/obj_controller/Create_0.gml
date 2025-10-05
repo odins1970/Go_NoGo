@@ -72,7 +72,7 @@
 	median_no_switch=0
 	global.ppp=0
 	eror=0
-	aimdistans=global_median_pupil
+	aimdistans=1
 
     // Trial data array
     trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, result_value, black_shape_rt, accurat_sum, aimdistans ]

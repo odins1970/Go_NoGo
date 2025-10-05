@@ -770,5 +770,8 @@
    
     final_target_duration = (ntd / 60 ) * 1000;
 }
+if global_median_pupil!=0
+{
 aimdistans =round( global_median_pupil/10)
 audio_play_sound(snd_a, 10, false, 1, 0, aimdistans)
+}
