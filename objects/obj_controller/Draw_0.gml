@@ -46,13 +46,12 @@ draw_set_color(c_gray);
 		draw_text(xx, yy, "Средняя разница размера зрачка (пикс): " + string((avg_pupil_diff))); yy += spacing;
            }
 }
-if (state == "initial_wait" or state == "wait") and timer =clamp (timer, 70, 240)// маркер ожидания
+if (state == "wait") and timer =clamp (timer, 70, 240)// маркер ожидания
 {draw_set_alpha(1)
 	draw_line_width_color(room_width/2,(room_height/2)-35,room_width/2,(room_height/2)+35,2,c_white,c_white)
 draw_line_width_color ((room_width/2)-35,(room_height/2),(room_width/2)+35,(room_height/2),2,c_white,c_white)	
 }
 
-<<<<<<< HEAD
 if state == "initial_wait" 
 {draw_set_alpha(1)
 	draw_line_width_color(room_width/2,(room_height/2)-35,room_width/2,(room_height/2)+35,2,c_white,c_white)
@@ -60,6 +59,5 @@ draw_line_width_color ((room_width/2)-35,(room_height/2),(room_width/2)+35,(room
 }
 
 
-=======
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
 

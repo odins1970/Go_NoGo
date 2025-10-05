@@ -99,11 +99,8 @@
     // Буфер для сбора 11 значений avg_pupil (каждый шаг)
     pupil_global_buffer = ds_list_create();
     // Отдельная переменная для хранения медианы (обновляется каждые 11 шагов)
-<<<<<<< HEAD
     global_median_pupil = avg_pupil;
-=======
-    global_median_pupil = 0;
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
 	
 	
 

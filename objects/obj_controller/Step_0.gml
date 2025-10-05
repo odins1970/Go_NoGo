@@ -25,8 +25,7 @@
     }
     // Calculate average pupil size for current frame
     avg_pupil = (left_pupil + right_pupil)/2; ///
-<<<<<<< HEAD
-    
+   
     global.ppp = (avg_pupil/10);
     
     // ИЗМЕНЕНИЕ: Независимый сбор и усреднение зрачков (заполнение каждый шаг, медиана при 15 элементах, затем очистка)
@@ -36,33 +35,18 @@
     if (ds_list_size(pupil_global_buffer) == 15)
     {
         // Шаг 3: Вычисляем медиану из 15 значений и сохраняем в отдельной переменной
-=======
-	
-	global.ppp= (avg_pupil/10)
-	
-	// ИЗМЕНЕНИЕ: Независимый сбор и усреднение зрачков (заполнение каждый шаг, медиана при 11 элементах, затем очистка)
-    // Шаг 1: Добавляем текущее avg_pupil в буфер каждый шаг (кадр)
-    ds_list_add(pupil_global_buffer, avg_pupil);
-    // Шаг 2: Проверяем размер буфера == 11
-    if (ds_list_size(pupil_global_buffer) == 20)
-    {
-        // Шаг 3: Вычисляем медиану из 11 значений и сохраняем в отдельной переменной
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
         global_median_pupil = ds_list_median(pupil_global_buffer);
         // Шаг 4: Очищаем буфер для повторного сбора по новой
         ds_list_clear(pupil_global_buffer);
     }
-<<<<<<< HEAD
+
     // Шаг 5: Fallback, если буфер пуст (в начале или после очистки, но до 15-го добавления)
-=======
-    // Шаг 5: Fallback, если буфер пуст (в начале или после очистки, но до 11-го добавления)
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
     else if (ds_list_size(pupil_global_buffer) == 0)
     {
         global_median_pupil = avg_pupil;
     }
         
-
     if (state == "initial_wait" || state == "wait")
     {
         if (instance_exists(obj_stimulus))
@@ -128,11 +112,9 @@
         if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
         {
             var temp_list = ds_list_create();
-<<<<<<< HEAD
+
             var count = min(ds_list_size(left_pupil_buffer_prime_target), 22);
-=======
-            var count = min(ds_list_size(left_pupil_buffer_prime_target), 21);
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_prime_target, i);
@@ -157,11 +139,8 @@
             ds_list_destroy(temp_list);
         }
 
-<<<<<<< HEAD
         if (ds_list_size(left_pupil_buffer_prime_target) > 22)
-=======
-if (ds_list_size(left_pupil_buffer_prime_target) > 21)
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
         {
             ds_list_delete(left_pupil_buffer_prime_target, 0);
             ds_list_delete(right_pupil_buffer_prime_target, 0);
@@ -205,14 +184,11 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
     {
         reaction_time_ms += delta_time / 1000;
 
-<<<<<<< HEAD
+
         // Добавляем в target буфер (продолжение после prime)
         ds_list_add(left_pupil_buffer_target, avg_pupil);
         ds_list_add(right_pupil_buffer_target, avg_pupil);
-=======
-        ds_list_add(left_pupil_buffer_prime_target, avg_pupil);
-        ds_list_add(right_pupil_buffer_prime_target, avg_pupil);
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
         
         // FIFO: Не более 22 значений (удаляем старые, включая скопированные из prime)
         if (ds_list_size(left_pupil_buffer_target) > 22)
@@ -229,13 +205,10 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
         var current_congruent = (prime_type == stimulus_type);
         var black_shape_rt = -1;
         var fixed_reaction_time = reaction_time_ms;
-<<<<<<< HEAD
+
         
         if (total_trials > 0)
-=======
-		aimdistans=1-(correct_responses/50)
-               if (total_trials > 0)
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
         {
             accurat_sum = (correct_responses/total_trials)*100;
         }
@@ -244,19 +217,13 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
             accurat_sum = (correct_responses/1)*100;
         }
 
-<<<<<<< HEAD
+
         // ИЗМЕНЕНИЕ: Расчёт медианы для target (теперь из target буфера, включая prime)
         if (ds_list_size(left_pupil_buffer_target) >= 1 && ds_list_size(right_pupil_buffer_target) >= 1)
         {
             var temp_list = ds_list_create();
             var count = min(ds_list_size(left_pupil_buffer_target), 22);
-=======
-        // Calculate median pupil for target
-        if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
-        {
-            var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_prime_target), 21);
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_prime_target, i);
@@ -280,38 +247,11 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
             }
             ds_list_destroy(temp_list);
         }
-<<<<<<< HEAD
-=======
-		if (ds_list_size(left_pupil_buffer_prime_target) > 21)
-        {
-            ds_list_delete(left_pupil_buffer_prime_target, 0);
-            ds_list_delete(right_pupil_buffer_prime_target, 0);
-        }
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
 
         // ИЗМЕНЕНИЕ: Fallback pupil_wait для первого trial (до первого wait)
         if (total_trials == 0)
         {
-<<<<<<< HEAD
             pupil_wait = global_median_pupil;
-=======
-            var temp_list = ds_list_create();
-            var count = min(ds_list_size(left_pupil_buffer_wait), 21);
-            for (var i = 0; i < count; i++)
-            {
-                var left = ds_list_find_value(left_pupil_buffer_wait, i);
-                var right = ds_list_find_value(right_pupil_buffer_wait, i);
-                if (is_real(left) && is_real(right))
-                {
-                    ds_list_add(temp_list, (left + right) / 2);
-                }
-            }
-            if (ds_list_size(temp_list) > 0)
-            {
-                pupil_wait = ds_list_median(temp_list);
-            }
-            ds_list_destroy(temp_list);
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
         }
         if (stimulus_type == 0) // Go
         {
@@ -357,20 +297,13 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
                 trial_result = "Correct";
                 trial_result_value = 1;
                 last_go_target_duration = current_target_duration;
-<<<<<<< HEAD
 		        trial_id += 1;
                 consecutive_errors = 0;
                 eror = 0;
                 trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
                
                 show_debug_message("Correct response: consecutive_errors reset to 0");
-=======
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum,aimdistans];
-                trial_id += 1;
-				consecutive_errors = 0;
-				eror=0
-            show_debug_message("Correct response: consecutive_errors reset to 0");
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
                 if (audio_exists(snd_correct))
                 {
                     audio_play_sound(snd_correct, 10, false);
@@ -426,17 +359,12 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
                 // Удалено ds_list_add(pupil_list_wait, pupil_wait); — теперь в конце wait
 				ds_list_add(pupil_list_wait, pupil_wait);
                 ds_list_add(pupil_list_prime_target, pupil_prime_target);
-<<<<<<< HEAD
+
                 ds_list_add(pupil_list_target, pupil_target);
 				pupil_diff = (pupil_target - pupil_wait);
 				trial_id += 1;
                 consecutive_errors += 1;
-=======
-				ds_list_add(pupil_list_target, pupil_target);
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum,aimdistans];
-                trial_id += 1;
-				consecutive_errors += 1;
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
                 consecutive_correct = 0;
                 consecutive_Sum += consecutive_correct;
                 eror = 0;
@@ -487,14 +415,10 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
                 trial_result = "False Positive";
                 trial_result_value = -1;
                 resultat = 3;
-<<<<<<< HEAD
+
 				trial_id += 1;
                 consecutive_errors += 1;
-=======
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result,pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum,aimdistans];
-                trial_id += 1;
-				consecutive_errors += 1;
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
                 consecutive_correct = 0;
                 consecutive_Sum += consecutive_correct;
                 eror = 0;
@@ -550,15 +474,10 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
                     ds_list_add(black_shape_prime_rt, fixed_reaction_time);
                     black_shape_rt = fixed_reaction_time;
                 }
-<<<<<<< HEAD
+
                 			   trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
                 
-=======
-                ds_list_add(pupil_list_prime_target, pupil_prime_target);
-				 ds_list_add(pupil_list_target, pupil_target);
-                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum,aimdistans];
-                trial_id += 1;
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
                 if (audio_exists(snd_correct))
                 {
                     audio_play_sound(snd_correct, 10, false);
@@ -635,25 +554,7 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
                 ds_list_delete(right_pupil_buffer_wait, 0);
             }
         }
-<<<<<<< HEAD
-=======
-        consecutive_errors = 0; // Сброс счетчика ошибок после увеличения
-		consecutive_correct = 0;
-        consecutive_Sum += consecutive_correct;
-        show_debug_message("Target duration increased due to errors: " + string(target_duration));
-			 }
-	}
- else if (state == "wait") 
-    { if timer >= 220
-        ds_list_add(left_pupil_buffer_wait, avg_pupil);
-        ds_list_add(right_pupil_buffer_wait, avg_pupil);
-	
-        if (ds_list_size(left_pupil_buffer_wait) > 21)
-        {
-            ds_list_delete(left_pupil_buffer_wait, 0);
-            ds_list_delete(right_pupil_buffer_wait, 0);
-        }
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
 
         // Отдельный блок для конца wait (>=240): медиана, add в list, переход — полный сбор
         if (timer >= wait_duration)
@@ -662,11 +563,9 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
             if (ds_list_size(left_pupil_buffer_wait) >= 1 && ds_list_size(right_pupil_buffer_wait) >= 1)
             {
                 var temp_list = ds_list_create();
-<<<<<<< HEAD
+
                 var count = min(ds_list_size(left_pupil_buffer_wait), 22);
-=======
-                var count = min(ds_list_size(left_pupil_buffer_wait), 21);
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
                 for (var i = 0; i < count; i++)
                 {
                     var left = ds_list_find_value(left_pupil_buffer_wait, i);
@@ -867,15 +766,8 @@ if (ds_list_size(left_pupil_buffer_prime_target) > 21)
     {
         median_accurat_sum_diff = 0;
     }
-<<<<<<< HEAD
-   
-        accurat_sum_diff = (median_accurat_sum_same - median_accurat_sum_diff);
+    accurat_sum_diff = (median_accurat_sum_same - median_accurat_sum_diff);
    
     final_target_duration = (ntd / 60 ) * 1000;
 }
-=======
-	accurat_sum_diff = (median_accurat_sum_same - median_accurat_sum_diff)
-	final_target_duration = (ntd / 60 ) * 1000;
-	
-  
->>>>>>> 537ccd066310ce9d7a84dee8280bb0fb8226dce0
+
