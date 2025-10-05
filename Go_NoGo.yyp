@@ -54,7 +54,7 @@
     {"id":{"name":"scr_eyet_data","path":"scripts/scr_eyet_data/scr_eyet_data.yy",},},
     {"id":{"name":"scr_eyet_then","path":"scripts/scr_eyet_then/scr_eyet_then.yy",},},
     {"id":{"name":"trace","path":"scripts/trace/trace.yy",},},
-    {"id":{"name":"snd_alar","path":"sounds/snd_alar/snd_alar.yy",},},
+    {"id":{"name":"snd_a","path":"sounds/snd_a/snd_a.yy",},},
     {"id":{"name":"snd_correct","path":"sounds/snd_correct/snd_correct.yy",},},
     {"id":{"name":"spr_black_shape","path":"sprites/spr_black_shape/spr_black_shape.yy",},},
     {"id":{"name":"spr_green_circle","path":"sprites/spr_green_circle/spr_green_circle.yy",},},

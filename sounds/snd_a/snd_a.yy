@@ -1,6 +1,6 @@
 {
   "$GMSound":"",
-  "%Name":"snd_alar",
+  "%Name":"snd_a",
   "audioGroupId":{
     "name":"audiogroup_default",
     "path":"audiogroups/audiogroup_default",
@@ -9,8 +9,8 @@
   "bitRate":128,
   "compression":3,
   "conversionMode":0,
-  "duration":9.999977,
-  "name":"snd_alar",
+  "duration":10.031,
+  "name":"snd_a",
   "parent":{
     "name":"Звуки",
     "path":"folders/Звуки.yy",
@@ -19,7 +19,7 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"snd_alar.ogg",
+  "soundFile":"snd_a.mp3",
   "type":0,
-  "volume":0.59,
+  "volume":1.0,
 }
