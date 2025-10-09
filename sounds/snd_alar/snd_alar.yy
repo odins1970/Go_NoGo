@@ -9,7 +9,7 @@
   "bitRate":128,
   "compression":3,
   "conversionMode":0,
-  "duration":1.008,
+  "duration":10.031,
   "name":"snd_alar",
   "parent":{
     "name":"Звуки",
@@ -19,7 +19,7 @@
   "resourceType":"GMSound",
   "resourceVersion":"2.0",
   "sampleRate":44100,
-  "soundFile":"snd_alar.wav",
+  "soundFile":"snd_alar.mp3",
   "type":0,
-  "volume":0.25,
+  "volume":1.0,
 }
