@@ -25,7 +25,11 @@
     }
     // Calculate average pupil size for current frame
     avg_pupil = (left_pupil + right_pupil)/2; ///
+<<<<<<< HEAD
     
+=======
+   
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
     global.ppp = (avg_pupil/10);
     
     // ИЗМЕНЕНИЕ: Независимый сбор и усреднение зрачков (заполнение каждый шаг, медиана при 15 элементах, затем очистка)
@@ -39,13 +43,23 @@
         // Шаг 4: Очищаем буфер для повторного сбора по новой
         ds_list_clear(pupil_global_buffer);
     }
+<<<<<<< HEAD
     // Шаг 5: Fallback, если буфер пуст (в начале или после очистки, но до 15-го добавления)
     else if (ds_list_size(pupil_global_buffer) == 0)
     {
         global_median_pupil = avg_pupil;
     }
         
+=======
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
 
+    // Шаг 5: Fallback, если буфер пуст (в начале или после очистки, но до 15-го добавления)
+
+    else if (ds_list_size(pupil_global_buffer) == 0)
+    {
+        global_median_pupil = avg_pupil;
+    }
+        
     if (state == "initial_wait" || state == "wait")
     {
         if (instance_exists(obj_stimulus))
@@ -111,7 +125,13 @@
         if (ds_list_size(left_pupil_buffer_prime_target) >= 1 && ds_list_size(right_pupil_buffer_prime_target) >= 1)
         {
             var temp_list = ds_list_create();
+<<<<<<< HEAD
             var count = min(ds_list_size(left_pupil_buffer_prime_target), 22);
+=======
+
+            var count = min(ds_list_size(left_pupil_buffer_prime_target), 22);
+
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
             for (var i = 0; i < count; i++)
             {
                 var left = ds_list_find_value(left_pupil_buffer_prime_target, i);
@@ -137,6 +157,10 @@
         }
 
         if (ds_list_size(left_pupil_buffer_prime_target) > 22)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
         {
             ds_list_delete(left_pupil_buffer_prime_target, 0);
             ds_list_delete(right_pupil_buffer_prime_target, 0);
@@ -179,9 +203,14 @@
     {
         reaction_time_ms += delta_time / 1000;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
         // Добавляем в target буфер (продолжение после prime)
         ds_list_add(left_pupil_buffer_target, avg_pupil);
         ds_list_add(right_pupil_buffer_target, avg_pupil);
+
         
         // FIFO: Не более 22 значений (удаляем старые, включая скопированные из prime)
         if (ds_list_size(left_pupil_buffer_target) > 22)
@@ -198,17 +227,37 @@
         var current_congruent = (prime_type == stimulus_type);
         var black_shape_rt = -1;
         var fixed_reaction_time = reaction_time_ms;
+<<<<<<< HEAD
       
     				
+=======
+
+        
+        if (total_trials > 0)
+
+        {
+            accurat_sum = (correct_responses/total_trials)*100;
+        }
+        else
+        {
+            accurat_sum = (correct_responses/1)*100;
+        }
+
+
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
         // ИЗМЕНЕНИЕ: Расчёт медианы для target (теперь из target буфера, включая prime)
         if (ds_list_size(left_pupil_buffer_target) >= 1 && ds_list_size(right_pupil_buffer_target) >= 1)
         {
             var temp_list = ds_list_create();
             var count = min(ds_list_size(left_pupil_buffer_target), 22);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
             for (var i = 0; i < count; i++)
             {
-                var left = ds_list_find_value(left_pupil_buffer_target, i);
-                var right = ds_list_find_value(right_pupil_buffer_target, i);
+                var left = ds_list_find_value(left_pupil_buffer_prime_target, i);
+                var right = ds_list_find_value(right_pupil_buffer_prime_target, i);
                 if (is_real(left) && is_real(right))
                 {
                     ds_list_add(temp_list, (left + right) / 2);
@@ -256,7 +305,11 @@
 					accurat_diff= (resultat_diff_correct/resultat_diff)*100
 						
                         ds_list_add(incongruent_rt, fixed_reaction_time);
+<<<<<<< HEAD
                         ds_list_add(accurat_sum_diff_stimulus, accurat_diff);
+=======
+                        ds_list_add(accurat_sum_diff_stimulus, accurat_sum);
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
                     }
                 }
                 if (last_stimulus_type != stimulus_type && last_stimulus_type != -1)
@@ -272,7 +325,11 @@
                     ds_list_add(black_shape_prime_rt, fixed_reaction_time);
                     black_shape_rt = fixed_reaction_time;
                 }
+<<<<<<< HEAD
                
+=======
+                
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
 				ds_list_add(pupil_list_wait, pupil_wait);
                 ds_list_add(pupil_list_prime_target, pupil_prime_target);
                 ds_list_add(pupil_list_target, pupil_target);
@@ -288,14 +345,29 @@
 		        trial_id += 1;
                 consecutive_errors = 0;
                 eror = 0;
+<<<<<<< HEAD
                 trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum,accurat_diff];
                
                 show_debug_message("Correct response: consecutive_errors reset to 0");
+=======
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+               
+                show_debug_message("Correct response: consecutive_errors reset to 0");
+
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
                 if (audio_exists(snd_correct))
                 {
                     audio_play_sound(snd_correct, 10, false);
                 }
+<<<<<<< HEAD
                                 with (obj_stimulus) instance_destroy();
+=======
+                else
+                {
+                    show_debug_message("Error: snd_correct audio resource not found!");
+                }
+                 with (obj_stimulus) instance_destroy();
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
                 show_debug_message("Cleared obj_stimulus when transitioning from target to wait (Go, key pressed)");
                 state = "wait";
             }
@@ -330,7 +402,23 @@
                 {
                     fixed_reaction_time = clamp(current_target_duration, 0, current_target_duration);
                     ds_list_add(rt_list, fixed_reaction_time);
+<<<<<<< HEAD
                    
+=======
+                    if (prime_type != 2)
+                    {
+                        if (current_congruent)
+                        {
+                            ds_list_add(congruent_rt, fixed_reaction_time);
+                            ds_list_add(accurat_sum_same_stimulus, accurat_sum);
+                        }
+                        else
+                        {
+                            ds_list_add(incongruent_rt, fixed_reaction_time);
+                            ds_list_add(accurat_sum_diff_stimulus, accurat_sum);
+                        }
+                    }
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
                     if (last_stimulus_type != stimulus_type && last_stimulus_type != -1)
                     {
                         ds_list_add(switch_rt, fixed_reaction_time);
@@ -346,18 +434,33 @@
                     ds_list_add(black_shape_prime_rt, fixed_reaction_time);
                     black_shape_rt = fixed_reaction_time;
                 }
+<<<<<<< HEAD
                 
 				ds_list_add(pupil_list_wait, pupil_wait);
                 ds_list_add(pupil_list_prime_target, pupil_prime_target);
+=======
+                // Удалено ds_list_add(pupil_list_wait, pupil_wait); — теперь в конце wait
+				ds_list_add(pupil_list_wait, pupil_wait);
+                ds_list_add(pupil_list_prime_target, pupil_prime_target);
+
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
                 ds_list_add(pupil_list_target, pupil_target);
 				pupil_diff = (pupil_target - pupil_wait);
 				trial_id += 1;
                 consecutive_errors += 1;
+<<<<<<< HEAD
                 consecutive_correct = 0;
                 consecutive_Sum += consecutive_correct;
                 eror = 0;
 				resultat=0
 			 trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum,accurat_diff];
+=======
+
+                consecutive_correct = 0;
+                consecutive_Sum += consecutive_correct;
+                eror = 0;
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
                    with (obj_stimulus) instance_destroy();
                 show_debug_message("Cleared obj_stimulus when transitioning from target to wait (Go, timer expired)");
                 state = "wait";
@@ -385,7 +488,11 @@
 					accurat_diff= (resultat_diff_correct/resultat_diff)*100
 						
                         ds_list_add(incongruent_rt, fixed_reaction_time);
+<<<<<<< HEAD
                         ds_list_add(accurat_sum_diff_stimulus, accurat_diff);
+=======
+                        ds_list_add(accurat_sum_diff_stimulus, accurat_sum);
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
                     }
                 }
                 if (last_stimulus_type != stimulus_type && last_stimulus_type != -1)
@@ -410,6 +517,7 @@
                 total_trials += 1;
                 trial_result = "False Positive";
                 trial_result_value = -1;
+<<<<<<< HEAD
  				trial_id += 1;
                 consecutive_errors += 1;
                 consecutive_correct = 0;
@@ -417,6 +525,17 @@
                 eror = 0;
 				resultat=0
                 trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum,accurat_diff];
+=======
+                resultat = 3;
+
+				trial_id += 1;
+                consecutive_errors += 1;
+
+                consecutive_correct = 0;
+                consecutive_Sum += consecutive_correct;
+                eror = 0;
+                trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
           
                 with (obj_stimulus) instance_destroy();
                 show_debug_message("Cleared obj_stimulus when transitioning from target to wait (NoGo, key pressed)");
@@ -432,7 +551,12 @@
                // Вычисление pupil_diff только здесь, при переходе в wait (NoGo suppressed) — на финальных pupil_*
                 pupil_diff = (pupil_target - pupil_wait);			   
                 correct_responses += 1;
+<<<<<<< HEAD
                  trial_result = "Suppressed";
+=======
+                resultat = 4;
+                trial_result = "Suppressed";
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
                 consecutive_errors = 0;
                 consecutive_correct += 1;
                 consecutive_Sum += consecutive_correct;
@@ -459,7 +583,11 @@
 					accurat_diff = (resultat_diff_correct/resultat_diff)*100
 						
                         ds_list_add(incongruent_rt, fixed_reaction_time);
+<<<<<<< HEAD
                         ds_list_add(accurat_sum_diff_stimulus, accurat_diff);
+=======
+                        ds_list_add(accurat_sum_same_stimulus, accurat_sum);
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
                     }
                 }
                 if (last_stimulus_type != stimulus_type && last_stimulus_type != -1)
@@ -475,8 +603,15 @@
                     ds_list_add(black_shape_prime_rt, fixed_reaction_time);
                     black_shape_rt = fixed_reaction_time;
                 }
+<<<<<<< HEAD
    		   trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum,accurat_diff];
                 
+=======
+
+                			   trials_data[trial_id] = [trial_id, stimulus_type, prime_type, current_congruent, fixed_reaction_time, trial_result, pupil_wait, pupil_prime_target, pupil_target, pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, trial_result_value, black_shape_rt, accurat_sum];
+                
+
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
                 if (audio_exists(snd_correct))
                 {
                     audio_play_sound(snd_correct, 10, false);
@@ -554,6 +689,10 @@
             }
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
         // Отдельный блок для конца wait (>=240): медиана, add в list, переход — полный сбор
         if (timer >= wait_duration)
         {
@@ -561,7 +700,13 @@
             if (ds_list_size(left_pupil_buffer_wait) >= 1 && ds_list_size(right_pupil_buffer_wait) >= 1)
             {
                 var temp_list = ds_list_create();
+<<<<<<< HEAD
                 var count = min(ds_list_size(left_pupil_buffer_wait), 22);
+=======
+
+                var count = min(ds_list_size(left_pupil_buffer_wait), 22);
+
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
                 for (var i = 0; i < count; i++)
                 {
                     var left = ds_list_find_value(left_pupil_buffer_wait, i);
@@ -754,6 +899,7 @@
     if (ds_list_size(accurat_sum_diff_stimulus) > 0)
     {
         median_accurat_sum_diff = ds_list_median(accurat_sum_diff_stimulus);
+<<<<<<< HEAD
 	}
        if median_accurat_sum_same > 0 and median_accurat_sum_diff > 0
 	   {
@@ -761,3 +907,19 @@
 	   }
     final_target_duration = (ntd / 60 ) * 1000;
 }
+=======
+    }
+    else
+    {
+        median_accurat_sum_diff = 0;
+    }
+    accurat_sum_diff = (median_accurat_sum_same - median_accurat_sum_diff);
+   
+    final_target_duration = (ntd / 60 ) * 1000;
+}
+if global_median_pupil!=0
+{
+aimdistans =round( global_median_pupil/10)
+audio_play_sound(snd_a, 10, false, 1, 0, aimdistans)
+}
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6

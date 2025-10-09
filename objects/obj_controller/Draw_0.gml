@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 if state == "wait" and timer =clamp (timer,10, 70) and resultat == 1   
+=======
+if state == "wait" and timer =clamp (timer,10, 70) and (resultat == 1 or resultat == 4) 
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
 {     draw_set_font(fnt_000); // Убедитесь, что шрифт создан
     draw_set_alpha(1);
 	draw_set_color(c_white);
@@ -46,6 +50,7 @@ draw_set_color(c_gray);
 		draw_text(xx, yy, "Средняя разница размера зрачка (пикс): " + string((avg_pupil_diff))); yy += spacing;
            }
 }
+<<<<<<< HEAD
 if (state == "initial_wait" or state == "wait") and timer =clamp (timer, 70, 240)// маркер ожидания
 {draw_set_alpha(1)
 	draw_line_width_color(room_width/2,(room_height/2)-35,room_width/2,(room_height/2)+35,2,c_white,c_white)
@@ -59,3 +64,20 @@ draw_line_width_color ((room_width/2)-35,(room_height/2),(room_width/2)+35,(room
 
 draw_text(150, 500, ": " + string((accurat_sum))); 
 draw_text(150, 550, ": " + string((accurat_diff))); 
+=======
+if (state == "wait") and timer =clamp (timer, 70, 240)// маркер ожидания
+{draw_set_alpha(1)
+	draw_line_width_color(room_width/2,(room_height/2)-35,room_width/2,(room_height/2)+35,2,c_white,c_white)
+draw_line_width_color ((room_width/2)-35,(room_height/2),(room_width/2)+35,(room_height/2),2,c_white,c_white)	
+}
+
+if state == "initial_wait" 
+{draw_set_alpha(1)
+	draw_line_width_color(room_width/2,(room_height/2)-35,room_width/2,(room_height/2)+35,2,c_white,c_white)
+draw_line_width_color ((room_width/2)-35,(room_height/2),(room_width/2)+35,(room_height/2),2,c_white,c_white)	
+}
+
+
+
+
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
