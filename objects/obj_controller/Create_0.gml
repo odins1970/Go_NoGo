@@ -70,6 +70,7 @@
 	accurat_sum=0
 	accurat_diff=0
 	median_accurat_sum_same = 0;
+<<<<<<< HEAD
  median_accurat_sum_diff = 0;
 accurat_sum_diff = 0;
 median_congruent=0
@@ -81,13 +82,39 @@ eror=0
 consecutive_SumItog = 0
     // Trial data array
     trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, result_value, black_shape_rt, accurat_sum ,accurat_diff ]
+=======
+	median_accurat_sum_diff = 0;
+	accurat_sum_diff = 0;
+	median_congruent=0
+	median_incongruent=0
+	median_switch =0
+	median_no_switch=0
+	global.ppp=0
+	eror=0
+	aimdistans=1
+
+    // Trial data array
+<<<<<<< HEAD
+    trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, result_value, black_shape_rt, accurat_sum,accurat_diff]
+=======
+    trials_data = []; // [trial_id, stimulus_type, prime_type, is_congruent, reaction_time_ms, trial_result, pupil_wait, pupil_prime_target,pupil_target,pupil_diff, current_target_duration, consecutive_correct, accurat_sum_diff, result_value, black_shape_rt, accurat_sum, aimdistans ]
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
+>>>>>>> 9911ab2dd9d3bc1f749223be6ec82c96b373ea02
     trial_id = 0;
 
     // Display control
     show_stats = false; // Toggle stats display with F1/F2
 
     // Timing variables (60 FPS = 1 second)
+<<<<<<< HEAD
     initial_wait_duration = 120; // 2 seconds
+=======
+<<<<<<< HEAD
+    initial_wait_duration = 120; // 2 seconds
+=======
+    initial_wait_duration = 60; // 2 seconds
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
+>>>>>>> 9911ab2dd9d3bc1f749223be6ec82c96b373ea02
     prime_duration = 16; // 250 ms
     target_duration = 24; // Initial target duration (will be set dynamically in Step event)
     min_target_duration_go = 1.5; // Minimum target duration for Go (25 ms)
@@ -105,6 +132,13 @@ consecutive_SumItog = 0
     pupil_global_buffer = ds_list_create();
     // Отдельная переменная для хранения медианы (обновляется каждые 11 шагов)
     global_median_pupil = avg_pupil;
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4962b73df8704a5ad517508a7b1787ee6d4ad0a6
+>>>>>>> 9911ab2dd9d3bc1f749223be6ec82c96b373ea02
 	
 	
 
