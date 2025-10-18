@@ -20,7 +20,6 @@
   ],
   "ResourceOrderSettings":[
     {"name":"fnt_000","order":1,"path":"fonts/fnt_000/fnt_000.yy",},
-    {"name":"obj_PUpil","order":3,"path":"objects/obj_PUpil/obj_PUpil.yy",},
     {"name":"obj_stimulus","order":1,"path":"objects/obj_stimulus/obj_stimulus.yy",},
     {"name":"objGaze","order":2,"path":"objects/objGaze/objGaze.yy",},
     {"name":"__trace_init","order":1,"path":"scripts/__trace_init/__trace_init.yy",},
@@ -34,7 +33,6 @@
     {"name":"trace","order":6,"path":"scripts/trace/trace.yy",},
     {"name":"snd_alar","order":1,"path":"sounds/snd_alar/snd_alar.yy",},
     {"name":"spr_black_shape","order":2,"path":"sprites/spr_black_shape/spr_black_shape.yy",},
-    {"name":"spr_Pupi","order":3,"path":"sprites/spr_Pupi/spr_Pupi.yy",},
     {"name":"spr_red_square","order":1,"path":"sprites/spr_red_square/spr_red_square.yy",},
   ],
 }
